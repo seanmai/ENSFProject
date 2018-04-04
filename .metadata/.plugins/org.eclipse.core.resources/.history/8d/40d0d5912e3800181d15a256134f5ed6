@@ -10,7 +10,7 @@ public class LoginGUI extends JFrame{
 	public LoginGUI() {
 		displayLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Change when adding other GUI
-		setSize(400, 300);
+		setSize(400, 400);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
