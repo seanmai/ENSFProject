@@ -99,8 +99,7 @@ public class DBManager {
 		}
 	}
 	
-	public void addUser(User user)
-	{
+	public void addUser(User user) {
 		String sql = "INSERT INTO " + userTable +
 				" VALUES (?, ?, ?, ?, ?, ?)";
 		try{
@@ -136,9 +135,86 @@ public class DBManager {
 		catch(SQLException e)
 		{
 			e.printStackTrace();
-		}
-		
+		}	
 	}
+	
+	public void createGradeTable() {
+		String sql = "CREATE TABLE " + gradeTable + "(" +
+			     "ID INT(8) NOT NULL, " +
+			     "ASSIGN_ID INT(8) NOT NULL, " +
+			     "STUDENT_ID INT(8) NOT NULL, " +
+			     "COURSE_ID INT(8) NOT NULL, " +
+			     "ASSIGNMENT_GRADE INT(3) NOT NULL, " +  
+			     "PRIMARY KEY ( id ))";
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.executeUpdate();
+			System.out.println("Created Table " + gradeTable);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}	
+	}
+	
+	public void createCourseTable() {
+		String sql = "CREATE TABLE " + courseTable + "(" +
+			     "ID INT(8) NOT NULL, " +
+			     "PROF_ID INT(8) NOT NULL, " +
+			     "NAME VARCHAR(50) NOT NULL, " +
+			     "ACTIVE BIT(1) NOT NULL, " +  
+			     "PRIMARY KEY ( id ))";
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.executeUpdate();
+			System.out.println("Created Table " + courseTable);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}	
+	}
+	
+	public void createStudentEnrollmentTable() {
+		String sql = "CREATE TABLE " + studentEnrollmentTable + "(" +
+			     "ID INT(8) NOT NULL, " +
+			     "STUDENT_ID INT(8) NOT NULL, " +
+			     "COURSE_ID INT(8) NOT NULL, " +  
+			     "PRIMARY KEY ( id ))";
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.executeUpdate();
+			System.out.println("Created Table " + studentEnrollmentTable);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}	
+	}
+	
+	public void createSubmissionTable() {
+		String sql = "CREATE TABLE " + submissionTable + "(" +
+			     "ID INT(8) NOT NULL, " +
+			     "ASSIGN_ID INT(8) NOT NULL, " +
+			     "STUDENT_ID INT(8) NOT NULL, " +
+			     "PATH VARCHAR(100) NOT NULL, " +
+			     "TITLE VARCHAR(50) NOT NULL, " +
+			     "SUBMISSION_GRADE INT(3) NOT NULL, " +
+			     "COMMENTS VARCHAR(140) NOT NULL, " +
+			     "TIMESTAMP CHAR(16) NOT NULL, " +  
+			     "PRIMARY KEY ( id ))";
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.executeUpdate();
+			System.out.println("Created Table " + submissionTable);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}	
+	}
+	
+	
 	
 	
 	

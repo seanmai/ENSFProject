@@ -1,5 +1,7 @@
 package ensf_project;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class LoginGUI extends JFrame{
@@ -44,9 +46,15 @@ public class LoginGUI extends JFrame{
 		c.anchor = GridBagConstraints.LINE_END;
 		c.gridy++;
 		submit = new JButton("Login");
+		submit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+//				login();
+			}
+		});
 		loginForm.add(submit, c);
 		
 	}
+	
 	public static void main(String[] args) {
 		LoginGUI login = new LoginGUI();
 
