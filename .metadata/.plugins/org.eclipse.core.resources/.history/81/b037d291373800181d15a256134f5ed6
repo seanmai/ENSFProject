@@ -25,23 +25,19 @@ public class User {
 		return password;
 	}
 	
-	public String getEmail() {
+	public String email() {
 		return email;
 	}
 	
-	public String getFirstName() {
+	public String firstName() {
 		return firstName;
 	}
 	
-	public String getLastName() {
+	public String lastName() {
 		return lastName;
 	}
 	
-	public String getType() {
+	public String type() {
 		return type;
-	}
-	
-	public boolean correctPassword(String input) {
-		return password.equals(input);
 	}
 }

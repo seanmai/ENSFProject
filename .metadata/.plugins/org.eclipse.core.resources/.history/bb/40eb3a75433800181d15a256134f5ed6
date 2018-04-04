@@ -119,29 +119,6 @@ public class DBManager {
 		}
 	}
 	
-	public void createAssignmentTable() {
-		String sql = "CREATE TABLE " + assignmentTable + "(" +
-			     "ID INT(8) NOT NULL, " +
-			     "COURSE_ID INT(8) NOT NULL, " +
-			     "TITLE VARCHAR(50) NOT NULL, " +
-			     "PATH VARCHAR(100) NOT NULL, " +
-			     "ACTIVE BIT(1) NOT NULL, " +
-			     "DUE_DATE CHAR(16) NOT NULL, " +  
-			     "PRIMARY KEY ( id ))";
-		try{
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.executeUpdate();
-			System.out.println("Created Table " + assignmentTable);
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

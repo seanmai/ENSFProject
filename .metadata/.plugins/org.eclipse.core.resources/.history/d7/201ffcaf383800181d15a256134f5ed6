@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class LoginGUI extends JFrame{
 	JTextField userID;
-	JPasswordField password;
+	JTextField password;
 	JButton submit;
 	
 	public LoginGUI() {
@@ -38,7 +38,7 @@ public class LoginGUI extends JFrame{
 		userID = new JTextField(10);
 		loginForm.add(userID, c);
 		c.gridy++;
-		password = new JPasswordField(10);
+		password = new JTextField(10);
 		loginForm.add(password, c);
 		
 		c.anchor = GridBagConstraints.LINE_END;

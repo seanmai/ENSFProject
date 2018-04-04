@@ -126,7 +126,7 @@ public class DBManager {
 			     "TITLE VARCHAR(50) NOT NULL, " +
 			     "PATH VARCHAR(100) NOT NULL, " +
 			     "ACTIVE BIT(1) NOT NULL, " +
-			     "DUE_DATE CHAR(16) NOT NULL, " +  
+			     "TYPE CHAR(1) NOT NULL, " +  
 			     "PRIMARY KEY ( id ))";
 		try{
 			pStatement = jdbc_connection.prepareStatement(sql);

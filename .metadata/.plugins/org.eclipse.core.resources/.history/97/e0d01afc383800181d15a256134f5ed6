@@ -42,6 +42,6 @@ public class User {
 	}
 	
 	public boolean correctPassword(String input) {
-		return password.equals(input);
+		return 
 	}
 }
