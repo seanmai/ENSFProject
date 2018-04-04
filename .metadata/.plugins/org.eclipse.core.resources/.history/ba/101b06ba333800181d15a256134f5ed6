@@ -81,7 +81,7 @@ public class DBManager {
 			{
 				String userInfo[] = sc.nextLine().split(";");
 				addUser( new User( Integer.parseInt(userInfo[0]),
-								   					userInfo[1],
+								   Integer.parseInt(userInfo[1]),
 						                            userInfo[2],
 						                            userInfo[3],
 						                            userInfo[4],
