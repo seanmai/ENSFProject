@@ -65,35 +65,9 @@ public class DBManager {
 		try{
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.executeUpdate();
-			System.out.println("Created Table " + userTable);
+			System.out.println("Created Table " + tableName);
 		}
 		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void fillUserTable()
-	{
-		try{
-			Scanner sc = new Scanner(new FileReader(userDataFile));
-			while(sc.hasNext())
-			{
-				String userInfo[] = sc.nextLine().split(";");
-				addUser( new User( Integer.parseInt(userInfo[0]),
-								   Integer.parseInt(userInfo[1]),
-						                            userInfo[2],
-						                            userInfo[3],
-						                            userInfo[4],
-						                            userInfo[5]) );
-			}
-			sc.close();
-		}
-		catch(FileNotFoundException e)
-		{
-			System.err.println("File " + userDataFile + " Not Found!");
-		}
-		catch(Exception e)
 		{
 			e.printStackTrace();
 		}

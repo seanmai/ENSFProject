@@ -76,22 +76,21 @@ public class DBManager {
 	public void fillUserTable()
 	{
 		try{
-			Scanner sc = new Scanner(new FileReader(userDataFile));
+			Scanner sc = new Scanner(new FileReader(dataFile));
 			while(sc.hasNext())
 			{
-				String userInfo[] = sc.nextLine().split(";");
-				addUser( new User( Integer.parseInt(userInfo[0]),
-								   Integer.parseInt(userInfo[1]),
-						                            userInfo[2],
-						                            userInfo[3],
-						                            userInfo[4],
-						                            userInfo[5]) );
+				String toolInfo[] = sc.nextLine().split(";");
+				addItem( new Tool( Integer.parseInt(toolInfo[0]),
+						                            toolInfo[1],
+						           Integer.parseInt(toolInfo[2]),
+						         Double.parseDouble(toolInfo[3]),
+						           Integer.parseInt(toolInfo[4])) );
 			}
 			sc.close();
 		}
 		catch(FileNotFoundException e)
 		{
-			System.err.println("File " + userDataFile + " Not Found!");
+			System.err.println("File " + dataFile + " Not Found!");
 		}
 		catch(Exception e)
 		{

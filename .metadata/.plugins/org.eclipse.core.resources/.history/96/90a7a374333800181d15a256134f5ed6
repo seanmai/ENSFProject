@@ -91,7 +91,7 @@ public class DBManager {
 		}
 		catch(FileNotFoundException e)
 		{
-			System.err.println("File " + userDataFile + " Not Found!");
+			System.err.println("File " + dataFile + " Not Found!");
 		}
 		catch(Exception e)
 		{

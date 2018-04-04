@@ -25,7 +25,8 @@ public class DBManager {
 	  			  login          = "root",
 	  			  password       = "####";
 	
-	public DBManager() {
+	public DBManager()
+	{
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			
@@ -51,54 +52,6 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public void createUserTable()
-	{
-		String sql = "CREATE TABLE " + userTable + "(" +
-				     "ID INT(8) NOT NULL, " +
-				     "PASSWORD VARCHAR(20) NOT NULL, " +
-				     "EMAIL VARCHAR(50) NOT NULL, " +
-				     "FIRSTNAME VARCHAR(30) NOT NULL, " +
-				     "LASTNAME VARCHAR(30) NOT NULL, " +
-				     "TYPE CHAR(1) NOT NULL, " +  
-				     "PRIMARY KEY ( id ))";
-		try{
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.executeUpdate();
-			System.out.println("Created Table " + userTable);
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void fillUserTable()
-	{
-		try{
-			Scanner sc = new Scanner(new FileReader(userDataFile));
-			while(sc.hasNext())
-			{
-				String userInfo[] = sc.nextLine().split(";");
-				addUser( new User( Integer.parseInt(userInfo[0]),
-								   Integer.parseInt(userInfo[1]),
-						                            userInfo[2],
-						                            userInfo[3],
-						                            userInfo[4],
-						                            userInfo[5]) );
-			}
-			sc.close();
-		}
-		catch(FileNotFoundException e)
-		{
-			System.err.println("File " + userDataFile + " Not Found!");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
