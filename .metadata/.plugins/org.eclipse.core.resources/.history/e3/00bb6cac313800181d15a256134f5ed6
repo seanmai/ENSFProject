@@ -25,17 +25,6 @@ public class DBManager {
 	  			  login          = "root",
 	  			  password       = "####";
 	
-	public DBManager()
-	{
-		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			jdbc_connection = DriverManager.getConnection(connectionInfo, login, password);
-			System.out.println("Connected to: " + connectionInfo + "\n");
-		}
-		catch(SQLException e) { e.printStackTrace(); }
-		catch(Exception e) { e.printStackTrace(); }
-	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

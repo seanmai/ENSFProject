@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class DBManager {
 	public Connection jdbc_connection;
-	public PreparedStatement pStatement;
+	public PreparedStatement statement;
 	public String databaseName = "LearningPlatformDB"; 
 	public String userTable = "userTable",
 				  assignmentTable = "assignmentTable",
@@ -19,23 +19,13 @@ public class DBManager {
 				  courseTable = "courseTable",
 				  studentEnrollmentTable = "studentEnrollmentTable",
 				  submissionTable = "submissionTable";
-	public String userDataFile = "users.txt";
+	public String studentDataFile = "students.txt",
+				  profDataFile = "proffessors.txt";
 
 	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatform",
 	  			  login          = "root",
 	  			  password       = "####";
 	
-	public DBManager()
-	{
-		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			jdbc_connection = DriverManager.getConnection(connectionInfo, login, password);
-			System.out.println("Connected to: " + connectionInfo + "\n");
-		}
-		catch(SQLException e) { e.printStackTrace(); }
-		catch(Exception e) { e.printStackTrace(); }
-	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
