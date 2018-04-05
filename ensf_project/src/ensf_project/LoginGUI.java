@@ -48,11 +48,26 @@ public class LoginGUI extends JFrame{
 		submit = new JButton("Login");
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-//				login();
+				login();
 			}
 		});
 		loginForm.add(submit, c);
 		
+	}
+	
+	public void login()
+	{
+		Client client = new Client("localhost", 9099);
+		String id = userID.getText();
+		User user = client.createUser(id);
+		if(user.getType().equals("P"))
+		{
+			//ProfessorGUImain gui = new ProfessorGUImain(client);
+		}
+		else if(user.getType().equals("S"))
+		{
+			
+		}
 	}
 	
 	public static void main(String[] args) {

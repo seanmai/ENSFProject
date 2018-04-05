@@ -20,7 +20,11 @@ public class ProfessorGUImain {
 
 	private JFrame frmProfessorgui;
 	
-	Button course, create, activate, deactivate;
+	private Button course, create, activate, deactivate;
+	
+	private User prof;
+	
+	private Client client; 
 
 	/**
 	 * Launch the application.
@@ -41,6 +45,12 @@ public class ProfessorGUImain {
 	/**
 	 * Create the application.
 	 */
+	public ProfessorGUImain(User p, Client c) {
+		prof = p;
+		client = c;
+		initialize();
+	}
+	
 	public ProfessorGUImain() {
 		initialize();
 	}
