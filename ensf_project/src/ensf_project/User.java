@@ -12,7 +12,7 @@ public class User implements Serializable{
 	private String email;
 	private String firstName;
 	private String lastName;
-	private String type;
+	String type;
 
 	
 	public User(int id, String password, String email, String firstName, String lastName, String type) {

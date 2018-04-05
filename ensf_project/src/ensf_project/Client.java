@@ -28,21 +28,8 @@ public class Client {
 		}
 	}
 	
-	public User createUser(String id)
-	{
-		socketOut.println(id);
-		User user = null;
-		try {
-			user = (User)fromServer.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return user;
-	}
-	
 	public static void main(String [] args) {
-		Client test = new Client("localhost", 9909);
-		LoginGUI login = new LoginGUI();
+		Client client = new Client("localhost", 9909);
+		LoginGUI login = new LoginGUI(client.socketOut, client.fromServer);
 	}
 }

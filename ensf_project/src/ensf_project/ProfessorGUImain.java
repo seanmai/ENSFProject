@@ -23,36 +23,14 @@ public class ProfessorGUImain {
 	private Button course, create, activate, deactivate;
 	
 	private User prof;
-	
-	private Client client; 
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProfessorGUImain window = new ProfessorGUImain();
-					window.frmProfessorgui.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public ProfessorGUImain(User p, Client c) {
+	public ProfessorGUImain(User p) {
 		prof = p;
-		client = c;
 		initialize();
-	}
-	
-	public ProfessorGUImain() {
-		initialize();
+		frmProfessorgui.setVisible(true);
 	}
 
 	/**
@@ -74,6 +52,7 @@ public class ProfessorGUImain {
 		JList list = new JList();
 		scrollPane.setViewportView(list);
 		list.setBackground(new Color(204, 255, 255));
+		
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {};
 			public int getSize() {
@@ -83,6 +62,7 @@ public class ProfessorGUImain {
 				return values[index];
 			}
 		});
+		
 		list.setFont(new Font("Bell MT", Font.PLAIN, 11));
 		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		

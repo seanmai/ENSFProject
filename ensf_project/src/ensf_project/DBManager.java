@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class DBManager {
 	public Connection jdbc_connection;
@@ -214,16 +215,63 @@ public class DBManager {
 		}	
 	}
 	
+	/**
+	 * Retrieves all users with the specified id from the database
+	 * @param userID the id to search
+	 * @return a vector of all clients matching the id
+	 */
+	public Vector <User> searchClientByID(int clientID) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+		Vector <User> results = new Vector <User>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, clientID);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				results.add(new User(users.getInt("ID"),
+									 users.getString("PASSWORD"),
+									 users.getString("EMAIL"),
+									 users.getString("FIRSTNAME"),
+									 users.getString("LASTNAME"),
+									 users.getString("TYPE")));							  	 
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
 	
-	
-	
+	public User getUser(int clientID, String password) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?"
+				+ " AND PASSWORD= ?";
+		ResultSet query;
+		User user = null;
+		
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, clientID);
+			pStatement.setString(2, password);
+			query = pStatement.executeQuery();
+			query.next();
+			
+			user = new User(query.getInt("ID"),
+					 		query.getString("PASSWORD"),
+					 		query.getString("EMAIL"),
+					 		query.getString("FIRSTNAME"),
+					 		query.getString("LASTNAME"),
+					 		query.getString("TYPE"));
+		} catch (SQLException e) {e.printStackTrace();}
+		
+		return user;
+	}
 	
 	public static void main(String[] args) {
 		DBManager m = new DBManager();
-		
-		m.createDB();
-		m.createUserTable();
-		m.createAssignmentTable();
+		//m.createDB();
+		//m.createUserTable();
+		//m.createAssignmentTable();
 
 	}
 
