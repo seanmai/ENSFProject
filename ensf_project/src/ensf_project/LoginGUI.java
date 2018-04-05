@@ -68,13 +68,11 @@ public class LoginGUI extends JFrame{
 	public void login()
 	{
 		//Client client = new Client("localhost", 9099);
-		String query = "VERIFY USER";
 		int id = Integer.parseInt(userID.getText());
+
+		String Password = new String(password.getPassword());
 		
-		@SuppressWarnings("deprecation")
-		String Password = password.getText();
-		
-		User user = checkIfUser(query, id, Password);
+		User user = checkIfUser(id, Password);
 		
 		if(user.getType().equals("P"))
 		{
@@ -91,8 +89,9 @@ public class LoginGUI extends JFrame{
 		}
 	}
 	
-	public User checkIfUser(String query, int id, String password)
+	public User checkIfUser(int id, String password)
 	{
+		String query = "VERIFY USER";
 		socketOut.println(query);
 		socketOut.print(id);
 		socketOut.println(password);
