@@ -28,6 +28,18 @@ public class Client {
 		}
 	}
 	
+	public void sendFile(byte[] content)
+	{
+		try {
+			toServer.writeObject(content);
+			toServer.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void main(String [] args) {
 		Client client = new Client("localhost", 9909);
 		LoginGUI login = new LoginGUI(client.socketOut, client.fromServer);

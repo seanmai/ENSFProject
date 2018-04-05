@@ -13,7 +13,14 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class CourseGUI {
@@ -85,6 +92,7 @@ public class CourseGUI {
 		JButton btnUploadAssignment = new JButton("Upload Assignment");
 		btnUploadAssignment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				upload();
 			}
 		});
 		btnUploadAssignment.setBounds(236, 266, 166, 23);
@@ -106,5 +114,27 @@ public class CourseGUI {
 		btnDeactivateAssignment.setBounds(236, 232, 166, 23);
 		frmCourseOptions.getContentPane().add(btnDeactivateAssignment);
 	}
+	
+	public static void upload()
+	{
+		File selectedFile = null;
+		JFileChooser fileBrowser = new JFileChooser();
+		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+		 selectedFile = fileBrowser.getSelectedFile();
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+		try {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		BufferedInputStream bos = new BufferedInputStream(fis);
+		bos.read(content, 0, (int)length);
+		//uncomment once this has access to client
+//		client.sendFile(content);
+		
+		} catch (FileNotFoundException e) {
+		e.printStackTrace();
+		} catch(IOException e){
+		e.printStackTrace();
+		}
 
+	}
 }
