@@ -25,8 +25,13 @@ public class Worker implements Runnable {
 	public void run() {
 			System.out.println("Worker Up");
 			DBManager db = new DBManager();
-			//db.createDB("Test");
-			//db.createUserTable();
-		
+			//db.createDB();
+			db.createUserTable();
+			db.createAssignmentTable();
+			db.createCourseTable();
+			db.createGradeTable();
+			db.createStudentEnrollmentTable();
+			db.createSubmissionTable();
+			db.fillUserTable();
 	}
 }

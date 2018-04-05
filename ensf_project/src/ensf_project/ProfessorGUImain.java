@@ -19,6 +19,8 @@ import javax.swing.JScrollPane;
 public class ProfessorGUImain {
 
 	private JFrame frmProfessorgui;
+	
+	Button course, create, activate, deactivate;
 
 	/**
 	 * Launch the application.
@@ -76,28 +78,28 @@ public class ProfessorGUImain {
 		
 		JLabel lblCourseList = DefaultComponentFactory.getInstance().createTitle("Course List");
 		lblCourseList.setFont(new Font("Bell MT", Font.BOLD, 14));
-		lblCourseList.setBounds(84, 11, 76, 14);
+		lblCourseList.setBounds(84, 11, 90, 14);
 		lblCourseList.setLabelFor(list);
 		frmProfessorgui.getContentPane().add(lblCourseList);
 		
-		Button button = new Button("View Course");
-		button.addActionListener(new ActionListener() {
+		course = new Button("View Course");
+		course.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		button.setBounds(263, 73, 84, 22);
-		frmProfessorgui.getContentPane().add(button);
+		course.setBounds(263, 73, 84, 22);
+		frmProfessorgui.getContentPane().add(course);
 		
-		Button button_1 = new Button("Create Course");
-		button_1.setBounds(263, 101, 84, 22);
-		frmProfessorgui.getContentPane().add(button_1);
+		Button create = new Button("Create Course");
+		create.setBounds(263, 101, 84, 22);
+		frmProfessorgui.getContentPane().add(create);
 		
-		Button button_2 = new Button("Activate");
-		button_2.setBounds(263, 129, 84, 22);
-		frmProfessorgui.getContentPane().add(button_2);
+		activate = new Button("Activate");
+		activate.setBounds(263, 129, 84, 22);
+		frmProfessorgui.getContentPane().add(activate);
 		
-		Button button_3 = new Button("Deactivate");
-		button_3.setBounds(263, 157, 84, 22);
-		frmProfessorgui.getContentPane().add(button_3);
+		deactivate = new Button("Deactivate");
+		deactivate.setBounds(263, 157, 84, 22);
+		frmProfessorgui.getContentPane().add(deactivate);
 	}
 }

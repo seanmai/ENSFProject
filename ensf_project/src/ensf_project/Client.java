@@ -22,9 +22,6 @@ public class Client {
 	
 	public static void main(String [] args) {
 		Client test = new Client("localhost", 9909);
-		
-		while(true) {
-			//This is for testing purposes
-		}
+		LoginGUI login = new LoginGUI();
 	}
 }

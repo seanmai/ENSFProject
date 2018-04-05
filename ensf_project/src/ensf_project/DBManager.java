@@ -21,9 +21,9 @@ public class DBManager {
 				  submissionTable = "submissionTable";
 	public String userDataFile = "users.txt";
 
-	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatform",
+	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB",
 	  			  login          = "root",
-	  			  password       = "####";
+	  			  password       = "Thirteen13!";
 	
 	public DBManager() {
 		try{
@@ -107,9 +107,9 @@ public class DBManager {
 			pStatement.setInt(1, user.getID());
 			pStatement.setString(2, user.getPassword());
 			pStatement.setString(3, user.getEmail());
-			pStatement.setString(3, user.getFirstName());
-			pStatement.setString(3, user.getLastName());
-			pStatement.setString(3, user.getType());
+			pStatement.setString(4, user.getFirstName());
+			pStatement.setString(5, user.getLastName());
+			pStatement.setString(6, user.getType());
 			pStatement.executeUpdate();
 		}
 		catch(SQLException e)
@@ -219,7 +219,11 @@ public class DBManager {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		DBManager m = new DBManager();
+		
+		m.createDB();
+		m.createUserTable();
+		m.createAssignmentTable();
 
 	}
 

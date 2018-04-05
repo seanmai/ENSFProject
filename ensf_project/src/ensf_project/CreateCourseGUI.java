@@ -78,7 +78,7 @@ public class CreateCourseGUI {
 		frmCreateCourse.getContentPane().add(btnBack);
 		
 		JButton btnCreateCourse = new JButton("Create Course");
-		btnCreateCourse.setBounds(229, 113, 109, 23);
+		btnCreateCourse.setBounds(229, 113, 120, 23);
 		frmCreateCourse.getContentPane().add(btnCreateCourse);
 	}
 }
