@@ -220,12 +220,12 @@ public class DBManager {
 	 * @param userID the id to search
 	 * @return a vector of all clients matching the id
 	 */
-	public Vector <User> searchClientByID(int clientID) {
+	public Vector <User> searchUserByID(int userID) {
 		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
 		Vector <User> results = new Vector <User>();
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, clientID);
+			pStatement.setInt(1, userID);
 			ResultSet users = pStatement.executeQuery();
 			while(users.next())
 			{
@@ -243,7 +243,7 @@ public class DBManager {
 		return null;
 	}
 	
-	public User getUser(int clientID, String password) {
+	public User getUser(int userID, String password) {
 		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?"
 				+ " AND PASSWORD= ?";
 		ResultSet query;
@@ -251,7 +251,7 @@ public class DBManager {
 		
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, clientID);
+			pStatement.setInt(1, userID);
 			pStatement.setString(2, password);
 			query = pStatement.executeQuery();
 			query.next();

@@ -49,7 +49,7 @@ public class Worker implements Runnable {
 					//Searching for User By ID
 					if(input.startsWith("SEARCH USER ID")) {
 						int id = socketIn.read();
-						Vector <User> result = db.searchClientByID(id);
+						Vector <User> result = db.searchUserByID(id);
 						objectOut.writeObject(result);
 						objectOut.flush();
 					}

@@ -22,7 +22,7 @@ public class LoginGUI extends JFrame{
 		fromServer = in;
 		
 		displayLogin();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Change when adding other GUI
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400, 300);
 		setLocationRelativeTo(null);
 		setResizable(false);
