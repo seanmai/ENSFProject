@@ -2,14 +2,25 @@ package ensf_project;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import javax.swing.*;
 
 public class LoginGUI extends JFrame{
 	JTextField userID;
 	JPasswordField password;
 	JButton submit;
+	PrintWriter socketOut;
+	ObjectInputStream fromServer;
 	
-	public LoginGUI() {
+	public LoginGUI(PrintWriter out, ObjectInputStream in) {
+
+		socketOut = out;
+		fromServer = in;
+		
 		displayLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Change when adding other GUI
 		setSize(400, 300);
@@ -48,16 +59,53 @@ public class LoginGUI extends JFrame{
 		submit = new JButton("Login");
 		submit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-//				login();
+				login();
 			}
 		});
 		loginForm.add(submit, c);
-		
 	}
 	
-	public static void main(String[] args) {
-		LoginGUI login = new LoginGUI();
-
+	public void login()
+	{
+		//Client client = new Client("localhost", 9099);
+		String query = "VERIFY USER";
+		int id = Integer.parseInt(userID.getText());
+		
+		@SuppressWarnings("deprecation")
+		String Password = password.getText();
+		
+		User user = checkIfUser(query, id, Password);
+		
+		if(user.getType().equals("P"))
+		{
+			ProfessorGUImain gui = new ProfessorGUImain(user);
+			setVisible(false);
+			
+		}
+		else if(user.getType().equals("S"))
+		{
+			
+		}
+		else {
+			System.exit(1);
+		}
+	}
+	
+	public User checkIfUser(String query, int id, String password)
+	{
+		socketOut.println(query);
+		socketOut.print(id);
+		socketOut.println(password);
+		socketOut.flush();
+		
+		User user = null;
+		try {
+			user = (User)fromServer.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 }
