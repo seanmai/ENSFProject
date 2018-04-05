@@ -91,10 +91,9 @@ public class LoginGUI extends JFrame{
 	
 	public User checkIfUser(int id, String password)
 	{
-		String query = "VERIFY USER";
+		String query = "SEARCH USER ID";
 		socketOut.println(query);
-		socketOut.print(id);
-		socketOut.println(password);
+		socketOut.println(id);
 		socketOut.flush();
 		
 		User user = null;

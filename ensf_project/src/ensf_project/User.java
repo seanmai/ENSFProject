@@ -13,7 +13,6 @@ public class User implements Serializable{
 	private String firstName;
 	private String lastName;
 	String type;
-
 	
 	public User(int id, String password, String email, String firstName, String lastName, String type) {
 		this.id = id;
