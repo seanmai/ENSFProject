@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class LoginGUI extends JFrame{
 	JFrame frame;
@@ -103,8 +104,9 @@ public class LoginGUI extends JFrame{
 
 		String Password = new String(password.getPassword());
 		
-		User user = checkIfUser(id, Password);
+		User user = checkIfUser(id);
 		
+		if(Password.equals(user.getPassword())){
 		if(user.getType().equals("P"))
 		{
 			ProfessorGUImain gui = new ProfessorGUImain(user);
@@ -115,16 +117,17 @@ public class LoginGUI extends JFrame{
 		{
 			
 		}
+		}
 		else {
 			System.exit(1);
 		}
 	}
 	
-	public User checkIfUser(int id, String password)
+	public User checkIfUser(int id)
 	{
 		String query = "SEARCH USER ID";
 		socketOut.println(query);
-		socketOut.println(id);
+		socketOut.println(Integer.toString(id));
 		socketOut.flush();
 		
 		User user = null;
@@ -133,6 +136,8 @@ public class LoginGUI extends JFrame{
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(user.getFirstName());
+		
 		return user;
 	}
 
