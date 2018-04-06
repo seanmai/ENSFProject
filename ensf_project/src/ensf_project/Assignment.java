@@ -14,12 +14,16 @@ public class Assignment implements Serializable{
 	private boolean active;
 	private String dueDate;
 	
-	public Assignment(int courseID, String title, String path, String dueDate){
+	public Assignment(int courseID, String title, String dueDate){
 		this.courseID = courseID;
 		this.title = title;
-		this.path = path;
 		active = true;
 		this.dueDate = dueDate;
+	}
+	
+	public void setPath(String p)
+	{
+		path = p;
 	}
 	
 	public int getCourseID()

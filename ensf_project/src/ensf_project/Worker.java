@@ -1,6 +1,9 @@
 package ensf_project;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -67,9 +70,28 @@ public class Worker implements Runnable {
 						objectOut.writeObject(courses);
 						objectOut.flush();
 					}
+					else if(input.startsWith("STORE FILE")) {
+						storeFile();
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-			}
+			}	
+	}
+	
+	public void storeFile() throws ClassNotFoundException, IOException
+	{
+		byte[] content = (byte[]) objectIn.readObject();
+		String path = "C:\\Users\\Wafa\\Downloads\\";
+		String name = socketIn.readLine();
+		File newFile = new File(path + name);
+		if(! newFile.exists())
+			newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
+		
+		
 	}
 }
