@@ -1,4 +1,4 @@
-package ensf_project.src;
+package ensf_project;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -27,6 +27,7 @@ public class ProfessorGUImain {
 	private JFrame frmCreateCoursegui;
 	private JFrame frmCoursegui;
 	private JList list;
+	private JScrollPane listScroll;
 	private Button course, create, activate, deactivate;
 	private DefaultListModel<String> model;
 	

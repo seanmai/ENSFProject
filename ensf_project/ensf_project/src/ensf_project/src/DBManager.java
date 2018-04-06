@@ -1,4 +1,4 @@
-package ensf_project.src;
+package ensf_project;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -167,34 +167,6 @@ public class DBManager {
 		return null;
 	}
 	
-	/**
-	 * Retrieves all users with the specified id from the database
-	 * @param userID the id to search
-	 * @return a vector of all users matching the id
-	 */
-	public Vector<User> getStudents() {
-		String sql = "SELECT * FROM " + userTable + " WHERE TYPE= ?";
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setString(1, "S");
-			Vector <User> results = new Vector <User>();
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				results.add(new User(users.getInt("ID"),
-									 users.getString("PASSWORD"),
-									 users.getString("EMAIL"),
-									 users.getString("FIRSTNAME"),
-									 users.getString("LASTNAME"),
-									 users.getString("TYPE")));							  	 
-			}
-			return results;
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-		return null;
-	}
-	
 	public User searchUserByIDFromCourse(int userID) {
 		String sql = "SELECT * FROM " + userTable + ", " + courseTable + " WHERE ID= ?" + "and " + userTable + ".ID=" + courseTable + ".ID";
 		try {
@@ -279,45 +251,6 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public Vector<Assignment> getAssignments(String courseName)
-	{	int courseID = getCourseID(courseName);
-		if (courseID == -1) return null;
-		String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSE_ID= ?";
-		Vector <Assignment> results = new Vector <Assignment>();
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, courseID);
-			ResultSet assign = pStatement.executeQuery();
-			while(assign.next())
-			{
-				results.add(new Assignment(assign.getInt("ID"),
-									 assign.getString("TITLE"),
-									 assign.getString("DUE_DATE")));						  	 
-			}
-			return results;
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-		return null;
-	}
-	
-	public int getCourseID(String courseName)
-	{
-		String sql = "SELECT * FROM " + courseTable + " WHERE NAME= ?";
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setString(1, courseName);
-			ResultSet users = pStatement.executeQuery();
-			if(users.next())
-			{
-				return users.getInt("ID");							  	 
-			}
-
-		} catch (SQLException e) { e.printStackTrace(); }
-	
-		return -1;
 	}
 	
 	public void updateAssignmentStatus(boolean status) {
@@ -522,12 +455,9 @@ public class DBManager {
 	
 	public static void main(String[] args) {
 		DBManager m = new DBManager();
-//		Assignment assign = new Assignment(1, "Final Project.docx", "May 15, 10:00pm");
-//		assign.setPath("");
 		//m.createDB();
 		//m.createUserTable();
 		//m.createAssignmentTable();
-//		m.addAssignment(assign);
 
 	}
 

@@ -1,4 +1,4 @@
-package ensf_project.src;
+package ensf_project;
 
 import java.awt.EventQueue;
 
@@ -12,7 +12,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -22,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -33,8 +31,6 @@ public class CourseGUI {
 	private Client client;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private String course;
-	private DefaultListModel<String> model;
-	private JList list;
 
 	/**
 	 * Launch the application.
@@ -43,8 +39,8 @@ public class CourseGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CourseGUI window = new CourseGUI(new Client("a", 0), "a");
-					window.frmCourseOptions.setVisible(true);
+					//CourseGUI window = new CourseGUI();
+					//window.frmCourseOptions.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,50 +72,26 @@ public class CourseGUI {
 		frmCourseOptions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCourseOptions.getContentPane().setLayout(null);
 		
-
-
-		
-		model = new DefaultListModel();
-		studentSelected();
-		list = new JList(model);
-		
+		JList list = new JList();
 		list.setFont(new Font("Dialog", Font.PLAIN, 13));
 		list.setBackground(new Color(255, 245, 238));
 		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
-		list.setBounds(23, 35, 259, 349);
+		list.setBounds(23, 41, 259, 349);
 		frmCourseOptions.getContentPane().add(list);
 		
-		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 35, 293, 365);
-		frmCourseOptions.getContentPane().add(scrollPane);
-		
 		JRadioButton rdbtnStudents = new JRadioButton("Students");
-		rdbtnStudents.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            studentSelected();
-
-	        }
-	    });
 		rdbtnStudents.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnStudents.setSelected(true);
 		rdbtnStudents.setBackground(new Color(153, 204, 204));
 		buttonGroup.add(rdbtnStudents);
-		rdbtnStudents.setBounds(56, 405, 96, 23);
+		rdbtnStudents.setBounds(56, 397, 96, 23);
 		frmCourseOptions.getContentPane().add(rdbtnStudents);
 		
 		JRadioButton rdbtnAssignments = new JRadioButton("Assignments");
-		rdbtnAssignments.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            assignmentSelected();
-
-	        }
-	    });
 		rdbtnAssignments.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnAssignments.setBackground(new Color(153, 204, 204));
 		buttonGroup.add(rdbtnAssignments);
-		rdbtnAssignments.setBounds(154, 405, 109, 23);
+		rdbtnAssignments.setBounds(154, 397, 109, 23);
 		frmCourseOptions.getContentPane().add(rdbtnAssignments);
 		
 		JButton btnEnroll = new JButton("Enroll");
@@ -191,7 +163,6 @@ public class CourseGUI {
 		bos.read(content, 0, (int)length);
 		client.sendFile(content);
 		client.getSocketOut().println(selectedFile.getName());
-		client.getSocketOut().println(course);
 		//client.getSocketOut().println(new Assignment());
 		client.getSocketOut().flush();
 		System.out.println(selectedFile.getAbsolutePath());
@@ -202,44 +173,4 @@ public class CourseGUI {
 		e.printStackTrace();
 		}
 	}
-	
-	public void studentSelected()
-	{
-		try {
-			client.getSocketOut().println("GET COURSE STUDENTS");
-			client.getSocketOut().flush();
-			Vector<User>items = (Vector<User>)client.getFromServer().readObject();
-			model.removeAllElements();
-			if(items == null)return;
-			for(int i = 0; i < items.size(); i++)
-			{
-				model.addElement((items.get(i).getID() + " " + items.get(i).getFirstName() + " " + items.get(i).getLastName()));
-			}
-		}
-		catch(IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void assignmentSelected()
-	{
-		try {
-			client.getSocketOut().println("GET ASSIGNMENTS");
-			client.getSocketOut().println(course);
-			client.getSocketOut().flush();
-			Vector<Assignment>items = (Vector<Assignment>)client.getFromServer().readObject();
-			model.removeAllElements();
-			if(items == null)return;
-			for(int i = 0; i < items.size(); i++)
-			{
-				model.addElement((items.get(i).getTitle()));
-			}
-		}
-		catch(IOException | ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
 }

@@ -1,4 +1,4 @@
-package ensf_project.src;
+package ensf_project;
 
 import java.io.BufferedReader;
 import java.io.IOException;

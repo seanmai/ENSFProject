@@ -1,4 +1,4 @@
-package ensf_project.src;
+package ensf_project;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -19,7 +19,6 @@ public class Worker implements Runnable {
 	
 	private ObjectOutputStream objectOut;
 	private ObjectInputStream objectIn;
-	DBManager db;
 	
 	public Worker(Socket socket) {
 		try {
@@ -36,7 +35,7 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 			System.out.println("Worker Up");
-			db = new DBManager();
+			DBManager db = new DBManager();
 //			db.createDB();
 //			db.createUserTable();
 //			db.createAssignmentTable();
@@ -74,15 +73,6 @@ public class Worker implements Runnable {
 					else if(input.startsWith("STORE FILE")) {
 						storeFile();
 					}
-					else if(input.startsWith("GET COURSE STUDENTS")) {
-						objectOut.writeObject(db.getStudents());
-						objectOut.flush();
-					}
-					else if(input.startsWith("GET ASSIGNMENTS")) {
-						String course = socketIn.readLine();
-						objectOut.writeObject(db.getAssignments(course));
-						objectOut.flush();
-					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -94,7 +84,6 @@ public class Worker implements Runnable {
 		byte[] content = (byte[]) objectIn.readObject();
 		String path = "C:\\Users\\Wafa\\Downloads\\";
 		String name = socketIn.readLine();
-		int courseID = db.getCourseID(socketIn.readLine());
 		File newFile = new File(path + name);
 		if(! newFile.exists())
 			newFile.createNewFile();
@@ -102,8 +91,7 @@ public class Worker implements Runnable {
 		BufferedOutputStream bos = new BufferedOutputStream(writer);
 		bos.write(content);
 		bos.close();
-		Assignment a = new Assignment(courseID, name, "Jan 22, 11:59");
-		a.setPath(path);
-		db.addAssignment(a);
+		
+		
 	}
 }
