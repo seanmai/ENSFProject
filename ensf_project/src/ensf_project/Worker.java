@@ -58,7 +58,7 @@ public class Worker implements Runnable {
 					{
 						Course course = (Course)objectIn.readObject();
 						System.out.println("adding " + course.getName());
-						//db.addCourse(course);
+						db.addCourse(course);
 					}
 					
 					else if(input.startsWith("GET PROF COURSE LIST")) {

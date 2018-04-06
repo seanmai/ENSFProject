@@ -179,7 +179,7 @@ public class DBManager {
 	public void addCourse(Course course) {
 		String sql = "INSERT INTO " + courseTable +
 				" VALUES (?, ?, ?, ?)";
-		int id = dbSize(courseTable);
+		int id = dbSize(courseTable)+1;
 		
 		try{
 			pStatement = jdbc_connection.prepareStatement(sql);

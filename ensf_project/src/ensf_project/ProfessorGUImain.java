@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -22,7 +24,7 @@ public class ProfessorGUImain {
 	private JFrame frmProfessorgui;
 	private JFrame frmCreateCoursegui;
 	private JFrame frmCoursegui;
-	
+	private JList<Course> list;
 	private Button course, create, activate, deactivate;
 	
 	private User prof;
@@ -54,19 +56,23 @@ public class ProfessorGUImain {
 		scrollPane.setBounds(10, 27, 229, 204);
 		frmProfessorgui.getContentPane().add(scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		list = new JList<Course>();
 		list.setBackground(new Color(204, 255, 255));
+		client.getSocketOut().println("GET PROF COURSE LIST");
+		client.getSocketOut().println(prof.getID());
+		client.getSocketOut().flush();
 		
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		Vector<Course> items = null;
+		
+		try {
+			items = (Vector<Course>)client.getFromServer().readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		list.setListData(items);
 		
 		list.setFont(new Font("Bell MT", Font.PLAIN, 11));
 		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
