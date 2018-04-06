@@ -176,6 +176,26 @@ public class DBManager {
 		}	
 	}
 	
+	public void addCourse(Course course) {
+		String sql = "INSERT INTO " + courseTable +
+				" VALUES (?, ?, ?, ?)";
+		int id = dbSize(courseTable);
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, id);
+			pStatement.setInt(2, course.getProfID());
+			pStatement.setString(3, course.getName());
+			pStatement.setBoolean(4, course.isActive());
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void createStudentEnrollmentTable() {
 		String sql = "CREATE TABLE " + studentEnrollmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -241,6 +261,27 @@ public class DBManager {
 		return null;
 	}
 	
+	public User searchUserByIDFromCourse(int userID) {
+		String sql = "SELECT * FROM " + userTable + ", " + courseTable + " WHERE ID= ?" + "and " + userTable + ".ID=" + courseTable + ".ID";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, userID);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				return new User(users.getInt("ID"),
+									 users.getString("PASSWORD"),
+									 users.getString("EMAIL"),
+									 users.getString("FIRSTNAME"),
+									 users.getString("LASTNAME"),
+									 users.getString("TYPE"));							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public Vector <User> searchUserByName(String lastName) {
 		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?";
 		Vector <User> results = new Vector <User>();
@@ -262,6 +303,23 @@ public class DBManager {
 		} catch (SQLException e) { e.printStackTrace(); }
 
 		return null;
+	}
+	
+	private int dbSize(String tableName) {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM " + tableName;
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			ResultSet size = pStatement.executeQuery();
+			while(size.next())
+			{
+				count = size.getInt(1);
+			}
+			size.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	
