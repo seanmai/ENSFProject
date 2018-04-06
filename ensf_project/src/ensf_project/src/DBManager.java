@@ -262,7 +262,8 @@ public class DBManager {
 	}
 	
 	public Vector<Assignment> getAssignments(String courseName)
-	{	int courseID = getCourseID(courseName);
+	{	
+		int courseID = getCourseID(courseName);
 		if (courseID == -1) return null;
 		String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSE_ID= ?";
 		Vector <Assignment> results = new Vector <Assignment>();
@@ -433,7 +434,8 @@ public class DBManager {
 		}	
 	}
 	
-	public void addStudentEnrollment(int studentID, int courseID) {
+	public void addStudentEnrollment(int studentID, String courseName) {
+		int courseID = getCourseID(courseName);
 		String sql = "INSERT INTO " + studentEnrollmentTable +
 				" VALUES (?, ?, ?)";
 		int id = dbSize(studentEnrollmentTable)+1;
@@ -452,7 +454,8 @@ public class DBManager {
 		}
 	}
 	
-	public void removeStudentEnrollment(int studentID, int courseID) {
+	public void removeStudentEnrollment(int studentID, String courseName) {
+		int courseID = getCourseID(courseName);
 		String sql = "DELETE FROM " + studentEnrollmentTable +
 				" WHERE STUDENT_ID=?" + " and COURSE_ID=?";
 		
