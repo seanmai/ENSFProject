@@ -10,6 +10,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreateCourseGUI {
 
@@ -78,7 +80,17 @@ public class CreateCourseGUI {
 		frmCreateCourse.getContentPane().add(btnBack);
 		
 		JButton btnCreateCourse = new JButton("Create Course");
+		btnCreateCourse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCourse();
+			}
+		});
 		btnCreateCourse.setBounds(229, 113, 120, 23);
 		frmCreateCourse.getContentPane().add(btnCreateCourse);
+	}
+	
+	public void createCourse()
+	{
+		
 	}
 }

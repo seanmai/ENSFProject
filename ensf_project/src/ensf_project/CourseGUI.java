@@ -118,9 +118,11 @@ public class CourseGUI {
 	public static void upload()
 	{
 		File selectedFile = null;
+		String fullPath = null;
 		JFileChooser fileBrowser = new JFileChooser();
 		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 		 selectedFile = fileBrowser.getSelectedFile();
+
 		long length = selectedFile.length();
 		byte[] content = new byte[(int) length]; // Converting Long to Int
 		try {
