@@ -26,11 +26,13 @@ public class ProfessorGUImain {
 	private Button course, create, activate, deactivate;
 	
 	private User prof;
+	private Client client;
 
 	/**
 	 * Create the application.
 	 */
-	public ProfessorGUImain(User p) {
+	public ProfessorGUImain(User p, Client c) {
+		client = c;
 		prof = p;
 		initialize();
 		frmProfessorgui.setVisible(true);
@@ -93,7 +95,7 @@ public class ProfessorGUImain {
 		frmProfessorgui.getContentPane().add(create);
 		create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CreateCourseGUI newCourse = new CreateCourseGUI();
+				CreateCourseGUI newCourse = new CreateCourseGUI(client, prof);
 				frmCreateCoursegui = newCourse.returnFrame();
 				frmProfessorgui.setVisible(false);
 				frmCreateCoursegui.setVisible(true);

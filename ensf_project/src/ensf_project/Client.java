@@ -9,12 +9,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
-	Socket theSocket;
-	ObjectOutputStream toServer;
-	ObjectInputStream fromServer;
+	private Socket theSocket;
+	private ObjectOutputStream toServer;
+	private ObjectInputStream fromServer;
 	
-	BufferedReader socketIn;
-	PrintWriter socketOut;
+	private BufferedReader socketIn;
+	private PrintWriter socketOut;
 	
 	public Client(String hostname, int port) {
 		try {
@@ -48,5 +48,10 @@ public class Client {
 	public ObjectInputStream getFromServer()
 	{
 		return fromServer;
+	}
+	
+	public ObjectOutputStream getToServer()
+	{
+		return toServer;
 	}
 }

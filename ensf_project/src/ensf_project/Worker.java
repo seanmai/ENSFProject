@@ -54,11 +54,20 @@ public class Worker implements Runnable {
 						objectOut.flush();
 					}
 					
-					else if(input.startsWith("VERIFY IF USER"))
+					else if(input.startsWith("ADD COURSE"))
 					{
+						Course course = (Course)objectIn.readObject();
+						System.out.println("adding " + course.getName());
+						//db.addCourse(course);
 					}
 					
-				} catch (IOException e) {
+					else if(input.startsWith("GET PROF COURSE LIST")) {
+						int id = Integer.parseInt(socketIn.readLine());
+						//Vector <Course> courses = db.getCourseList(id);
+						//objectOut.writeObject(courses);
+						//objectOut.flush();
+					}
+				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
