@@ -24,7 +24,9 @@ public class Server {
 		try {
 			while(true) {
 				Worker worker = new Worker(serverSocket.accept());
+				if(worker != null) {
 				threadPool.execute(worker);
+				}
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

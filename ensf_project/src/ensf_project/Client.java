@@ -40,8 +40,13 @@ public class Client {
 		
 	}
 	
-	public static void main(String [] args) {
-		Client client = new Client("localhost", 9909);
-		LoginGUI login = new LoginGUI(client.socketOut, client.fromServer);
+	public PrintWriter getSocketOut()
+	{
+		return socketOut;
+	}
+	
+	public ObjectInputStream getFromServer()
+	{
+		return fromServer;
 	}
 }

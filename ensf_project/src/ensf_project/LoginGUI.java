@@ -16,15 +16,10 @@ public class LoginGUI extends JFrame{
 	JPasswordField password;
 	JButton login;
 	JButton exit;
+	private Client client;
 	
-	PrintWriter socketOut;
-	ObjectInputStream fromServer;
-	
-	public LoginGUI(PrintWriter out, ObjectInputStream in) {
-
-		socketOut = out;
-		fromServer = in;
-		
+	public LoginGUI() {
+		client = new Client("localhost", 9909);
 		displayLogin();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400, 300);
@@ -126,19 +121,24 @@ public class LoginGUI extends JFrame{
 	public User checkIfUser(int id)
 	{
 		String query = "SEARCH USER ID";
-		socketOut.println(query);
-		socketOut.println(Integer.toString(id));
-		socketOut.flush();
+		
+		client.getSocketOut().println(query);
+		client.getSocketOut().println(Integer.toString(id));
+		client.getSocketOut().flush();
 		
 		User user = null;
 		try {
-			user = (User)fromServer.readObject();
+			user = (User)client.getFromServer().readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println(user.getFirstName());
 		
 		return user;
+	}
+	
+	public static void main(String[] args) {
+		LoginGUI login = new LoginGUI();
 	}
 
 }
