@@ -83,6 +83,43 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.getAssignments(course));
 						objectOut.flush();
 					}
+					else if(input.startsWith("CHANGE COURSE STATUS")) {
+						String course = socketIn.readLine();
+						String status = socketIn.readLine();
+						if(status.equals("t"))
+						{
+							db.updateCourseStatus(course, true);
+						}
+						else
+						{
+							db.updateCourseStatus(course, false);
+						}
+					}
+					else if(input.startsWith("STUDENT ENROLLMENT")) {
+						int studentID = Integer.parseInt(socketIn.readLine());
+						String course = socketIn.readLine();
+						String status = socketIn.readLine();
+						if(status.equals("e"))
+						{
+							db.addStudentEnrollment(studentID, course);
+						}
+						else
+						{
+							db.removeStudentEnrollment(studentID, course);
+						}
+					}
+						else if(input.startsWith("CHANGE ASSIGNMENT STATUS")) {
+							String assign = socketIn.readLine();
+							String status = socketIn.readLine();
+							if(status.equals("a"))
+							{
+								db.updateAssignmentStatus(assign, true);
+							}
+							else
+							{
+								db.updateAssignmentStatus(assign, false);
+							}
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}

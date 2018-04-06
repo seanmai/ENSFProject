@@ -10,6 +10,11 @@ import java.net.Socket;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+/**
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ *
+ */
 public class LoginGUI extends JFrame{
 	JFrame frame;
 	JTextField userID;
@@ -106,18 +111,21 @@ public class LoginGUI extends JFrame{
 		User user = checkIfUser(id);
 		
 		if(Password.equals(user.getPassword())){
-		if(user.getType().equals("P"))
-		{
-			setVisible(false);
-			ProfessorGUImain gui = new ProfessorGUImain(user, client);
-		}
-		else if(user.getType().equals("S"))
-		{
+			if(user.getType().equals("P"))
+			{
+				setVisible(false);
+				ProfessorGUImain gui = new ProfessorGUImain(user, client);
+			}
+			else if(user.getType().equals("S"))
+			{
+				
+			}
 			
-		}
-		}
-		else {
-			System.exit(1);
+			else {
+				System.exit(1);
+			}
+		} else {
+			System.out.println("Incorrect password");
 		}
 	}
 	

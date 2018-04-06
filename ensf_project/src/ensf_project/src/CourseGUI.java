@@ -123,11 +123,21 @@ public class CourseGUI {
 		frmCourseOptions.getContentPane().add(rdbtnAssignments);
 		
 		JButton btnEnroll = new JButton("Enroll");
+		btnEnroll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				studentEnrollment("e");
+			}
+		});
 		btnEnroll.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnEnroll.setBounds(393, 59, 89, 23);
 		frmCourseOptions.getContentPane().add(btnEnroll);
 		
 		JButton btnUnenroll = new JButton("Unenroll");
+		btnUnenroll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				studentEnrollment("u");
+			}
+		});
 		btnUnenroll.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnUnenroll.setBounds(393, 93, 89, 23);
 		frmCourseOptions.getContentPane().add(btnUnenroll);
@@ -154,11 +164,21 @@ public class CourseGUI {
 		frmCourseOptions.getContentPane().add(btnGrade);
 		
 		JButton btnActivateAssignment = new JButton("Activate Assignment");
+		btnActivateAssignment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				assignmentStatus("a");
+			}
+		});
 		btnActivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnActivateAssignment.setBounds(355, 263, 166, 23);
 		frmCourseOptions.getContentPane().add(btnActivateAssignment);
 		
 		JButton btnDeactivateAssignment = new JButton("Deactivate Assignment");
+		btnDeactivateAssignment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				assignmentStatus("d");
+			}
+		});
 		btnDeactivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnDeactivateAssignment.setBounds(355, 301, 166, 23);
 		frmCourseOptions.getContentPane().add(btnDeactivateAssignment);
@@ -242,4 +262,25 @@ public class CourseGUI {
 		}
 	}
 	
+	public void studentEnrollment(String s)
+	{
+		String student = (String)list.getSelectedValue();
+		client.getSocketOut().println("STUDENT ENROLLMENT");
+		client.getSocketOut().println(student.split(" ")[0]);
+		client.getSocketOut().println(course);
+		client.getSocketOut().println(s);
+		client.getSocketOut().flush();
+	}
+	
+	public void assignmentStatus(String s)
+	{
+		if(list.getSelectedValue() != null)
+		{
+			String assign = (String)list.getSelectedValue();
+			client.getSocketOut().println("CHANGE ASSIGNMENT STATUS");
+			client.getSocketOut().println(assign);
+			client.getSocketOut().println(s);
+			client.getSocketOut().flush();
+		}
+	}
 }

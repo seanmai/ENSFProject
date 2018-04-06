@@ -140,6 +140,7 @@ public class DBManager {
 		return null;
 	}
 	
+	
 	/**
 	 * Retrieves all users with the specified id from the database
 	 * @param userID the id to search
@@ -328,7 +329,7 @@ public class DBManager {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setBoolean(1, status);
 			pStatement.setString(2, assignmentName);
-			pStatement.executeQuery();
+			pStatement.executeUpdate();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
@@ -395,7 +396,7 @@ public class DBManager {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setBoolean(1, status);
 			pStatement.setString(2, courseName);
-			pStatement.executeQuery();
+			pStatement.executeUpdate();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
@@ -412,7 +413,6 @@ public class DBManager {
 							  	 courses.getString("NAME"),
 							  	 courses.getBoolean("ACTIVE")));
 			}
-			System.out.println(results.get(0).getName());
 			return results;
 
 		} catch (SQLException e) { e.printStackTrace(); }

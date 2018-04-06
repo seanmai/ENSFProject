@@ -111,11 +111,21 @@ public class ProfessorGUImain {
 		});
 		
 		activate = new Button("Activate");
+		activate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				courseStatus("t");
+			}
+		});
 		activate.setFont(new Font("Dialog", Font.PLAIN, 13));
 		activate.setBounds(401, 296, 97, 22);
 		frmProfessorgui.getContentPane().add(activate);
 		
 		deactivate = new Button("Deactivate");
+		deactivate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				courseStatus("f");
+			}
+		});
 		deactivate.setFont(new Font("Dialog", Font.PLAIN, 13));
 		deactivate.setBounds(401, 340, 97, 22);
 		frmProfessorgui.getContentPane().add(deactivate);
@@ -153,4 +163,17 @@ public class ProfessorGUImain {
 			model.addElement(items.get(i).getName());
 		}
 	}
+	
+	public void courseStatus(String s)
+	{
+		if(list.getSelectedValue() != null)
+		{
+			String course = (String)list.getSelectedValue();
+			client.getSocketOut().println("CHANGE COURSE STATUS");
+			client.getSocketOut().println(course);
+			client.getSocketOut().println(s);
+			client.getSocketOut().flush();
+		}
+	}
+	
 }
