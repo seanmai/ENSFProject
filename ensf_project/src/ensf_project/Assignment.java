@@ -14,7 +14,15 @@ public class Assignment implements Serializable{
 	private boolean active;
 	private String dueDate;
 	
-	public int getID()
+	public Assignment(int courseID, String title, String path, String dueDate){
+		this.courseID = courseID;
+		this.title = title;
+		this.path = path;
+		active = true;
+		this.dueDate = dueDate;
+	}
+	
+	public int getCourseID()
 	{
 		return courseID;
 	}
@@ -29,7 +37,7 @@ public class Assignment implements Serializable{
 		return path;
 	}
 	
-	public boolean getStatus()
+	public boolean isActive()
 	{
 		return active;
 	}

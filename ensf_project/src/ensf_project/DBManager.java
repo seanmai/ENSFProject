@@ -119,6 +119,98 @@ public class DBManager {
 		}
 	}
 	
+	public Vector <User> searchAllUsers() {
+		String sql = "SELECT * FROM " + userTable;
+		Vector <User> results = new Vector <User>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				results.add(new User(users.getInt("ID"),
+						 			 users.getString("PASSWORD"),
+						 			 users.getString("EMAIL"),
+						 			 users.getString("FIRSTNAME"),
+						 			 users.getString("LASTNAME"),
+						 			 users.getString("TYPE")));							  	 
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+			return null;
+		}
+	
+	/**
+	 * Retrieves all users with the specified id from the database
+	 * @param userID the id to search
+	 * @return a vector of all users matching the id
+	 */
+	public User searchUserByID(int userID) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, userID);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				return new User(users.getInt("ID"),
+								users.getString("PASSWORD"),
+								users.getString("EMAIL"),
+								users.getString("FIRSTNAME"),
+								users.getString("LASTNAME"),
+								users.getString("TYPE"));							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
+	public User searchUserByIDFromCourse(int userID) {
+		String sql = "SELECT * FROM " + userTable + ", " + courseTable + " WHERE ID= ?" + "and " + userTable + ".ID=" + courseTable + ".ID";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, userID);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				return new User(users.getInt("ID"),
+								users.getString("PASSWORD"),
+								users.getString("EMAIL"),
+								users.getString("FIRSTNAME"),
+								users.getString("LASTNAME"),
+								users.getString("TYPE"));							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
+	public Vector <User> searchUserByName(String lastName) {
+		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?";
+		Vector <User> results = new Vector <User>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setString(1, lastName);
+			ResultSet users = pStatement.executeQuery();
+			while(users.next())
+			{
+				results.add(new User(users.getInt("ID"),
+									 users.getString("PASSWORD"),
+									 users.getString("EMAIL"),
+									 users.getString("FIRSTNAME"),
+									 users.getString("LASTNAME"),
+									 users.getString("TYPE")));							  	 
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public void createAssignmentTable() {
 		String sql = "CREATE TABLE " + assignmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -137,6 +229,28 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	public void addAssignment(Assignment assignment) {
+		String sql = "INSERT INTO " + assignmentTable +
+				" VALUES (?, ?, ?, ?, ?, ?)";
+		int id = dbSize(assignmentTable)+1;
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, id);
+			pStatement.setInt(2, assignment.getCourseID());
+			pStatement.setString(3, assignment.getTitle());
+			pStatement.setString(4, assignment.getPath());
+			pStatement.setBoolean(5, assignment.isActive());
+			pStatement.setString(6, assignment.getDueDate());
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void createGradeTable() {
@@ -234,6 +348,44 @@ public class DBManager {
 		}	
 	}
 	
+	public void addStudentEnrollment(int studentID, int courseID) {
+		String sql = "INSERT INTO " + studentEnrollmentTable +
+				" VALUES (?, ?, ?)";
+		int id = dbSize(studentEnrollmentTable)+1;
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, id);
+			pStatement.setInt(2, studentID);
+			pStatement.setInt(3, courseID);
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeStudentEnrollment(int studentID, int courseID) {
+		String sql = "DELETE FROM " + studentEnrollmentTable +
+				" WHERE STUDENT_ID=?" + " and COURSE_ID=?";
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, studentID);
+			pStatement.setInt(2, courseID);
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	public void createSubmissionTable() {
 		String sql = "CREATE TABLE " + submissionTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -254,76 +406,6 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
-	}
-	
-	/**
-	 * Retrieves all users with the specified id from the database
-	 * @param userID the id to search
-	 * @return a vector of all users matching the id
-	 */
-	public User searchUserByID(int userID) {
-		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, userID);
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				return new User(users.getInt("ID"),
-									 users.getString("PASSWORD"),
-									 users.getString("EMAIL"),
-									 users.getString("FIRSTNAME"),
-									 users.getString("LASTNAME"),
-									 users.getString("TYPE"));							  	 
-			}
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-		return null;
-	}
-	
-	public User searchUserByIDFromCourse(int userID) {
-		String sql = "SELECT * FROM " + userTable + ", " + courseTable + " WHERE ID= ?" + "and " + userTable + ".ID=" + courseTable + ".ID";
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, userID);
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				return new User(users.getInt("ID"),
-									 users.getString("PASSWORD"),
-									 users.getString("EMAIL"),
-									 users.getString("FIRSTNAME"),
-									 users.getString("LASTNAME"),
-									 users.getString("TYPE"));							  	 
-			}
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-		return null;
-	}
-	
-	public Vector <User> searchUserByName(String lastName) {
-		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?";
-		Vector <User> results = new Vector <User>();
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setString(1, lastName);
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				results.add(new User(users.getInt("ID"),
-									 users.getString("PASSWORD"),
-									 users.getString("EMAIL"),
-									 users.getString("FIRSTNAME"),
-									 users.getString("LASTNAME"),
-									 users.getString("TYPE")));							  	 
-			}
-			return results;
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-		return null;
 	}
 	
 	private int dbSize(String tableName) {
