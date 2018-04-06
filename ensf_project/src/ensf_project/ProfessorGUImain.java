@@ -88,10 +88,14 @@ public class ProfessorGUImain {
 		course = new Button("View Course");
 		course.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CourseGUI course = new CourseGUI();
-				frmCoursegui = course.returnFrame();
-				frmProfessorgui.setVisible(false);
-				frmCoursegui.setVisible(true);
+				if(list.getSelectedValue()!= null)
+				{
+					String s = (String) list.getSelectedValue();
+					CourseGUI course = new CourseGUI(client, s);
+					frmCoursegui = course.returnFrame();
+					frmProfessorgui.setVisible(false);
+					frmCoursegui.setVisible(true);
+				}
 			}
 		});
 		

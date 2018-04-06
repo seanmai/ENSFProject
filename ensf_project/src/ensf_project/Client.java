@@ -31,6 +31,7 @@ public class Client {
 	public void sendFile(byte[] content)
 	{
 		try {
+			socketOut.println("STORE FILE");
 			toServer.writeObject(content);
 			toServer.flush();
 		} catch (IOException e) {

@@ -26,7 +26,9 @@ import java.awt.event.ActionEvent;
 public class CourseGUI {
 
 	private JFrame frmCourseOptions;
+	private Client client;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private String course;
 
 	/**
 	 * Launch the application.
@@ -35,8 +37,8 @@ public class CourseGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CourseGUI window = new CourseGUI();
-					window.frmCourseOptions.setVisible(true);
+					//CourseGUI window = new CourseGUI();
+					//window.frmCourseOptions.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,7 +49,9 @@ public class CourseGUI {
 	/**
 	 * Create the application.
 	 */
-	public CourseGUI() {
+	public CourseGUI(Client c, String course) {
+		client = c;
+		this.course = course;
 		initialize();
 	}
 	
@@ -60,7 +64,8 @@ public class CourseGUI {
 	 */
 	private void initialize() {
 		frmCourseOptions = new JFrame();
-		frmCourseOptions.setTitle("Course Options");
+		//frmCourseOptions.setTitle("Course Options");
+		frmCourseOptions.setTitle(course);
 		frmCourseOptions.getContentPane().setBackground(new Color(153, 204, 204));
 		frmCourseOptions.setBounds(100, 100, 450, 369);
 		frmCourseOptions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,13 +125,12 @@ public class CourseGUI {
 		frmCourseOptions.getContentPane().add(btnDeactivateAssignment);
 	}
 	
-	public static void upload()
+	public void upload()
 	{
 		File selectedFile = null;
-		String fullPath = null;
 		JFileChooser fileBrowser = new JFileChooser();
 		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-		 selectedFile = fileBrowser.getSelectedFile();
+			selectedFile = fileBrowser.getSelectedFile();
 
 		long length = selectedFile.length();
 		byte[] content = new byte[(int) length]; // Converting Long to Int
@@ -134,14 +138,16 @@ public class CourseGUI {
 		FileInputStream fis = new FileInputStream(selectedFile);
 		BufferedInputStream bos = new BufferedInputStream(fis);
 		bos.read(content, 0, (int)length);
-		//uncomment once this has access to client
-//		client.sendFile(content);
-		
+		client.sendFile(content);
+		client.getSocketOut().println(selectedFile.getName());
+		//client.getSocketOut().println(new Assignment());
+		client.getSocketOut().flush();
+		System.out.println(selectedFile.getAbsolutePath());
+		System.out.println(selectedFile.getName());
 		} catch (FileNotFoundException e) {
 		e.printStackTrace();
 		} catch(IOException e){
 		e.printStackTrace();
 		}
-
 	}
 }

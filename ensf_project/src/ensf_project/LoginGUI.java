@@ -131,8 +131,6 @@ public class LoginGUI extends JFrame{
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(user.getFirstName());
-		
 		return user;
 	}
 	
