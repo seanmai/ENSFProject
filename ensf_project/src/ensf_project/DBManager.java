@@ -209,6 +209,7 @@ public class DBManager {
 							  	 courses.getString("NAME"),
 							  	 courses.getBoolean("ACTIVE")));
 			}
+			System.out.println(results.get(0).getName());
 			return results;
 
 		} catch (SQLException e) { e.printStackTrace(); }

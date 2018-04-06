@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import java.awt.Button;
@@ -24,9 +25,10 @@ public class ProfessorGUImain {
 	private JFrame frmProfessorgui;
 	private JFrame frmCreateCoursegui;
 	private JFrame frmCoursegui;
-	private JList<Course> list;
+	private JList list;
 	private JScrollPane listScroll;
 	private Button course, create, activate, deactivate;
+	private DefaultListModel<String> model;
 	
 	private User prof;
 	private Client client;
@@ -53,30 +55,29 @@ public class ProfessorGUImain {
 		frmProfessorgui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProfessorgui.getContentPane().setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 27, 229, 204);
-		frmProfessorgui.getContentPane().add(scrollPane);
-		
-		list = new JList<Course>();
-		list.setBackground(new Color(204, 255, 255));
 		client.getSocketOut().println("GET PROF COURSE LIST");
 		client.getSocketOut().println(prof.getID());
 		client.getSocketOut().flush();
 		
-		Vector<Course> items = null;
+		model = new DefaultListModel();
 		
 		try {
-			items = (Vector<Course>)client.getFromServer().readObject();
+			Vector<Course>items = (Vector<Course>)client.getFromServer().readObject();
+			setList(items);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 		
-		list.setListData(items);
+		list = new JList(model);
+		list.setBackground(new Color(204, 255, 255));
+		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(10, 27, 229, 204);
+		frmProfessorgui.getContentPane().add(scrollPane);
+		
 		list.setFont(new Font("Bell MT", Font.PLAIN, 11));
 		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		listScroll = new JScrollPane(list);
 		
 		JLabel lblCourseList = DefaultComponentFactory.getInstance().createTitle("Course List");
 		lblCourseList.setFont(new Font("Bell MT", Font.BOLD, 14));
@@ -116,5 +117,14 @@ public class ProfessorGUImain {
 		deactivate = new Button("Deactivate");
 		deactivate.setBounds(263, 157, 84, 22);
 		frmProfessorgui.getContentPane().add(deactivate);
+	}
+	
+	public void setList(Vector<Course> items) 
+	{
+		model.removeAllElements();
+		for(int i = 0; i < items.size(); i++)
+		{
+			model.addElement(items.get(i).getName());
+		}
 	}
 }
