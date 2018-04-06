@@ -195,7 +195,7 @@ public class DBManager {
 		return null;
 	}
 	
-	public Vector <User> searchUserByName(String lastName) {
+	public Vector <User> searchStudentByName(String lastName) {
 		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?" + " and TYPE=?";
 		Vector <User> results = new Vector <User>();
 		try {
