@@ -196,6 +196,26 @@ public class DBManager {
 		}
 	}
 	
+	public Vector <Course> searchCourses(int profID) {
+		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
+		Vector <Course> results = new Vector <Course>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, profID);
+			ResultSet courses = pStatement.executeQuery();
+			while(courses.next())
+			{
+				results.add(new Course(courses.getInt("PROF_ID"),
+							  	 courses.getString("NAME"),
+							  	 courses.getBoolean("ACTIVE")));
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public void createStudentEnrollmentTable() {
 		String sql = "CREATE TABLE " + studentEnrollmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
