@@ -18,6 +18,10 @@ public class LoginGUI extends JFrame{
 	JButton exit;
 	private Client client;
 	
+	public static void main(String[] args) {
+		LoginGUI login = new LoginGUI();
+	}
+	
 	public LoginGUI() {
 		client = new Client("localhost", 9909);
 		displayLogin();
@@ -70,7 +74,7 @@ public class LoginGUI extends JFrame{
 		});
 		
 		login.setBackground(new Color(245, 245, 245));
-		login.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		login.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
 		login.setBounds(354, 289, 89, 23);
 		frame.getContentPane().add(login);
 		
@@ -82,7 +86,7 @@ public class LoginGUI extends JFrame{
 		});
 		
 		exit.setBackground(new Color(245, 245, 245));
-		exit.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		exit.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
 		exit.setBounds(183, 289, 89, 23);
 		frame.getContentPane().add(exit);
 		
@@ -133,9 +137,4 @@ public class LoginGUI extends JFrame{
 		}
 		return user;
 	}
-	
-	public static void main(String[] args) {
-		LoginGUI login = new LoginGUI();
-	}
-
 }

@@ -19,6 +19,7 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 import java.awt.Button;
 import java.awt.SystemColor;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class ProfessorGUImain {
 
@@ -51,7 +52,7 @@ public class ProfessorGUImain {
 		frmProfessorgui.getContentPane().setBackground(new Color(153, 204, 204));
 		frmProfessorgui.getContentPane().setForeground(SystemColor.desktop);
 		frmProfessorgui.setTitle("ProfessorGUI");
-		frmProfessorgui.setBounds(100, 100, 385, 280);
+		frmProfessorgui.setBounds(100, 100, 600, 475);
 		frmProfessorgui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProfessorgui.getContentPane().setLayout(null);
 		
@@ -71,21 +72,16 @@ public class ProfessorGUImain {
 		}
 		
 		list = new JList(model);
-		list.setBackground(new Color(204, 255, 255));
+		list.setBackground(new Color(255, 245, 238));
 		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 27, 229, 204);
+		scrollPane.setBounds(10, 46, 293, 365);
 		frmProfessorgui.getContentPane().add(scrollPane);
 		
-		list.setFont(new Font("Bell MT", Font.PLAIN, 11));
-		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		
-		JLabel lblCourseList = DefaultComponentFactory.getInstance().createTitle("Course List");
-		lblCourseList.setFont(new Font("Bell MT", Font.BOLD, 14));
-		lblCourseList.setBounds(84, 11, 90, 14);
-		lblCourseList.setLabelFor(list);
-		frmProfessorgui.getContentPane().add(lblCourseList);
+		list.setFont(new Font("Dialog", Font.PLAIN, 13));
+		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		
 		course = new Button("View Course");
+		course.setFont(new Font("Dialog", Font.PLAIN, 13));
 		course.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(list.getSelectedValue()!= null)
@@ -99,11 +95,12 @@ public class ProfessorGUImain {
 			}
 		});
 		
-		course.setBounds(263, 73, 84, 22);
+		course.setBounds(401, 207, 97, 22);
 		frmProfessorgui.getContentPane().add(course);
 		
 		Button create = new Button("Create Course");
-		create.setBounds(263, 101, 84, 22);
+		create.setFont(new Font("Dialog", Font.PLAIN, 13));
+		create.setBounds(401, 250, 97, 22);
 		frmProfessorgui.getContentPane().add(create);
 		create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -115,12 +112,38 @@ public class ProfessorGUImain {
 		});
 		
 		activate = new Button("Activate");
-		activate.setBounds(263, 129, 84, 22);
+		activate.setFont(new Font("Dialog", Font.PLAIN, 13));
+		activate.setBounds(401, 296, 97, 22);
 		frmProfessorgui.getContentPane().add(activate);
 		
 		deactivate = new Button("Deactivate");
-		deactivate.setBounds(263, 157, 84, 22);
+		deactivate.setFont(new Font("Dialog", Font.PLAIN, 13));
+		deactivate.setBounds(401, 340, 97, 22);
 		frmProfessorgui.getContentPane().add(deactivate);
+		
+		JLabel lblCourseList = new JLabel("Course List");
+		lblCourseList.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCourseList.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblCourseList.setBounds(21, 11, 261, 24);
+		frmProfessorgui.getContentPane().add(lblCourseList);
+		
+		JLabel lblWelcome = new JLabel("Welcome");
+		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcome.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblWelcome.setBounds(357, 49, 191, 46);
+		frmProfessorgui.getContentPane().add(lblWelcome);
+		
+		JLabel lblNewLabel = new JLabel(prof.getFirstName() + " " + prof.getLastName());
+		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(335, 82, 239, 40);
+		frmProfessorgui.getContentPane().add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panel.setBackground(new Color(204, 255, 255));
+		panel.setBounds(357, 178, 184, 213);
+		frmProfessorgui.getContentPane().add(panel);
 	}
 	
 	public void setList(Vector<Course> items) 

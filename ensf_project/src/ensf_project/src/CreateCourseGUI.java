@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class CreateCourseGUI {
 
@@ -23,6 +25,7 @@ public class CreateCourseGUI {
 	private JRadioButton rdbtnInactive;
 	private Client client;
 	private User prof;
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -60,44 +63,53 @@ public class CreateCourseGUI {
 		frmCreateCourse = new JFrame();
 		frmCreateCourse.getContentPane().setBackground(new Color(153, 204, 204));
 		frmCreateCourse.setTitle("Create Course");
-		frmCreateCourse.setBounds(100, 100, 450, 204);
+		frmCreateCourse.setBounds(100, 100, 585, 264);
 		frmCreateCourse.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCreateCourse.getContentPane().setLayout(null);
 		
 		courseName = new JTextField();
-		courseName.setBounds(154, 43, 208, 20);
+		courseName.setFont(new Font("Dialog", Font.PLAIN, 13));
+		courseName.setBounds(193, 70, 240, 23);
 		frmCreateCourse.getContentPane().add(courseName);
 		courseName.setColumns(10);
 		
 		JLabel lblNewCourseName = new JLabel("New Course Name:");
-		lblNewCourseName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewCourseName.setBounds(42, 45, 119, 14);
+		lblNewCourseName.setFont(new Font("Dialog", Font.PLAIN, 14));
+		lblNewCourseName.setBounds(60, 72, 132, 14);
 		frmCreateCourse.getContentPane().add(lblNewCourseName);
 		
 		rdbtnActive = new JRadioButton("Active");
-		rdbtnActive.setBackground(new Color(153, 204, 204));
+		rdbtnActive.setBackground(new Color(204, 255, 255));
 		buttonGroup.add(rdbtnActive);
-		rdbtnActive.setBounds(175, 70, 63, 23);
+		rdbtnActive.setBounds(233, 100, 63, 23);
 		frmCreateCourse.getContentPane().add(rdbtnActive);
 		
 		rdbtnInactive = new JRadioButton("Inactive");
-		rdbtnInactive.setBackground(new Color(153, 204, 204));
+		rdbtnInactive.setBackground(new Color(204, 255, 255));
 		buttonGroup.add(rdbtnInactive);
-		rdbtnInactive.setBounds(266, 70, 109, 23);
+		rdbtnInactive.setBounds(324, 100, 109, 23);
 		frmCreateCourse.getContentPane().add(rdbtnInactive);
 		
 		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(118, 113, 89, 23);
+		btnBack.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnBack.setBounds(154, 173, 89, 23);
 		frmCreateCourse.getContentPane().add(btnBack);
 		
 		JButton btnCreateCourse = new JButton("Create Course");
+		btnCreateCourse.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnCreateCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createCourse();
 			}
 		});
-		btnCreateCourse.setBounds(229, 113, 120, 23);
+		btnCreateCourse.setBounds(313, 173, 120, 23);
 		frmCreateCourse.getContentPane().add(btnCreateCourse);
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(204, 255, 255));
+		panel.setBorder(new LineBorder(new Color(128,128,128), 2, true));
+		panel.setBounds(46, 42, 478, 94);
+		frmCreateCourse.getContentPane().add(panel);
 	}
 	
 	public void createCourse()

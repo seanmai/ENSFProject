@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.JPanel;
 
 public class CourseGUI {
 
@@ -64,65 +66,86 @@ public class CourseGUI {
 	 */
 	private void initialize() {
 		frmCourseOptions = new JFrame();
-		//frmCourseOptions.setTitle("Course Options");
-		frmCourseOptions.setTitle(course);
+		frmCourseOptions.setTitle("Course Options");
 		frmCourseOptions.getContentPane().setBackground(new Color(153, 204, 204));
-		frmCourseOptions.setBounds(100, 100, 450, 369);
+		frmCourseOptions.setBounds(100, 100, 581, 483);
 		frmCourseOptions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCourseOptions.getContentPane().setLayout(null);
 		
 		JList list = new JList();
-		list.setBackground(new Color(204, 255, 255));
-		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		list.setBounds(23, 41, 184, 248);
+		list.setFont(new Font("Dialog", Font.PLAIN, 13));
+		list.setBackground(new Color(255, 245, 238));
+		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		list.setBounds(23, 41, 259, 349);
 		frmCourseOptions.getContentPane().add(list);
 		
 		JRadioButton rdbtnStudents = new JRadioButton("Students");
+		rdbtnStudents.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnStudents.setSelected(true);
 		rdbtnStudents.setBackground(new Color(153, 204, 204));
 		buttonGroup.add(rdbtnStudents);
-		rdbtnStudents.setBounds(23, 296, 96, 23);
+		rdbtnStudents.setBounds(56, 397, 96, 23);
 		frmCourseOptions.getContentPane().add(rdbtnStudents);
 		
 		JRadioButton rdbtnAssignments = new JRadioButton("Assignments");
+		rdbtnAssignments.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnAssignments.setBackground(new Color(153, 204, 204));
 		buttonGroup.add(rdbtnAssignments);
-		rdbtnAssignments.setBounds(121, 296, 109, 23);
+		rdbtnAssignments.setBounds(154, 397, 109, 23);
 		frmCourseOptions.getContentPane().add(rdbtnAssignments);
 		
 		JButton btnEnroll = new JButton("Enroll");
-		btnEnroll.setBounds(273, 40, 89, 23);
+		btnEnroll.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnEnroll.setBounds(393, 59, 89, 23);
 		frmCourseOptions.getContentPane().add(btnEnroll);
 		
 		JButton btnUnenroll = new JButton("Unenroll");
-		btnUnenroll.setBounds(273, 74, 89, 23);
+		btnUnenroll.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnUnenroll.setBounds(393, 93, 89, 23);
 		frmCourseOptions.getContentPane().add(btnUnenroll);
 		
 		JButton btnUploadAssignment = new JButton("Upload Assignment");
+		btnUploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnUploadAssignment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				upload();
 			}
 		});
 		
-		btnUploadAssignment.setBounds(236, 266, 166, 23);
+		btnUploadAssignment.setBounds(355, 339, 166, 23);
 		frmCourseOptions.getContentPane().add(btnUploadAssignment);
 		
 		JButton btnEmail = new JButton("Email");
-		btnEmail.setBounds(273, 108, 89, 23);
+		btnEmail.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnEmail.setBounds(393, 127, 89, 23);
 		frmCourseOptions.getContentPane().add(btnEmail);
 		
 		JButton btnGrade = new JButton("Grade");
-		btnGrade.setBounds(273, 142, 89, 23);
+		btnGrade.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnGrade.setBounds(393, 161, 89, 23);
 		frmCourseOptions.getContentPane().add(btnGrade);
 		
 		JButton btnActivateAssignment = new JButton("Activate Assignment");
-		btnActivateAssignment.setBounds(236, 201, 166, 23);
+		btnActivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnActivateAssignment.setBounds(355, 263, 166, 23);
 		frmCourseOptions.getContentPane().add(btnActivateAssignment);
 		
 		JButton btnDeactivateAssignment = new JButton("Deactivate Assignment");
-		btnDeactivateAssignment.setBounds(236, 232, 166, 23);
+		btnDeactivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
+		btnDeactivateAssignment.setBounds(355, 301, 166, 23);
 		frmCourseOptions.getContentPane().add(btnDeactivateAssignment);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(204, 255, 255));
+		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panel.setBounds(334, 237, 209, 153);
+		frmCourseOptions.getContentPane().add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panel_1.setBackground(new Color(204, 255, 255));
+		panel_1.setBounds(371, 41, 135, 163);
+		frmCourseOptions.getContentPane().add(panel_1);
 	}
 	
 	public void upload()
