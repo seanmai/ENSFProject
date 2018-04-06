@@ -386,11 +386,12 @@ public class DBManager {
 		}
 	}
 	
-	public void updateCourseStatus(boolean status) {
-		String sql = "UPDATE " + courseTable + " SET ACTIVE=?";
+	public void updateCourseStatus(String courseName, boolean status) {
+		String sql = "UPDATE " + courseTable + " SET ACTIVE=?" + " WHERE NAME=?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setBoolean(1, status);
+			pStatement.setString(2, courseName);
 			pStatement.executeQuery();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
