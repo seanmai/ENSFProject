@@ -1,3 +1,11 @@
 00000000;mattdamon;them_apples@gmail.com;Matt;Damon;P
 00000001;benaffleck;ben.affleck@gmail.com;Ben;Affleck;P
 00000002;jimmykimmel;james@gmail.com;James;Kimmel;S
+00000003;markwatney;Martian@gmail.com;Mark;Watney;S
+00000004;chucksullivan;Chuck@gmail.com;Chuck;Sullivan;S
+00000005;brucewayne;Batman@gmail.com;Bruce;Wayne;S
+00000006;christianwolff;Accountant@gmail.com;Christian;Wolff;S
+00000007;harrisonford;BladeRunner@gmail.com;Harrison;Ford;S
+00000008;shortstop;Indy@gmail.com;Indiana;Jones;S
+00000009;benswolo;Hans@gmail.com;Han;Solo;S
+00000010;hyrumgraff;HyrumGraff@gmail.com;Hyrum;Graff;S
