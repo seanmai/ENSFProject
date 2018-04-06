@@ -119,6 +119,27 @@ public class DBManager {
 		}
 	}
 	
+	public User searchUserByID(int userID) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, userID);
+			ResultSet users = pStatement.executeQuery();
+			if(users.next())
+			{
+				return new User(users.getInt("ID"),
+								users.getString("PASSWORD"),
+								users.getString("EMAIL"),
+								users.getString("FIRSTNAME"),
+								users.getString("LASTNAME"),
+								users.getString("TYPE"));							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	/**
 	 * Retrieves all users with the specified id from the database
 	 * @param userID the id to search
