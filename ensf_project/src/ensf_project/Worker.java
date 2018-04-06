@@ -63,9 +63,9 @@ public class Worker implements Runnable {
 					
 					else if(input.startsWith("GET PROF COURSE LIST")) {
 						int id = Integer.parseInt(socketIn.readLine());
-						//Vector <Course> courses = db.getCourseList(id);
-						//objectOut.writeObject(courses);
-						//objectOut.flush();
+						Vector <Course> courses = db.searchCourses(id);
+						objectOut.writeObject(courses);
+						objectOut.flush();
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();

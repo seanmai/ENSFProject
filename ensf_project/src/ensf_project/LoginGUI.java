@@ -104,9 +104,8 @@ public class LoginGUI extends JFrame{
 		if(Password.equals(user.getPassword())){
 		if(user.getType().equals("P"))
 		{
-			ProfessorGUImain gui = new ProfessorGUImain(user, client);
 			setVisible(false);
-			
+			ProfessorGUImain gui = new ProfessorGUImain(user, client);
 		}
 		else if(user.getType().equals("S"))
 		{

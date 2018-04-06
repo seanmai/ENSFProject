@@ -25,6 +25,7 @@ public class ProfessorGUImain {
 	private JFrame frmCreateCoursegui;
 	private JFrame frmCoursegui;
 	private JList<Course> list;
+	private JScrollPane listScroll;
 	private Button course, create, activate, deactivate;
 	
 	private User prof;
@@ -73,9 +74,9 @@ public class ProfessorGUImain {
 		} 
 		
 		list.setListData(items);
-		
 		list.setFont(new Font("Bell MT", Font.PLAIN, 11));
 		list.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		listScroll = new JScrollPane(list);
 		
 		JLabel lblCourseList = DefaultComponentFactory.getInstance().createTitle("Course List");
 		lblCourseList.setFont(new Font("Bell MT", Font.BOLD, 14));

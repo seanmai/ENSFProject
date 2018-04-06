@@ -197,7 +197,7 @@ public class DBManager {
 	}
 	
 	public Vector <Course> searchCourses(int profID) {
-		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
+		String sql = "SELECT * FROM " + courseTable + " WHERE PROF_ID= ?";
 		Vector <Course> results = new Vector <Course>();
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
