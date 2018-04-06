@@ -152,7 +152,7 @@ public class DBManager {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setInt(1, userID);
 			ResultSet users = pStatement.executeQuery();
-			while(users.next())
+			if(users.next())
 			{
 				return new User(users.getInt("ID"),
 								users.getString("PASSWORD"),
@@ -253,6 +253,15 @@ public class DBManager {
 		}
 	}
 	
+	public void updateAssignmentStatus(boolean status) {
+		String sql = "UPDATE " + assignmentTable + " SET ACTIVE=?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setBoolean(1, status);
+			ResultSet users = pStatement.executeQuery();
+		} catch (SQLException e) { e.printStackTrace(); }
+	}
+	
 	public void createGradeTable() {
 		String sql = "CREATE TABLE " + gradeTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -325,6 +334,24 @@ public class DBManager {
 			}
 			System.out.println(results.get(0).getName());
 			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
+	public Course searchCourseByName(String name) {
+		String sql = "SELECT * FROM " + userTable + " WHERE NAME= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setString(1, name);
+			ResultSet course = pStatement.executeQuery();
+			if(course.next())
+			{
+				return new Course(course.getInt("PROF_ID"),
+					  	 		  course.getString("NAME"),
+					  	 		  course.getBoolean("ACTIVE"));							  	 
+			}
 
 		} catch (SQLException e) { e.printStackTrace(); }
 
