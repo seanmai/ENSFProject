@@ -119,38 +119,17 @@ public class DBManager {
 		}
 	}
 	
-	public Vector <User> searchAllUsers() {
-		String sql = "SELECT * FROM " + userTable;
-		Vector <User> results = new Vector <User>();
-		try {
-			pStatement = jdbc_connection.prepareStatement(sql);
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				results.add(new User(users.getInt("ID"),
-						 			 users.getString("PASSWORD"),
-						 			 users.getString("EMAIL"),
-						 			 users.getString("FIRSTNAME"),
-						 			 users.getString("LASTNAME"),
-						 			 users.getString("TYPE")));							  	 
-			}
-			return results;
-
-		} catch (SQLException e) { e.printStackTrace(); }
-
-			return null;
-		}
-	
 	/**
 	 * Retrieves all users with the specified id from the database
 	 * @param userID the id to search
 	 * @return a vector of all users matching the id
 	 */
-	public User searchUserByID(int userID) {
-		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+	public User searchStudentByID(int userID) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?" + " and TYPE=?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setInt(1, userID);
+			pStatement.setString(2, "S");
 			ResultSet users = pStatement.executeQuery();
 			if(users.next())
 			{
@@ -217,11 +196,12 @@ public class DBManager {
 	}
 	
 	public Vector <User> searchUserByName(String lastName) {
-		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?";
+		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?" + " and TYPE=?";
 		Vector <User> results = new Vector <User>();
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setString(1, lastName);
+			pStatement.setString(2, "S");
 			ResultSet users = pStatement.executeQuery();
 			while(users.next())
 			{
@@ -320,11 +300,12 @@ public class DBManager {
 		return -1;
 	}
 	
-	public void updateAssignmentStatus(boolean status) {
-		String sql = "UPDATE " + assignmentTable + " SET ACTIVE=?";
+	public void updateAssignmentStatus(String assignmentName, boolean status) {
+		String sql = "UPDATE " + assignmentTable + " SET ACTIVE=?" + " WHERE TITLE=?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setBoolean(1, status);
+			pStatement.setString(2, assignmentName);
 			pStatement.executeQuery();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
@@ -487,8 +468,6 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 	public void createSubmissionTable() {
 		String sql = "CREATE TABLE " + submissionTable + "(" +
