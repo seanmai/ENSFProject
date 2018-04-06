@@ -10,9 +10,12 @@ import java.net.Socket;
 import javax.swing.*;
 
 public class LoginGUI extends JFrame{
+	JFrame frame;
 	JTextField userID;
 	JPasswordField password;
-	JButton submit;
+	JButton login;
+	JButton exit;
+	
 	PrintWriter socketOut;
 	ObjectInputStream fromServer;
 	
@@ -25,49 +28,77 @@ public class LoginGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400, 300);
 		setLocationRelativeTo(null);
-		setResizable(false);
-		setVisible(true);
+		setResizable(true);
 	}
 	
 	private void displayLogin() {
-		setTitle("Login");
-//		setLayout(new GridLayout(1, 2));
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(153, 204, 204));
+		frame.setBounds(100, 100, 620, 390);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
-		JPanel loginForm = new JPanel(new GridBagLayout());
-		add(loginForm);
+		userID = new JTextField();
+		userID.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
+		userID.setBackground(new Color(255, 255, 255));
+		userID.setBounds(243, 148, 200, 26);
+		frame.getContentPane().add(userID);
+		userID.setColumns(10);
 		
-		GridBagConstraints c = new GridBagConstraints();
+		JLabel lblUsername = new JLabel("User ID:");
+		lblUsername.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		lblUsername.setBounds(152, 147, 81, 26);
+		frame.getContentPane().add(lblUsername);
 		
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.LINE_END;
-		loginForm.add(new JLabel("User ID: "), c);
-		c.gridy++;
-		loginForm.add(new JLabel("Password: "), c);
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		lblPassword.setBounds(152, 205, 81, 26);
+		frame.getContentPane().add(lblPassword);
 		
-		c.gridy = 0;
-		c.gridx = 1;
-		c.anchor = GridBagConstraints.LINE_START;
-		userID = new JTextField(10);
-		loginForm.add(userID, c);
-		c.gridy++;
-		password = new JPasswordField(10);
-		loginForm.add(password, c);
+		password = new JPasswordField();
+		password.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
+		password.setBounds(243, 205, 200, 26);
+		frame.getContentPane().add(password);
 		
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridy++;
-		submit = new JButton("Login");
-		submit.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panel.setBackground(new Color(204, 255, 255));
+		panel.setBounds(127, 126, 357, 129);
+		frame.getContentPane().add(panel);
+		
+		JButton login = new JButton("Login");
+		login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				login();
 			}
 		});
-		loginForm.add(submit, c);
+		
+		login.setBackground(new Color(245, 245, 245));
+		login.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		login.setBounds(354, 289, 89, 23);
+		frame.getContentPane().add(login);
+		
+		JButton exit = new JButton("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
+			}
+		});
+		
+		exit.setBackground(new Color(245, 245, 245));
+		exit.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
+		exit.setBounds(183, 289, 89, 23);
+		frame.getContentPane().add(exit);
+		
+		JLabel lblLearningPlatform = new JLabel("Learning Platform");
+		lblLearningPlatform.setFont(new Font("Monospac821 BT", Font.BOLD, 26));
+		lblLearningPlatform.setBounds(167, 32, 300, 65);
+		frame.getContentPane().add(lblLearningPlatform);
+		frame.setVisible(true);
 	}
 	
 	public void login()
 	{
-		//Client client = new Client("localhost", 9099);
 		int id = Integer.parseInt(userID.getText());
 
 		String Password = new String(password.getPassword());
@@ -100,7 +131,6 @@ public class LoginGUI extends JFrame{
 		try {
 			user = (User)fromServer.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return user;

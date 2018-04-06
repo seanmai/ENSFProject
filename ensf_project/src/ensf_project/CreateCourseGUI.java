@@ -41,6 +41,10 @@ public class CreateCourseGUI {
 	public CreateCourseGUI() {
 		initialize();
 	}
+	
+	public JFrame returnFrame() {
+		return frmCreateCourse;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
