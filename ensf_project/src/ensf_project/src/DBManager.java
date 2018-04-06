@@ -325,7 +325,7 @@ public class DBManager {
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setBoolean(1, status);
-			ResultSet users = pStatement.executeQuery();
+			pStatement.executeQuery();
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
@@ -384,6 +384,15 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void updateCourseStatus(boolean status) {
+		String sql = "UPDATE " + courseTable + " SET ACTIVE=?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setBoolean(1, status);
+			pStatement.executeQuery();
+		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
 	public Vector <Course> searchCourses(int profID) {
