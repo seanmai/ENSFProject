@@ -50,6 +50,10 @@ public class CourseGUI {
 	public CourseGUI() {
 		initialize();
 	}
+	
+	public JFrame returnFrame() {
+		return frmCourseOptions;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -95,6 +99,7 @@ public class CourseGUI {
 				upload();
 			}
 		});
+		
 		btnUploadAssignment.setBounds(236, 266, 166, 23);
 		frmCourseOptions.getContentPane().add(btnUploadAssignment);
 		

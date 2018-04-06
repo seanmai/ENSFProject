@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +20,8 @@ import javax.swing.JScrollPane;
 public class ProfessorGUImain {
 
 	private JFrame frmProfessorgui;
+	private JFrame frmCreateCoursegui;
+	private JFrame frmCoursegui;
 	
 	private Button course, create, activate, deactivate;
 	
@@ -75,14 +78,27 @@ public class ProfessorGUImain {
 		course = new Button("View Course");
 		course.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				CourseGUI course = new CourseGUI();
+				frmCoursegui = course.returnFrame();
+				frmProfessorgui.setVisible(false);
+				frmCoursegui.setVisible(true);
 			}
 		});
+		
 		course.setBounds(263, 73, 84, 22);
 		frmProfessorgui.getContentPane().add(course);
 		
 		Button create = new Button("Create Course");
 		create.setBounds(263, 101, 84, 22);
 		frmProfessorgui.getContentPane().add(create);
+		create.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CreateCourseGUI newCourse = new CreateCourseGUI();
+				frmCreateCoursegui = newCourse.returnFrame();
+				frmProfessorgui.setVisible(false);
+				frmCreateCoursegui.setVisible(true);
+			}
+		});
 		
 		activate = new Button("Activate");
 		activate.setBounds(263, 129, 84, 22);
