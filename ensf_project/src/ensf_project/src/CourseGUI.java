@@ -41,6 +41,7 @@ public class CourseGUI {
 	JButton activateAssignment;
 	JButton deactivateAssignment;
 	JButton back;
+	JButton search;
 	ButtonGroup buttonGroup;
 	DefaultListModel<String> model;
 	JList list;
@@ -72,11 +73,12 @@ public class CourseGUI {
 		frmCourseOptions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCourseOptions.getContentPane().setLayout(null);
 		
+		
+		//List, ScrollPane, Button Components
 		buttonGroup = new ButtonGroup();
 		
 		model = new DefaultListModel();
 		list = new JList(model);
-		
 		list.setFont(new Font("Dialog", Font.PLAIN, 13));
 		list.setBackground(new Color(255, 245, 238));
 		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
@@ -137,11 +139,18 @@ public class CourseGUI {
 		deactivateAssignment.setBounds(354, 279, 176, 23);
 		frmCourseOptions.getContentPane().add(deactivateAssignment);
 		
+		search = new JButton("Search");
+		search.setFont(new Font("Dialog", Font.PLAIN, 13));
+		search.setBounds(339, 393, 89, 23);
+		frmCourseOptions.getContentPane().add(search);
+		
 		back = new JButton("Back");
 		back.setFont(new Font("Dialog", Font.PLAIN, 13));
-		back.setBounds(393, 394, 89, 23);
+		back.setBounds(453, 393, 89, 23);
 		frmCourseOptions.getContentPane().add(back);
 		
+		
+		//Aesthetic Pieces
 		JPanel upperRight = new JPanel();
 		upperRight.setBackground(new Color(204, 255, 255));
 		upperRight.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));

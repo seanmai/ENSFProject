@@ -49,7 +49,7 @@ public class Worker implements Runnable {
 			while(true) {
 				try {
 					String input = socketIn.readLine();
-					
+					System.out.println(input);
 					//Searching for User By ID
 					if(input.startsWith("SEARCH USER ID")) {
 						int id = Integer.parseInt(socketIn.readLine());
@@ -108,17 +108,28 @@ public class Worker implements Runnable {
 							db.removeStudentEnrollment(studentID, course);
 						}
 					}
-						else if(input.startsWith("CHANGE ASSIGNMENT STATUS")) {
-							String assign = socketIn.readLine();
-							String status = socketIn.readLine();
-							if(status.equals("a"))
-							{
-								db.updateAssignmentStatus(assign, true);
-							}
-							else
-							{
-								db.updateAssignmentStatus(assign, false);
-							}
+					else if(input.startsWith("CHANGE ASSIGNMENT STATUS")) {
+						String assign = socketIn.readLine();
+						String status = socketIn.readLine();
+						if(status.equals("a"))
+						{
+							db.updateAssignmentStatus(assign, true);
+						}
+						else
+						{
+							db.updateAssignmentStatus(assign, false);
+						}
+					}
+					else if(input.startsWith("SEARCH STUDENT ID")) {
+						int ID = Integer.parseInt(socketIn.readLine());
+						System.out.println("Caught search string");
+						objectOut.writeObject(db.searchStudentByID(ID));
+						objectOut.flush();
+					}
+					else if(input.startsWith("SEARCH STUDENT LAST NAME")) {
+						String LastName = socketIn.readLine();
+						objectOut.writeObject(db.searchStudentByName(LastName));
+						objectOut.flush();
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();

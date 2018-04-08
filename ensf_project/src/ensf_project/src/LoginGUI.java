@@ -45,13 +45,38 @@ public class LoginGUI extends JFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		
+		//Text Field, Password and Button Components
 		userID = new JTextField();
-		userID.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
+		userID.setFont(new Font("DialogInput", Font.PLAIN, 13));
 		userID.setBackground(new Color(255, 255, 255));
 		userID.setBounds(243, 148, 200, 26);
 		frame.getContentPane().add(userID);
 		userID.setColumns(10);
 		
+		password = new JPasswordField();
+		password.setFont(new Font("DialogInput", Font.PLAIN, 13));
+		password.setBounds(243, 205, 200, 26);
+		frame.getContentPane().add(password);
+		
+		JButton login = new JButton("Login");
+		login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {login();}});
+		login.setBackground(new Color(245, 245, 245));
+		login.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
+		login.setBounds(354, 289, 89, 23);
+		frame.getContentPane().add(login);
+		
+		JButton exit = new JButton("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {System.exit(1);}});
+		exit.setBackground(new Color(245, 245, 245));
+		exit.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
+		exit.setBounds(183, 289, 89, 23);
+		frame.getContentPane().add(exit);
+		
+		
+		//Aesthetic Pieces
 		JLabel lblUsername = new JLabel("User ID:");
 		lblUsername.setFont(new Font("Monospac821 BT", Font.PLAIN, 14));
 		lblUsername.setBounds(152, 147, 81, 26);
@@ -62,46 +87,17 @@ public class LoginGUI extends JFrame{
 		lblPassword.setBounds(152, 205, 81, 26);
 		frame.getContentPane().add(lblPassword);
 		
-		password = new JPasswordField();
-		password.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
-		password.setBounds(243, 205, 200, 26);
-		frame.getContentPane().add(password);
+		JLabel lblLearningPlatform = new JLabel("Learning Platform");
+		lblLearningPlatform.setFont(new Font("Monospac821 BT", Font.BOLD, 26));
+		lblLearningPlatform.setBounds(183, 34, 300, 65);
+		frame.getContentPane().add(lblLearningPlatform);
+		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panel.setBackground(new Color(204, 255, 255));
 		panel.setBounds(127, 126, 357, 129);
 		frame.getContentPane().add(panel);
-		
-		JButton login = new JButton("Login");
-		login.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				login();
-			}
-		});
-		
-		login.setBackground(new Color(245, 245, 245));
-		login.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
-		login.setBounds(354, 289, 89, 23);
-		frame.getContentPane().add(login);
-		
-		JButton exit = new JButton("Exit");
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
-			}
-		});
-		
-		exit.setBackground(new Color(245, 245, 245));
-		exit.setFont(new Font("Monospac821 BT", Font.PLAIN, 13));
-		exit.setBounds(183, 289, 89, 23);
-		frame.getContentPane().add(exit);
-		
-		JLabel lblLearningPlatform = new JLabel("Learning Platform");
-		lblLearningPlatform.setFont(new Font("Monospac821 BT", Font.BOLD, 26));
-		lblLearningPlatform.setBounds(167, 32, 300, 65);
-		frame.getContentPane().add(lblLearningPlatform);
-		frame.setVisible(true);
 	}
 	
 	public void login()

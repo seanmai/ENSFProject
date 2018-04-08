@@ -125,15 +125,7 @@ public class Client {
 		e.printStackTrace();
 		} catch(IOException e){
 		e.printStackTrace();
-		}
-		
-		
-		
-		
-		
-		
-		
-		
+		}	
 	}
 
 	public void studentEnrollment(String student, String courseName, String s)
@@ -184,6 +176,32 @@ public class Client {
 			return items;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public User searchUser(String search, int type) {
+		if(type == 0) {
+			socketOut.println("SEARCH STUDENT ID");
+			socketOut.println(search);
+			System.out.println("String Sent Thru Socket!");
+		}
+		else {
+			socketOut.println("SEARCH STUDENT LAST NAME");
+			socketOut.println(search);
+		}
+		
+		socketOut.flush();
+		
+		User result = null;
+		
+		try {
+			System.out.println("Waiting on return from Socket!");
+			result = (User)fromServer.readObject();
+			System.out.println("Recieved from Socket!");
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 }
 	

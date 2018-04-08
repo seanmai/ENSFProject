@@ -55,6 +55,7 @@ public class CreateCourseGUI {
 		courseName.setColumns(10);
 		
 		rdbtnActive = new JRadioButton("Active");
+		rdbtnActive.setSelected(true);
 		rdbtnActive.setBackground(new Color(204, 255, 255));
 		rdbtnActive.setBounds(233, 100, 63, 23);
 		frmCreateCourse.getContentPane().add(rdbtnActive);

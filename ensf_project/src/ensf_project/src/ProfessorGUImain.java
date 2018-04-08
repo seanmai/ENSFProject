@@ -27,6 +27,7 @@ public class ProfessorGUImain {
 	 * Professor GUI Components
 	 */
 	private JFrame frameHolder;
+	private JFrame popUpSearch;
 	private JList list;
 	private DefaultListModel<String> model;
 	private JButton course; 
@@ -40,11 +41,17 @@ public class ProfessorGUImain {
 	 */
 	private CreateCourseGUI createCourse;
 	
+	/**
+	 * Search GUI reference
+	 */
+	searchGUI Search;
 	
 	/**
 	 * Course GUI reference
 	 */
 	private CourseGUI courseGUI;
+	
+	
 	
 	private User prof;
 	private Client client;
@@ -71,8 +78,9 @@ public class ProfessorGUImain {
 		frmProfessorgui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProfessorgui.getContentPane().setLayout(null);
 		
-		Vector<Course> items = client.ProfessorCourseList(prof.getID());
 		
+		//List, ScrollPane and Button Components
+		Vector<Course> items = client.ProfessorCourseList(prof.getID());
 		model = new DefaultListModel();
 		setList(items);
 		list = new JList(model);
@@ -110,6 +118,8 @@ public class ProfessorGUImain {
 		deactivate.setBounds(390, 340, 126, 22);
 		frmProfessorgui.getContentPane().add(deactivate);
 		
+		
+		//Aesthetic Pieces
 		JLabel lblCourseList = new JLabel("Course List");
 		lblCourseList.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCourseList.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -138,6 +148,7 @@ public class ProfessorGUImain {
 	}
 	
 	public class ButtonPress implements ActionListener{
+		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
 			
 			//Activates Selected Course
@@ -155,7 +166,6 @@ public class ProfessorGUImain {
 				client.courseStatus(item, "f");
 				}
 			}
-			
 			
 			
 			
@@ -190,70 +200,112 @@ public class ProfessorGUImain {
 					courseGUI.activateAssignment.addActionListener(new ButtonPress());
 					courseGUI.deactivateAssignment.addActionListener(new ButtonPress());
 					courseGUI.back.addActionListener(new ButtonPress());
+					courseGUI.search.addActionListener(new ButtonPress());
 				}
 			}
 			
-			if(e.getSource() == courseGUI.rdbtnAssignments) {
-				courseGUI.model.removeAllElements();
-				Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.courseName);
+			if(courseGUI != null) {
+				if(e.getSource() == courseGUI.rdbtnAssignments) {
+					courseGUI.model.removeAllElements();
+					Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.courseName);
 				
-				for(int i = 0; i < assignmentList.size(); i++)
-				{
-					courseGUI.model.addElement((assignmentList.get(i).getTitle()));
+					for(int i = 0; i < assignmentList.size(); i++)
+					{
+						courseGUI.model.addElement((assignmentList.get(i).getTitle()));
+					}
+				
+					courseGUI.list.setModel(courseGUI.model);
 				}
+				if(e.getSource() == courseGUI.rdbtnStudents) {
+					courseGUI.model.removeAllElements();
+					Vector<User> studentList = client.getStudentList();
 				
-				courseGUI.list.setModel(courseGUI.model);
-			}
-			if(e.getSource() == courseGUI.rdbtnStudents) {
-				courseGUI.model.removeAllElements();
-				Vector<User> studentList = client.getStudentList();
-				
-				for(int i = 0; i < studentList.size(); i++)
-				{
-					courseGUI.model.addElement((studentList).get(i).getID() + " " + studentList.get(i).getFirstName() 
-											 + " " + studentList.get(i).getLastName());
+					for(int i = 0; i < studentList.size(); i++)
+					{
+						courseGUI.model.addElement((studentList).get(i).getID() + " " + studentList.get(i).getFirstName() 
+													+ " " + studentList.get(i).getLastName());
+					}
+					courseGUI.list.setModel(courseGUI.model);
 				}
-				courseGUI.list.setModel(courseGUI.model);
-			}
-			if(e.getSource() == courseGUI.enroll) {
-				String student = (String)courseGUI.list.getSelectedValue();
-				client.studentEnrollment(student, courseGUI.courseName, "e");
-			}
-			if(e.getSource() == courseGUI.unenroll) {
-				if(courseGUI.list.getSelectedValue() != null) {
+				if(e.getSource() == courseGUI.enroll) {
 					String student = (String)courseGUI.list.getSelectedValue();
-					client.studentEnrollment(student, courseGUI.courseName, "u");
+					client.studentEnrollment(student, courseGUI.courseName, "e");
+				}
+				if(e.getSource() == courseGUI.unenroll) {
+					if(courseGUI.list.getSelectedValue() != null) {
+						String student = (String)courseGUI.list.getSelectedValue();
+						client.studentEnrollment(student, courseGUI.courseName, "u");
+					}
+				}
+				if(e.getSource() == courseGUI.uploadAssignment) {
+					client.upload(courseGUI.courseName);
+				}
+				if(e.getSource() == courseGUI.email) {
+					//TO DO
+					//
+					//
+				}
+				if(e.getSource() == courseGUI.grade) {
+					//TO DO
+					//
+					//
+				}
+				if(e.getSource() == courseGUI.activateAssignment) {
+					if(courseGUI.list.getSelectedValue() != null) {
+						String assignment = (String)courseGUI.list.getSelectedValue();
+						client.assignmentStatus(assignment, "a");
+					}
+				}
+				if(e.getSource() == courseGUI.deactivateAssignment) {
+					if(courseGUI.list.getSelectedValue() != null) {
+						String assignment = (String)courseGUI.list.getSelectedValue();
+						client.assignmentStatus(assignment, "d");
+					}
+				}
+				if(e.getSource() == courseGUI.back) {
+					frameHolder.setVisible(false);
+					frameHolder = createFrame();
+					frameHolder.setVisible(true);
+				}
+				if(e.getSource() == courseGUI.search) {
+					Search = new searchGUI();
+					Search.back.addActionListener(new ButtonPress());
+					Search.search.addActionListener(new ButtonPress());
+					popUpSearch = new JFrame();
+					popUpSearch = Search.returnFrame();
+					popUpSearch.setVisible(true);
 				}
 			}
-			if(e.getSource() == courseGUI.uploadAssignment) {
-				client.upload(courseGUI.courseName);
-			}
-			if(e.getSource() == courseGUI.email) {
-				//TO DO
-				//
-				//
-			}
-			if(e.getSource() == courseGUI.grade) {
-				//TO DO
-				//
-				//
-			}
-			if(e.getSource() == courseGUI.activateAssignment) {
-				if(courseGUI.list.getSelectedValue() != null) {
-					String assignment = (String)courseGUI.list.getSelectedValue();
-					client.assignmentStatus(assignment, "a");
+			
+			
+			
+			
+			//Search GUI Logic
+			if(Search != null) {
+				if(e.getSource() == Search.search) {
+					User searchResult = null;
+					if(Search.buttonGroup.getSelection().equals(Search.LastName.getModel())) {
+						searchResult = client.searchUser(Search.searchText.getText(), 1);
+					}
+					else {
+						searchResult = client.searchUser(Search.searchText.getText(), 0);
+					}
+					if(searchResult != null) {
+						courseGUI.model.removeAllElements();
+						courseGUI.model.addElement(searchResult.getID() + " " + searchResult.getFirstName() + " " 
+								 + searchResult.getLastName() + ",  " + searchResult.getEmail());
+						courseGUI.list.setModel(courseGUI.model);
+					}
+					else {
+						courseGUI.model.removeAllElements();
+						courseGUI.model.addElement("No Matching Users Found!");
+						courseGUI.list.setModel(courseGUI.model);
+					}
+					popUpSearch.setVisible(false);
 				}
-			}
-			if(e.getSource() == courseGUI.deactivateAssignment) {
-				if(courseGUI.list.getSelectedValue() != null) {
-					String assignment = (String)courseGUI.list.getSelectedValue();
-					client.assignmentStatus(assignment, "d");
+				if(e.getSource() == Search.back) {
+					popUpSearch.setVisible(false);
 				}
-			}
-			if(e.getSource() == courseGUI.back) {
-				frameHolder.setVisible(false);
-				frameHolder = createFrame();
-				frameHolder.setVisible(true);
 			}
 			
 			
@@ -270,21 +322,23 @@ public class ProfessorGUImain {
 				frameHolder.setVisible(true);
 			}
 			
-			//CreateCourseGUI Back Button
-			if(e.getSource() == createCourse.back) {
-				frameHolder.setVisible(false);
-				frameHolder = createFrame();
-				frameHolder.setVisible(true);
-			}
+			if(createCourse != null) {
+				//CreateCourseGUI Back Button
+				if(e.getSource() == createCourse.back) {
+					frameHolder.setVisible(false);
+					frameHolder = createFrame();
+					frameHolder.setVisible(true);
+				}
 			
-			//CreateCourseGUI Create Course
-			if(e.getSource() == createCourse.create) {
-				Course c = new Course(prof.getID(), createCourse.courseName.getText(), 
-									  createCourse.getValidType());
-				client.createCourse(c);
-				frameHolder.setVisible(false);
-				frameHolder = createFrame();
-				frameHolder.setVisible(true);
+				//CreateCourseGUI Create Course
+				if(e.getSource() == createCourse.create) {
+					Course c = new Course(prof.getID(), createCourse.courseName.getText(), 
+										  createCourse.getValidType());
+					client.createCourse(c);
+					frameHolder.setVisible(false);
+					frameHolder = createFrame();
+					frameHolder.setVisible(true);
+				}
 			}
 	}
 }

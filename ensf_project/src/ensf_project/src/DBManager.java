@@ -155,6 +155,7 @@ public class DBManager {
 			ResultSet users = pStatement.executeQuery();
 			if(users.next())
 			{
+				System.out.println("Made it to Result Sets!");
 				return new User(users.getInt("ID"),
 								users.getString("PASSWORD"),
 								users.getString("EMAIL"),
@@ -217,24 +218,24 @@ public class DBManager {
 		return null;
 	}
 	
-	public Vector <User> searchStudentByName(String lastName) {
+	public User searchStudentByName(String lastName) {
 		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?" + " and TYPE=?";
-		Vector <User> results = new Vector <User>();
+		User result = null;
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setString(1, lastName);
 			pStatement.setString(2, "S");
 			ResultSet users = pStatement.executeQuery();
-			while(users.next())
+			if(users.next())
 			{
-				results.add(new User(users.getInt("ID"),
-									 users.getString("PASSWORD"),
-									 users.getString("EMAIL"),
-									 users.getString("FIRSTNAME"),
-									 users.getString("LASTNAME"),
-									 users.getString("TYPE")));							  	 
+				return new User(users.getInt("ID"),
+								users.getString("PASSWORD"),
+								users.getString("EMAIL"),
+								users.getString("FIRSTNAME"),
+								users.getString("LASTNAME"),
+								users.getString("TYPE"));							  	 
 			}
-			return results;
+			return result;
 
 		} catch (SQLException e) { e.printStackTrace(); }
 
