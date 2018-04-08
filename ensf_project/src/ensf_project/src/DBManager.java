@@ -22,9 +22,9 @@ public class DBManager {
 				  submissionTable = "submissionTable";
 	public String userDataFile = "users.txt";
 
-	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB",
-	  			  login          = "root",
-	  			  password       = "Thirteen13!";
+	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB?autoReconnect=true&useSSL=false",
+	  			  login          = "Matt",
+	  			  password       = "62uv$^^grh";
 	
 	public DBManager() {
 		try{

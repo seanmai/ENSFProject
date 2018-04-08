@@ -16,11 +16,13 @@ import javax.swing.border.LineBorder;
  *
  */
 public class LoginGUI extends JFrame{
+	
 	JFrame frame;
 	JTextField userID;
 	JPasswordField password;
 	JButton login;
 	JButton exit;
+
 	private Client client;
 	
 	public static void main(String[] args) {
@@ -113,7 +115,7 @@ public class LoginGUI extends JFrame{
 		if(Password.equals(user.getPassword())){
 			if(user.getType().equals("P"))
 			{
-				setVisible(false);
+				frame.dispose();
 				ProfessorGUImain gui = new ProfessorGUImain(user, client);
 			}
 			else if(user.getType().equals("S"))

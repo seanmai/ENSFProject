@@ -1,1 +1,15 @@
+/.classpath
+/.project
+/Assignment.class
+/Client.class
+/Course.class
+/CourseGUI.class
+/CreateCourseGUI.class
+/DBManager.class
+/LoginGUI.class
+/ProfessorGUImain.class
+/Server.class
+/User.class
+/Worker.class
+/bin/
 /ensf_project/

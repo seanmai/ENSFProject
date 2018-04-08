@@ -22,13 +22,29 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 public class ProfessorGUImain {
-
-	private JFrame frmProfessorgui;
-	private JFrame frmCreateCoursegui;
-	private JFrame frmCoursegui;
+	
+	/**
+	 * Professor GUI Components
+	 */
+	private JFrame frameHolder;
 	private JList list;
-	private Button course, create, activate, deactivate;
 	private DefaultListModel<String> model;
+	private JButton course; 
+	private JButton create;
+	private JButton activate;
+	private JButton deactivate;
+	
+	
+	/**
+	 * Course Creation GUI reference
+	 */
+	private CreateCourseGUI createCourse;
+	
+	
+	/**
+	 * Course GUI reference
+	 */
+	private CourseGUI courseGUI;
 	
 	private User prof;
 	private Client client;
@@ -39,15 +55,15 @@ public class ProfessorGUImain {
 	public ProfessorGUImain(User p, Client c) {
 		client = c;
 		prof = p;
-		initialize();
-		frmProfessorgui.setVisible(true);
+		frameHolder = this.createFrame();
+		frameHolder.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		frmProfessorgui = new JFrame();
+	private JFrame createFrame() {
+		JFrame frmProfessorgui = new JFrame();
 		frmProfessorgui.getContentPane().setBackground(new Color(153, 204, 204));
 		frmProfessorgui.getContentPane().setForeground(SystemColor.desktop);
 		frmProfessorgui.setTitle("ProfessorGUI");
@@ -55,21 +71,10 @@ public class ProfessorGUImain {
 		frmProfessorgui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProfessorgui.getContentPane().setLayout(null);
 		
-		client.getSocketOut().println("GET PROF COURSE LIST");
-		client.getSocketOut().println(prof.getID());
-		client.getSocketOut().flush();
+		Vector<Course> items = client.ProfessorCourseList(prof.getID());
 		
 		model = new DefaultListModel();
-		
-		try {
-			Vector<Course>items = (Vector<Course>)client.getFromServer().readObject();
-			setList(items);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		setList(items);
 		list = new JList(model);
 		list.setBackground(new Color(255, 245, 238));
 		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -79,55 +84,30 @@ public class ProfessorGUImain {
 		list.setFont(new Font("Dialog", Font.PLAIN, 13));
 		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		
-		course = new Button("View Course");
+		course = new JButton("View Course");
 		course.setFont(new Font("Dialog", Font.PLAIN, 13));
-		course.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(list.getSelectedValue()!= null)
-				{
-					String s = (String) list.getSelectedValue();
-					CourseGUI course = new CourseGUI(client, s);
-					frmCoursegui = course.returnFrame();
-					frmProfessorgui.setVisible(false);
-					frmCoursegui.setVisible(true);
-				}
-			}
-		});
+		course.addActionListener(new ButtonPress());
 		
-		course.setBounds(401, 207, 97, 22);
+		course.setBounds(390, 207, 126, 22);
 		frmProfessorgui.getContentPane().add(course);
 		
-		Button create = new Button("Create Course");
+		create = new JButton("Create Course");
 		create.setFont(new Font("Dialog", Font.PLAIN, 13));
-		create.setBounds(401, 250, 97, 22);
+		create.setBounds(390, 250, 126, 22);
 		frmProfessorgui.getContentPane().add(create);
-		create.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CreateCourseGUI newCourse = new CreateCourseGUI(client, prof);
-				frmCreateCoursegui = newCourse.returnFrame();
-				frmProfessorgui.setVisible(false);
-				frmCreateCoursegui.setVisible(true);
-			}
-		});
+		create.addActionListener(new ButtonPress());
 		
-		activate = new Button("Activate");
-		activate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				courseStatus("t");
-			}
-		});
+		activate = new JButton("Activate");
+		activate.addActionListener(new ButtonPress()); 
 		activate.setFont(new Font("Dialog", Font.PLAIN, 13));
-		activate.setBounds(401, 296, 97, 22);
+		activate.setBounds(390, 296, 126, 22);
 		frmProfessorgui.getContentPane().add(activate);
 		
-		deactivate = new Button("Deactivate");
-		deactivate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				courseStatus("f");
-			}
-		});
+		deactivate = new JButton("Deactivate");
+		deactivate.addActionListener(new ButtonPress());
+		
 		deactivate.setFont(new Font("Dialog", Font.PLAIN, 13));
-		deactivate.setBounds(401, 340, 97, 22);
+		deactivate.setBounds(390, 340, 126, 22);
 		frmProfessorgui.getContentPane().add(deactivate);
 		
 		JLabel lblCourseList = new JLabel("Course List");
@@ -151,9 +131,163 @@ public class ProfessorGUImain {
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panel.setBackground(new Color(204, 255, 255));
-		panel.setBounds(357, 178, 184, 213);
+		panel.setBounds(367, 178, 174, 213);
 		frmProfessorgui.getContentPane().add(panel);
+		
+		return frmProfessorgui;
 	}
+	
+	public class ButtonPress implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			
+			//Activates Selected Course
+			if(e.getSource() == activate) {
+				if(list.getSelectedValue() != null) {
+					String item = (String) list.getSelectedValue();
+				client.courseStatus(item, "t");
+				}
+			}
+			
+			//Deactivates Selected Course
+			if(e.getSource() == deactivate) {
+				if(list.getSelectedValue() != null) {
+					String item = (String) list.getSelectedValue();
+				client.courseStatus(item, "f");
+				}
+			}
+			
+			
+			
+			
+			
+			//Opens Course View GUI
+			if(e.getSource() == course) {
+				if(list.getSelectedValue()!= null)
+				{
+					String s = (String) list.getSelectedValue();
+					courseGUI = new CourseGUI(s);
+					
+					frameHolder.setVisible(false);
+					frameHolder = courseGUI.returnFrame();
+					frameHolder.setVisible(true);
+					
+					//Initializing Scroll List with Students
+					Vector<User> studentList = client.getStudentList();
+					for(int i = 0; i < studentList.size(); i++)
+					{
+						courseGUI.model.addElement((studentList).get(i).getID() + " " + studentList.get(i).getFirstName() 
+								 					+ " " + studentList.get(i).getLastName());
+					}
+					courseGUI.list.setModel(courseGUI.model);
+					
+					courseGUI.rdbtnAssignments.addActionListener(new ButtonPress());
+					courseGUI.rdbtnStudents.addActionListener(new ButtonPress());
+					courseGUI.enroll.addActionListener(new ButtonPress());
+					courseGUI.unenroll.addActionListener(new ButtonPress());
+					courseGUI.uploadAssignment.addActionListener(new ButtonPress());
+					courseGUI.email.addActionListener(new ButtonPress());
+					courseGUI.grade.addActionListener(new ButtonPress());
+					courseGUI.activateAssignment.addActionListener(new ButtonPress());
+					courseGUI.deactivateAssignment.addActionListener(new ButtonPress());
+					courseGUI.back.addActionListener(new ButtonPress());
+				}
+			}
+			
+			if(e.getSource() == courseGUI.rdbtnAssignments) {
+				courseGUI.model.removeAllElements();
+				Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.courseName);
+				
+				for(int i = 0; i < assignmentList.size(); i++)
+				{
+					courseGUI.model.addElement((assignmentList.get(i).getTitle()));
+				}
+				
+				courseGUI.list.setModel(courseGUI.model);
+			}
+			if(e.getSource() == courseGUI.rdbtnStudents) {
+				courseGUI.model.removeAllElements();
+				Vector<User> studentList = client.getStudentList();
+				
+				for(int i = 0; i < studentList.size(); i++)
+				{
+					courseGUI.model.addElement((studentList).get(i).getID() + " " + studentList.get(i).getFirstName() 
+											 + " " + studentList.get(i).getLastName());
+				}
+				courseGUI.list.setModel(courseGUI.model);
+			}
+			if(e.getSource() == courseGUI.enroll) {
+				String student = (String)courseGUI.list.getSelectedValue();
+				client.studentEnrollment(student, courseGUI.courseName, "e");
+			}
+			if(e.getSource() == courseGUI.unenroll) {
+				if(courseGUI.list.getSelectedValue() != null) {
+					String student = (String)courseGUI.list.getSelectedValue();
+					client.studentEnrollment(student, courseGUI.courseName, "u");
+				}
+			}
+			if(e.getSource() == courseGUI.uploadAssignment) {
+				client.upload(courseGUI.courseName);
+			}
+			if(e.getSource() == courseGUI.email) {
+				//TO DO
+				//
+				//
+			}
+			if(e.getSource() == courseGUI.grade) {
+				//TO DO
+				//
+				//
+			}
+			if(e.getSource() == courseGUI.activateAssignment) {
+				if(courseGUI.list.getSelectedValue() != null) {
+					String assignment = (String)courseGUI.list.getSelectedValue();
+					client.assignmentStatus(assignment, "a");
+				}
+			}
+			if(e.getSource() == courseGUI.deactivateAssignment) {
+				if(courseGUI.list.getSelectedValue() != null) {
+					String assignment = (String)courseGUI.list.getSelectedValue();
+					client.assignmentStatus(assignment, "d");
+				}
+			}
+			if(e.getSource() == courseGUI.back) {
+				frameHolder.setVisible(false);
+				frameHolder = createFrame();
+				frameHolder.setVisible(true);
+			}
+			
+			
+			
+			
+			//Opens Create Course GUI
+			if(e.getSource() == create) {
+				createCourse = new CreateCourseGUI();
+				createCourse.create.addActionListener(new ButtonPress());
+				createCourse.back.addActionListener(new ButtonPress());
+				
+				frameHolder.setVisible(false);
+				frameHolder = createCourse.returnFrame();
+				frameHolder.setVisible(true);
+			}
+			
+			//CreateCourseGUI Back Button
+			if(e.getSource() == createCourse.back) {
+				frameHolder.setVisible(false);
+				frameHolder = createFrame();
+				frameHolder.setVisible(true);
+			}
+			
+			//CreateCourseGUI Create Course
+			if(e.getSource() == createCourse.create) {
+				Course c = new Course(prof.getID(), createCourse.courseName.getText(), 
+									  createCourse.getValidType());
+				client.createCourse(c);
+				frameHolder.setVisible(false);
+				frameHolder = createFrame();
+				frameHolder.setVisible(true);
+			}
+	}
+}
 	
 	public void setList(Vector<Course> items) 
 	{
@@ -161,18 +295,6 @@ public class ProfessorGUImain {
 		for(int i = 0; i < items.size(); i++)
 		{
 			model.addElement(items.get(i).getName());
-		}
-	}
-	
-	public void courseStatus(String s)
-	{
-		if(list.getSelectedValue() != null)
-		{
-			String course = (String)list.getSelectedValue();
-			client.getSocketOut().println("CHANGE COURSE STATUS");
-			client.getSocketOut().println(course);
-			client.getSocketOut().println(s);
-			client.getSocketOut().flush();
 		}
 	}
 	
