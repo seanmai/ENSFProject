@@ -176,6 +176,24 @@ public class Client {
 			return items;
 	}
 	
+	public boolean isEnrolled(User student, String course)
+	{
+		try {
+			socketOut.println("CHECK ENROLLMENT");
+			socketOut.println(student.getID());
+			toServer.flush();
+			socketOut.println(course);
+			socketOut.flush();
+			String status = socketIn.readLine();
+			if(status.equals("t"))return true;
+		}
+		catch(IOException e)
+		{
+
+		}
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public User searchUser(String search, int type) {
 		if(type == 0) {

@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -23,8 +22,8 @@ public class DBManager {
 	public String userDataFile = "users.txt";
 
 	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB?autoReconnect=true&useSSL=false",
-	  			  login          = "Matt",
-	  			  password       = "62uv$^^grh";
+	  			  login          = "root",
+	  			  password       = "Thirteen13!";
 	
 	public DBManager() {
 		try{
@@ -298,7 +297,8 @@ public class DBManager {
 			{
 				results.add(new Assignment(assign.getInt("ID"),
 									 assign.getString("TITLE"),
-									 assign.getString("DUE_DATE")));						  	 
+									 assign.getString("DUE_DATE"),
+									 assign.getBoolean("ACTIVE")));	
 			}
 			return results;
 
@@ -492,6 +492,27 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean checkStudentEnrollment(int studentID, String courseName)
+	{
+		int courseID = getCourseID(courseName);
+		String sql = "SELECT 1 FROM " + studentEnrollmentTable +
+				" WHERE STUDENT_ID=?" + " and COURSE_ID=?";
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, studentID);
+			pStatement.setInt(2, courseID);
+			ResultSet enrolled = pStatement.executeQuery();
+			
+			if(!enrolled.isBeforeFirst())return false;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
 	public void createSubmissionTable() {

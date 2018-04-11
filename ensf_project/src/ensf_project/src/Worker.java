@@ -49,7 +49,6 @@ public class Worker implements Runnable {
 			while(true) {
 				try {
 					String input = socketIn.readLine();
-					System.out.println(input);
 					//Searching for User By ID
 					if(input.startsWith("SEARCH USER ID")) {
 						int id = Integer.parseInt(socketIn.readLine());
@@ -61,7 +60,6 @@ public class Worker implements Runnable {
 					else if(input.startsWith("ADD COURSE"))
 					{
 						Course course = (Course)objectIn.readObject();
-						System.out.println("adding " + course.getName());
 						db.addCourse(course);
 					}
 					
@@ -131,6 +129,15 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.searchStudentByName(LastName));
 						objectOut.flush();
 					}
+					else if(input.startsWith("CHECK ENROLLMENT"))
+					{
+						int studentID = Integer.parseInt(socketIn.readLine());
+						String course = socketIn.readLine();
+						boolean status = db.checkStudentEnrollment(studentID, course);
+						if(status)socketOut.println("t");
+						else socketOut.println("f");
+						socketOut.flush();
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -150,7 +157,7 @@ public class Worker implements Runnable {
 		BufferedOutputStream bos = new BufferedOutputStream(writer);
 		bos.write(content);
 		bos.close();
-		Assignment a = new Assignment(courseID, name, "Jan 22, 11:59");
+		Assignment a = new Assignment(courseID, name, "Jan 22, 11:59", true);
 		a.setPath(path);
 		db.addAssignment(a);
 	}

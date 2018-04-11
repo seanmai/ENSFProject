@@ -14,10 +14,10 @@ public class Assignment implements Serializable{
 	private boolean active;
 	private String dueDate;
 	
-	public Assignment(int courseID, String title, String dueDate){
+	public Assignment(int courseID, String title, String dueDate, boolean active){
 		this.courseID = courseID;
 		this.title = title;
-		active = true;
+		this.active = active;
 		this.dueDate = dueDate;
 	}
 	
@@ -49,5 +49,13 @@ public class Assignment implements Serializable{
 	public String getDueDate()
 	{
 		return dueDate;
+	}
+	
+	public String toString()
+	{
+		String s = title;
+		if(active)s += "   (active)";
+		s += "  DUE: " + dueDate;
+		return s;
 	}
 }

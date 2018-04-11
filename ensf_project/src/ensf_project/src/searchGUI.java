@@ -16,7 +16,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 
-public class searchGUI extends JFrame {
+public class SearchGUI extends JFrame {
 
 	private JPanel contentPane;
 	JTextField searchText;
@@ -36,7 +36,7 @@ public class searchGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public searchGUI() {
+	public SearchGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 216);
 		contentPane = new JPanel();

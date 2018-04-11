@@ -1,30 +1,20 @@
 package ensf_project.src;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.AbstractListModel;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 
-import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Vector;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
 import javax.swing.JPanel;
 
 public class CourseGUI {
@@ -43,15 +33,18 @@ public class CourseGUI {
 	JButton back;
 	JButton search;
 	ButtonGroup buttonGroup;
-	DefaultListModel<String> model;
+	DefaultListModel model;
 	JList list;
 	
-	String courseName;
+	JPanel lowerRight;
+	JPanel upperRight;
+	
+	Course course;
 	/**
 	 * Create the application.
 	 */
-	public CourseGUI(String course) {
-		this.courseName = course;
+	public CourseGUI(Course course) {
+		this.course = course;
 		createFrame();
 	}
 	
@@ -85,11 +78,17 @@ public class CourseGUI {
 		list.setBounds(23, 35, 259, 349);
 		frmCourseOptions.getContentPane().add(list);
 		
-		scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 35, 293, 365);
 		frmCourseOptions.getContentPane().add(scrollPane);
 		
 		rdbtnStudents = new JRadioButton("Students");
+		rdbtnStudents.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setStudentButtons();
+				
+			}
+		});
 		rdbtnStudents.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnStudents.setSelected(true);
 		rdbtnStudents.setBackground(new Color(153, 204, 204));
@@ -98,72 +97,124 @@ public class CourseGUI {
 		frmCourseOptions.getContentPane().add(rdbtnStudents);
 		
 		rdbtnAssignments = new JRadioButton("Assignments");
+		rdbtnAssignments.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setAssignButtons();
+			}
+		});
 		rdbtnAssignments.setFont(new Font("Dialog", Font.PLAIN, 13));
 		rdbtnAssignments.setBackground(new Color(153, 204, 204));
 		buttonGroup.add(rdbtnAssignments);
 		rdbtnAssignments.setBounds(154, 405, 109, 23);
 		frmCourseOptions.getContentPane().add(rdbtnAssignments);
 		
-		enroll = new JButton("Enroll");
-		enroll.setFont(new Font("Dialog", Font.PLAIN, 13));
-		enroll.setBounds(393, 59, 89, 23);
-		frmCourseOptions.getContentPane().add(enroll);
-		
-		unenroll = new JButton("Unenroll");
-		unenroll.setFont(new Font("Dialog", Font.PLAIN, 13));
-		unenroll.setBounds(393, 93, 89, 23);
-		frmCourseOptions.getContentPane().add(unenroll);
-		
-		uploadAssignment = new JButton("Upload Assignment");
-		uploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
-		uploadAssignment.setBounds(354, 317, 176, 23);
-		frmCourseOptions.getContentPane().add(uploadAssignment);
-		
-		email = new JButton("Email");
-		email.setFont(new Font("Dialog", Font.PLAIN, 13));
-		email.setBounds(393, 127, 89, 23);
-		frmCourseOptions.getContentPane().add(email);
-		
-		grade = new JButton("Grade");
-		grade.setFont(new Font("Dialog", Font.PLAIN, 13));
-		grade.setBounds(393, 161, 89, 23);
-		frmCourseOptions.getContentPane().add(grade);
-		
-		activateAssignment = new JButton("Activate Assignment");
-		activateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
-		activateAssignment.setBounds(354, 241, 176, 23);
-		frmCourseOptions.getContentPane().add(activateAssignment);
-		
-		deactivateAssignment = new JButton("Deactivate Assignment");
-		deactivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
-		deactivateAssignment.setBounds(354, 279, 176, 23);
-		frmCourseOptions.getContentPane().add(deactivateAssignment);
-		
-		search = new JButton("Search");
-		search.setFont(new Font("Dialog", Font.PLAIN, 13));
-		search.setBounds(339, 393, 89, 23);
-		frmCourseOptions.getContentPane().add(search);
-		
 		back = new JButton("Back");
 		back.setFont(new Font("Dialog", Font.PLAIN, 13));
 		back.setBounds(453, 393, 89, 23);
 		frmCourseOptions.getContentPane().add(back);
 		
-		
-		//Aesthetic Pieces
-		JPanel upperRight = new JPanel();
+		upperRight = new JPanel();
 		upperRight.setBackground(new Color(204, 255, 255));
 		upperRight.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		upperRight.setBounds(339, 215, 203, 153);
+		upperRight.setBounds(339, 140, 203, 153);
+		
+		formatButtons();
+		setStudentButtons();
+	}
+	
+	public void formatButtons()
+	{
+		grade = new JButton("Grade");
+		grade.setFont(new Font("Dialog", Font.PLAIN, 13));
+		grade.setBounds(393, 161, 89, 23);
+		
+		activateAssignment = new JButton("Activate Assignment");
+		activateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
+		activateAssignment.setBounds(354, 241, 176, 23);
+		
+		deactivateAssignment = new JButton("Deactivate Assignment");
+		deactivateAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
+		deactivateAssignment.setBounds(354, 279, 176, 23);
+		
+		uploadAssignment = new JButton("Upload Assignment");
+		uploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
+		uploadAssignment.setBounds(354, 317, 176, 23);
+		
+		enroll = new JButton("Enroll");
+		enroll.setFont(new Font("Dialog", Font.PLAIN, 13));
+		enroll.setBounds(393, 59, 89, 23);
+		
+		unenroll = new JButton("Unenroll");
+		unenroll.setFont(new Font("Dialog", Font.PLAIN, 13));
+		unenroll.setBounds(393, 93, 89, 23);
+		
+		email = new JButton("Email");
+		email.setFont(new Font("Dialog", Font.PLAIN, 13));
+		email.setBounds(393, 127, 89, 23);
+		
+		search = new JButton("Search");
+		search.setFont(new Font("Dialog", Font.PLAIN, 13));
+		search.setBounds(339, 393, 89, 23);
+	}
+	
+	public void setAssignButtons()
+	{
+//		lowerRight = new JPanel();
+//		lowerRight.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+//		lowerRight.setBackground(new Color(204, 255, 255));
+//		lowerRight.setBounds(371, 41, 135, 163);
+//		lowerRight.setBounds(371, 140, 135, 163);
+		upperRight.removeAll();
+	
+		upperRight.add(grade);
+		//frmCourseOptions.getContentPane().add(grade);
+		
+		upperRight.add(activateAssignment);
+		//frmCourseOptions.getContentPane().add(activateAssignment);
+	
+		upperRight.add(deactivateAssignment);
+		//frmCourseOptions.getContentPane().add(deactivateAssignment);
+	
+		upperRight.add(uploadAssignment);
+		//frmCourseOptions.getContentPane().add(uploadAssignment);
+		
+		frmCourseOptions.revalidate();
+		frmCourseOptions.repaint();
+	}
+	
+	public void setStudentButtons()
+	{	
+		upperRight.removeAll();
+
+		upperRight.add(enroll);
+		//frmCourseOptions.getContentPane().add(enroll);
+
+		upperRight.add(unenroll);
+		//frmCourseOptions.getContentPane().add(unenroll);
+	
+		upperRight.add(email);
+		//frmCourseOptions.getContentPane().add(email);
+	
+		upperRight.add(search);
+		//frmCourseOptions.getContentPane().add(search);
+		
 		frmCourseOptions.getContentPane().add(upperRight);
 		
-		JPanel lowerRight = new JPanel();
-		lowerRight.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
-		lowerRight.setBackground(new Color(204, 255, 255));
-		lowerRight.setBounds(371, 41, 135, 163);
-		frmCourseOptions.getContentPane().add(lowerRight);
+		frmCourseOptions.revalidate();
+		frmCourseOptions.repaint();
+	}
+	
+	public Course getCourse()
+	{
+		return course;
+	}
+	
+	public static void main(String[] args)
+	{
+		CourseGUI g = new CourseGUI(new Course(0, null, false));
+		g.frmCourseOptions.setVisible(true);
 	}
 }
-	
 
 

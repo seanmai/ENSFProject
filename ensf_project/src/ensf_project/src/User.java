@@ -50,4 +50,9 @@ public class User implements Serializable{
 	public boolean correctPassword(String input) {
 		return password.equals(input);
 	}
+	
+	public String toString()
+	{
+		return (id + " " + firstName + " " + lastName);
+	}
 }

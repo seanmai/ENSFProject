@@ -28,4 +28,11 @@ public class Course implements Serializable{
 	public String getName() {
 		return name;
 	}
+	
+	public String toString()
+	{
+		String s = name;
+		if(active)s += "   (active)";
+		return s;
+	}
 }
