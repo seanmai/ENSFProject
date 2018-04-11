@@ -442,6 +442,26 @@ public class DBManager {
 		return null;
 	}
 	
+	public Course searchCourseByID(int courseID) {
+		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, courseID);
+			ResultSet course = pStatement.executeQuery();
+			if(course.next())
+			{
+				return new Course(
+						course.getInt("ID"),
+						course.getInt("PROF_ID"),
+						course.getString("NAME"),
+						course.getBoolean("ACTIVE"));							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public void createStudentEnrollmentTable() {
 		String sql = "CREATE TABLE " + studentEnrollmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -457,6 +477,25 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	
+	public Vector <Course> getEnrolledCourses(int studentID) {
+		String sql = "SELECT * FROM " + studentEnrollmentTable + " WHERE STUDENT_ID= ?";
+		Vector <Course> results = new Vector <Course>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, studentID);
+			ResultSet courses = pStatement.executeQuery();
+			while(courses.next())
+			{
+				results.add(searchCourseByID(courses.getInt("COURSE_ID")));
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;		
 	}
 	
 	public void addStudentEnrollment(int studentID, String courseName) {
