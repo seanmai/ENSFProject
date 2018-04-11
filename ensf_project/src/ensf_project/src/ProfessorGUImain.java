@@ -296,8 +296,6 @@ public class ProfessorGUImain {
 			if(list.getSelectedValue()!= null)
 			{
 				Course c = (Course)list.getSelectedValue();
-//				if(s.contains("   (active)"))
-//					s = s.replace("   (active)", "");
 				courseGUI = new CourseGUI(c);
 
 				frameHolder.setVisible(false);

@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 public class StudentCourseGUI {
 
-	private JFrame frmCourseOptions;
+	JFrame frmCourseOptions;
 	JScrollPane scrollPane;
 	JButton email;
 	JButton grade;
@@ -22,7 +22,7 @@ public class StudentCourseGUI {
 	DefaultListModel<String> model;
 	JList list;
 	
-	String courseName;
+	Course course;
 	
 	/**
 	 * @return Create Course GUI Frame
@@ -34,8 +34,8 @@ public class StudentCourseGUI {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public StudentCourseGUI(String course) {
-		this.courseName = course;
+	public StudentCourseGUI(Course course) {
+		this.course = course;
 		frmCourseOptions = new JFrame();
 		frmCourseOptions.setTitle("Course Options");
 		frmCourseOptions.getContentPane().setBackground(new Color(153, 204, 204));
@@ -72,7 +72,7 @@ public class StudentCourseGUI {
 		
 		
 		//Aesthetic Pieces
-		JLabel lblAssignments = new JLabel(this.courseName + " Assignments");
+		JLabel lblAssignments = new JLabel(this.course.getName() + " Assignments");
 		lblAssignments.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblAssignments.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAssignments.setBounds(10, 17, 255, 23);
@@ -91,5 +91,11 @@ public class StudentCourseGUI {
 		btnUploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnUploadAssignment.setBounds(10, 65, 145, 23);
 		lowerRight.add(btnUploadAssignment);
+	}
+	
+	public static void main(String[] args)
+	{
+		StudentCourseGUI s = new StudentCourseGUI(new Course(0, 0, null, false));
+		s.frmCourseOptions.setVisible(true);
 	}
 }

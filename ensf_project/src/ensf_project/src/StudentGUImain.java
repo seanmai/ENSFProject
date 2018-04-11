@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+
+import ensf_project.src.ProfessorGUImain.ButtonPress;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -18,8 +21,10 @@ public class StudentGUImain {
 	private JFrame frameHolder;
 	private JFrame frmStudent;
 	JList list;
-	JButton ViewCourse;
-	JButton Exit;
+	JButton viewCourse;
+	JButton exit;
+	
+	private StudentCourseGUI courseGUI;
 	
 	private User stud;
 	private Client client;
@@ -52,14 +57,19 @@ public class StudentGUImain {
 		list.setBounds(10, 35, 215, 263);
 		frmStudent.getContentPane().add(list);
 		
-		ViewCourse = new JButton("View Course");
-		ViewCourse.setFont(new Font("Dialog", Font.PLAIN, 13));
-		ViewCourse.setBounds(268, 147, 116, 27);
-		frmStudent.getContentPane().add(ViewCourse);
+		viewCourse = new JButton("View Course");
+		viewCourse.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				studentCourseGUIsetup();
+			}
+		});
+		viewCourse.setFont(new Font("Dialog", Font.PLAIN, 13));
+		viewCourse.setBounds(268, 147, 116, 27);
+		frmStudent.getContentPane().add(viewCourse);
 		
-		Exit = new JButton("Exit");
-		Exit.setBounds(284, 252, 89, 23);
-		frmStudent.getContentPane().add(Exit);
+		exit = new JButton("Exit");
+		exit.setBounds(284, 252, 89, 23);
+		frmStudent.getContentPane().add(exit);
 		
 		
 		//Aesthetic Pieces
@@ -89,6 +99,36 @@ public class StudentGUImain {
 		frmStudent.getContentPane().add(NameLabel);
 		
 		return frmStudent;
+	}
+	
+	private void studentCourseGUIsetup() {
+		if(list.getSelectedValue()!= null)
+		{
+			Course c = (Course)list.getSelectedValue();
+
+			courseGUI = new StudentCourseGUI(c);
+
+			frameHolder.setVisible(false);
+			frameHolder = courseGUI.returnFrame();
+//			frameHolder.setVisible(true);
+//
+//			//Initializing Scroll List with Students
+//			setAssignmentScroll();
+//			courseGUI.list.setModel(courseGUI.model);
+//
+//			courseGUI.rdbtnAssignments.addActionListener(new ButtonPress());
+//			courseGUI.rdbtnStudents.addActionListener(new ButtonPress());
+//			courseGUI.enroll.addActionListener(new ButtonPress());
+//			courseGUI.unenroll.addActionListener(new ButtonPress());
+//			courseGUI.uploadAssignment.addActionListener(new ButtonPress());
+//			courseGUI.email.addActionListener(new ButtonPress());
+//			courseGUI.grade.addActionListener(new ButtonPress());
+//			courseGUI.activateAssignment.addActionListener(new ButtonPress());
+//			courseGUI.deactivateAssignment.addActionListener(new ButtonPress());
+//			courseGUI.back.addActionListener(new ButtonPress());
+//			courseGUI.search.addActionListener(new ButtonPress());
+		}
+		
 	}
 
 }
