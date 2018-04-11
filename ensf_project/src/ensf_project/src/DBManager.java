@@ -410,9 +410,10 @@ public class DBManager {
 			ResultSet courses = pStatement.executeQuery();
 			while(courses.next())
 			{
-				results.add(new Course(courses.getInt("PROF_ID"),
-							  	 courses.getString("NAME"),
-							  	 courses.getBoolean("ACTIVE")));
+				results.add(new Course(courses.getInt("ID"),
+						courses.getInt("PROF_ID"),
+						courses.getString("NAME"),
+						courses.getBoolean("ACTIVE")));
 			}
 			return results;
 
@@ -429,9 +430,11 @@ public class DBManager {
 			ResultSet course = pStatement.executeQuery();
 			if(course.next())
 			{
-				return new Course(course.getInt("PROF_ID"),
-					  	 		  course.getString("NAME"),
-					  	 		  course.getBoolean("ACTIVE"));							  	 
+				return new Course(
+						course.getInt("ID"),
+						course.getInt("PROF_ID"),
+						course.getString("NAME"),
+						course.getBoolean("ACTIVE"));							  	 
 			}
 
 		} catch (SQLException e) { e.printStackTrace(); }

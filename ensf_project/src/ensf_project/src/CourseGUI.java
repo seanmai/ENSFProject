@@ -5,12 +5,16 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
+
 import javax.swing.JRadioButton;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -86,7 +90,6 @@ public class CourseGUI {
 		rdbtnStudents.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				setStudentButtons();
-				
 			}
 		});
 		rdbtnStudents.setFont(new Font("Dialog", Font.PLAIN, 13));
@@ -114,6 +117,7 @@ public class CourseGUI {
 		frmCourseOptions.getContentPane().add(back);
 		
 		upperRight = new JPanel();
+		upperRight.setLayout(new GridLayout(4, 1));
 		upperRight.setBackground(new Color(204, 255, 255));
 		upperRight.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		upperRight.setBounds(339, 215, 203, 153);
@@ -143,19 +147,19 @@ public class CourseGUI {
 		
 		enroll = new JButton("Enroll");
 		enroll.setFont(new Font("Dialog", Font.PLAIN, 13));
-		enroll.setBounds(393, 59, 89, 23);
+		enroll.setBounds(58, 13, 86, 27);
 		
 		unenroll = new JButton("Unenroll");
 		unenroll.setFont(new Font("Dialog", Font.PLAIN, 13));
-		unenroll.setBounds(393, 93, 89, 23);
+		unenroll.setBounds(58, 44, 86, 27);
 		
 		email = new JButton("Email");
 		email.setFont(new Font("Dialog", Font.PLAIN, 13));
-		email.setBounds(393, 127, 89, 23);
+		email.setBounds(58, 113, 86, 27);
 		
 		search = new JButton("Search");
 		search.setFont(new Font("Dialog", Font.PLAIN, 13));
-		search.setBounds(339, 393, 89, 23);
+		search.setBounds(58, 84, 86, 27);
 	}
 	
 	public void setAssignButtons()
@@ -166,6 +170,7 @@ public class CourseGUI {
 //		lowerRight.setBounds(371, 41, 135, 163);
 //		lowerRight.setBounds(371, 140, 135, 163);
 		upperRight.removeAll();
+		//upperRight.setLayout(null);
 	
 		upperRight.add(grade);
 		//frmCourseOptions.getContentPane().add(grade);
@@ -186,6 +191,7 @@ public class CourseGUI {
 	public void setStudentButtons()
 	{	
 		upperRight.removeAll();
+		//upperRight.setLayout(null);
 
 		upperRight.add(enroll);
 		//frmCourseOptions.getContentPane().add(enroll);
@@ -212,7 +218,7 @@ public class CourseGUI {
 	
 	public static void main(String[] args)
 	{
-		CourseGUI g = new CourseGUI(new Course(0, null, false));
+		CourseGUI g = new CourseGUI(new Course(0, 0, null, false));
 		g.frmCourseOptions.setVisible(true);
 	}
 }

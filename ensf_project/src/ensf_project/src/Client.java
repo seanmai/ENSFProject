@@ -100,7 +100,7 @@ public class Client {
 			socketOut.flush();
 	}
 
-	public void upload(String course)
+	public void upload(Course course)
 	{
 		File selectedFile = null;
 		JFileChooser fileBrowser = new JFileChooser();
@@ -114,9 +114,11 @@ public class Client {
 		FileInputStream fis = new FileInputStream(selectedFile);
 		BufferedInputStream bos = new BufferedInputStream(fis);
 		bos.read(content, 0, (int)length);
+		String dueDate = getDueDate();
+		
 		sendFile(content);
-		socketOut.println(selectedFile.getName());
-		socketOut.println(course);
+		toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
+		
 		//client.getSocketOut().println(new Assignment());
 		socketOut.flush();
 		System.out.println(selectedFile.getAbsolutePath());
@@ -126,6 +128,12 @@ public class Client {
 		} catch(IOException e){
 		e.printStackTrace();
 		}	
+	}
+	
+	public String getDueDate()
+	{
+		//TO DO
+		return null;
 	}
 
 	public void studentEnrollment(String student, String courseName, String s)

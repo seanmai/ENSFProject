@@ -7,14 +7,16 @@ public class Course implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private int profID;
 	private boolean active;
 	private String name;
 	
-	public Course(int profID, String name, boolean a) {
+	public Course(int id, int profID, String name, boolean a) {
 		this.profID = profID;
 		this.name = name;
 		active = a;
+		this.id = id;
 	}
 		
 	public int getProfID() {
@@ -27,6 +29,11 @@ public class Course implements Serializable{
 	
 	public String getName() {
 		return name;
+	}
+	
+	public int getID()
+	{
+		return id;
 	}
 	
 	public String toString()

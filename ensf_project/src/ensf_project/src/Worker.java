@@ -148,16 +148,16 @@ public class Worker implements Runnable {
 	{
 		byte[] content = (byte[]) objectIn.readObject();
 		String path = "C:\\Users\\Wafa\\Downloads\\";
-		String name = socketIn.readLine();
-		int courseID = db.getCourseID(socketIn.readLine());
-		File newFile = new File(path + name);
+		
+		Assignment a = (Assignment)objectIn.readObject();
+		
+		File newFile = new File(path + a.getTitle());
 		if(! newFile.exists())
 			newFile.createNewFile();
 		FileOutputStream writer = new FileOutputStream(newFile);
 		BufferedOutputStream bos = new BufferedOutputStream(writer);
 		bos.write(content);
 		bos.close();
-		Assignment a = new Assignment(courseID, name, "Jan 22, 11:59", true);
 		a.setPath(path);
 		db.addAssignment(a);
 	}

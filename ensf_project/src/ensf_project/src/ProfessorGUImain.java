@@ -188,7 +188,7 @@ public class ProfessorGUImain {
 					}
 				}
 				if(e.getSource() == courseGUI.uploadAssignment) {
-					client.upload(courseGUI.course.getName());
+					client.upload(courseGUI.getCourse());
 					setAssignmentScroll();
 				}
 				if(e.getSource() == courseGUI.email) {
@@ -281,8 +281,8 @@ public class ProfessorGUImain {
 
 				//CreateCourseGUI Create Course
 				if(e.getSource() == createCourse.create) {
-					Course c = new Course(prof.getID(), createCourse.courseName.getText(), 
-							createCourse.getValidType());
+					Course c = new Course(-1, prof.getID(), createCourse.courseName.getText(), 
+							createCourse.getValidType()); //Constructed course w/ -1 as id because did not know better
 					client.createCourse(c);
 					frameHolder.setVisible(false);
 					frameHolder = createFrame();
