@@ -69,6 +69,12 @@ public class Worker implements Runnable {
 						objectOut.writeObject(courses);
 						objectOut.flush();
 					}
+					else if(input.startsWith("GET STUD COURSE LIST")) {
+						int id = Integer.parseInt(socketIn.readLine());
+						Vector <Course> courses = db.getEnrolledCourses(id);
+						objectOut.writeObject(courses);
+						objectOut.flush();
+					}
 					else if(input.startsWith("STORE FILE")) {
 						storeFile();
 					}

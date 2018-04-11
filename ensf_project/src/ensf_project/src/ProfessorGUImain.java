@@ -343,10 +343,8 @@ public class ProfessorGUImain {
 			String s;
 			for(int i = 0; i < assignmentList.size(); i++)
 			{
-				//s = assignmentList.get(i).getTitle();
 				courseGUI.model.addElement(assignmentList.get(i));
 			}
-//			courseGUI.list.setModel(courseGUI.model);
 		}
 	}
 	

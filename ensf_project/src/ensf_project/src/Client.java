@@ -92,6 +92,24 @@ public class Client {
 		return items;
 	}
 	
+	public Vector<Course> StudentCourseList(int id) {
+		socketOut.println("GET STUD COURSE LIST");
+		socketOut.println(id);
+		socketOut.flush();
+		
+		Vector<Course>items = null;
+		
+		try {
+			items = (Vector<Course>)fromServer.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
 	public void courseStatus(String course, String s)
 	{
 			socketOut.println("CHANGE COURSE STATUS");

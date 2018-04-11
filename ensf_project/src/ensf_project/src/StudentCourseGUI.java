@@ -19,7 +19,7 @@ public class StudentCourseGUI {
 	JButton email;
 	JButton grade;
 	JButton back;
-	DefaultListModel<String> model;
+	DefaultListModel model;
 	JList list;
 	
 	Course course;
@@ -91,6 +91,11 @@ public class StudentCourseGUI {
 		btnUploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		btnUploadAssignment.setBounds(10, 65, 145, 23);
 		lowerRight.add(btnUploadAssignment);
+	}
+	
+	public Course getCourse()
+	{
+		return course;
 	}
 	
 	public static void main(String[] args)

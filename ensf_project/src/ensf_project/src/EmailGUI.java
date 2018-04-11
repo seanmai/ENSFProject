@@ -12,7 +12,7 @@ import javax.swing.JButton;
 
 public class EmailGUI {
 
-	private JFrame frmEmail;
+	JFrame frmEmail;
 	JTextArea EmailMessage;
 	JButton Send;
 	JButton Back;
@@ -65,5 +65,11 @@ public class EmailGUI {
 		lblMessage.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblMessage.setBounds(10, 0, 76, 25);
 		panel.add(lblMessage);
+	}
+	
+	public static void main(String[] args)
+	{
+		EmailGUI e = new EmailGUI();
+		e.frmEmail.setVisible(true);
 	}
 }

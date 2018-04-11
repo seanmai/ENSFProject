@@ -12,14 +12,20 @@ import ensf_project.src.ProfessorGUImain.ButtonPress;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class StudentGUImain {
 	private JFrame frameHolder;
 	private JFrame frmStudent;
+	private DefaultListModel<Course> model;
 	JList list;
 	JButton viewCourse;
 	JButton exit;
@@ -51,7 +57,11 @@ public class StudentGUImain {
 		
 		
 		//List, and Button Components
-		list = new JList();
+		model = new DefaultListModel();
+		setList();
+		list = new JList(model);
+//		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollPane.setBounds(10, 46, 293, 365);
 		list.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		list.setBackground(new Color(255, 245, 238));
 		list.setBounds(10, 35, 215, 263);
@@ -92,7 +102,7 @@ public class StudentGUImain {
 		lblNewLabel.setBounds(10, 11, 215, 22);
 		frmStudent.getContentPane().add(lblNewLabel);
 		
-		JLabel NameLabel = new JLabel("InsertNameHere");
+		JLabel NameLabel = new JLabel(stud.getFirstName());
 		NameLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
 		NameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		NameLabel.setBounds(223, 60, 211, 40);
@@ -110,25 +120,39 @@ public class StudentGUImain {
 
 			frameHolder.setVisible(false);
 			frameHolder = courseGUI.returnFrame();
-//			frameHolder.setVisible(true);
-//
-//			//Initializing Scroll List with Students
-//			setAssignmentScroll();
-//			courseGUI.list.setModel(courseGUI.model);
-//
-//			courseGUI.rdbtnAssignments.addActionListener(new ButtonPress());
-//			courseGUI.rdbtnStudents.addActionListener(new ButtonPress());
-//			courseGUI.enroll.addActionListener(new ButtonPress());
-//			courseGUI.unenroll.addActionListener(new ButtonPress());
-//			courseGUI.uploadAssignment.addActionListener(new ButtonPress());
-//			courseGUI.email.addActionListener(new ButtonPress());
-//			courseGUI.grade.addActionListener(new ButtonPress());
-//			courseGUI.activateAssignment.addActionListener(new ButtonPress());
-//			courseGUI.deactivateAssignment.addActionListener(new ButtonPress());
-//			courseGUI.back.addActionListener(new ButtonPress());
-//			courseGUI.search.addActionListener(new ButtonPress());
+			frameHolder.setVisible(true);
+
+			//Initializing Scroll List with Students
+			setAssignmentScroll();
+			courseGUI.list.setModel(courseGUI.model);
 		}
-		
+	}
+	
+	private void setAssignmentScroll()
+	{
+		courseGUI.model.removeAllElements();
+		Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
+		if(assignmentList == null)return;
+		String s;
+		for(int i = 0; i < assignmentList.size(); i++)
+		{
+			courseGUI.model.addElement(assignmentList.get(i));
+		}
+	}
+	
+	public void setList() 
+	{
+		Vector<Course> items = client.StudentCourseList(stud.getID());
+		//System.out.println("getting course list " + items.get(0));
+		model.removeAllElements();
+		if(items.get(0) == null)return;
+		String s;
+		for(int i = 0; i < items.size(); i++)
+		{
+			s = items.get(i).getName();
+			System.out.println(s);
+			model.addElement(items.get(i));
+		}
 	}
 
 }

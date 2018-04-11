@@ -443,7 +443,7 @@ public class DBManager {
 	}
 	
 	public Course searchCourseByID(int courseID) {
-		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
+		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setInt(1, courseID);
@@ -489,6 +489,8 @@ public class DBManager {
 			ResultSet courses = pStatement.executeQuery();
 			while(courses.next())
 			{
+				System.out.println(courses.getInt("COURSE_ID"));
+				System.out.println(searchCourseByID(courses.getInt("COURSE_ID")).getName());
 				results.add(searchCourseByID(courses.getInt("COURSE_ID")));
 			}
 			return results;
