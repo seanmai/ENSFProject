@@ -307,6 +307,29 @@ public class DBManager {
 		return null;
 	}
 	
+	public Vector<Assignment> getActiveAssignments(int courseID){
+		String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSE_ID= ?";
+		Vector <Assignment> results = new Vector <Assignment>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, courseID);
+			ResultSet assign = pStatement.executeQuery();
+			while(assign.next())
+			{
+				if(assign.getBoolean("ACTIVE")) {
+					results.add(new Assignment(assign.getInt("ID"),
+										 assign.getString("TITLE"),
+										 assign.getString("DUE_DATE"),
+										 assign.getBoolean("ACTIVE")));
+				}
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public int getCourseID(String courseName)
 	{
 		String sql = "SELECT * FROM " + courseTable + " WHERE NAME= ?";
@@ -351,6 +374,27 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	public double getCourseGrade(int studentID, int courseID) {
+		String sql = "SELECT * FROM " + gradeTable + " WHERE STUDENT_ID= ?" + " and COURSE_ID=?";
+		double total = 0;
+		int count = 0;
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, studentID);
+			pStatement.setInt(2, courseID);
+			ResultSet grade = pStatement.executeQuery();
+			if(grade.next())
+			{
+				total += grade.getInt("ASSIGNMENT_GRADE");
+				count++;
+			}
+			return total/count;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return total;
 	}
 	
 	public void createCourseTable() {
@@ -423,7 +467,7 @@ public class DBManager {
 	}
 	
 	public Course searchCourseByName(String name) {
-		String sql = "SELECT * FROM " + userTable + " WHERE NAME= ?";
+		String sql = "SELECT * FROM " + courseTable + " WHERE NAME= ?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			pStatement.setString(1, name);
@@ -489,9 +533,9 @@ public class DBManager {
 			ResultSet courses = pStatement.executeQuery();
 			while(courses.next())
 			{
-				System.out.println(courses.getInt("COURSE_ID"));
-				System.out.println(searchCourseByID(courses.getInt("COURSE_ID")).getName());
-				results.add(searchCourseByID(courses.getInt("COURSE_ID")));
+				if(courses.getBoolean("ACTIVE")) {
+					results.add(searchCourseByID(courses.getInt("COURSE_ID")));
+				}
 			}
 			return results;
 
@@ -579,6 +623,40 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	public void addSubmission(Submission submission) {
+		String sql = "INSERT INTO " + submissionTable +
+				" VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		int id = dbSize(submissionTable)+1;
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, id);
+			pStatement.setInt(2, submission.getAssignID());
+			pStatement.setInt(3, submission.getStudentID());
+			pStatement.setString(4, submission.getPath());
+			pStatement.setString(5, submission.getTitle());
+			pStatement.setInt(6, submission.getSubmissionGrade());
+			pStatement.setString(7, submission.getComments());
+			pStatement.setString(8, submission.getTimestamp());
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateSubmissionGrade(int submissionID, int grade) {
+		String sql = "UPDATE " + submissionTable + " SET SUBMISSION_GRADE=?" + " WHERE ID=?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, grade);
+			pStatement.setInt(2, submissionID);
+			pStatement.executeUpdate();
+		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
 	private int dbSize(String tableName) {

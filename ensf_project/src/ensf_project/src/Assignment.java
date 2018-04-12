@@ -8,6 +8,7 @@ public class Assignment implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private int courseID;
 	private String title;
 	private String path;
@@ -24,6 +25,11 @@ public class Assignment implements Serializable{
 	public void setPath(String p)
 	{
 		path = p;
+	}
+	
+	public int getID()
+	{
+		return id;
 	}
 	
 	public int getCourseID()
