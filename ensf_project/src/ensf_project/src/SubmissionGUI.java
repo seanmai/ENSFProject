@@ -92,7 +92,11 @@ public class SubmissionGUI extends JPanel {
 		lblStudentSubmissions.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentSubmissions.setBounds(29, 11, 271, 34);
 		frmSubmissions.getContentPane().add(lblStudentSubmissions);
-		
-		
+	}
+	
+	public static void main(String[] args)
+	{
+		SubmissionGUI s = new SubmissionGUI();
+		s.getFrame().setVisible(true);
 	}
 }

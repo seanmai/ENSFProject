@@ -4,10 +4,15 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+
+import ensf_project.src.StudentGUImain.CourseListener;
+
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.Vector;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -17,8 +22,9 @@ public class StudentCourseGUI {
 	JFrame frmCourseOptions;
 	JScrollPane scrollPane;
 	JButton email;
-	JButton grade;
+	JButton download;
 	JButton back;
+	JButton dropbox;
 	DefaultListModel model;
 	JList list;
 	
@@ -62,12 +68,13 @@ public class StudentCourseGUI {
 		back.setBounds(347, 282, 89, 23);
 		frmCourseOptions.getContentPane().add(back);
 		
-		grade = new JButton("View Grades");
-		grade.setBounds(31, 109, 107, 23);
-		grade.setFont(new Font("Dialog", Font.PLAIN, 13));
+		download = new JButton("Download");
+		download.setBounds(10, 109, 145, 23);
+		download.setFont(new Font("Dialog", Font.PLAIN, 13));
 		
 		email = new JButton("Email Professor");
 		email.setBounds(10, 23, 145, 23);
+		//10, 65, 145, 23
 		email.setFont(new Font("Dialog", Font.PLAIN, 13));
 		
 		
@@ -83,14 +90,14 @@ public class StudentCourseGUI {
 		lowerRight.setBackground(new Color(204, 255, 255));
 		lowerRight.setBounds(309, 74, 167, 155);
 		lowerRight.add(email);
-		lowerRight.add(grade);
+		lowerRight.add(download);
 		frmCourseOptions.getContentPane().add(lowerRight);
 		lowerRight.setLayout(null);
 		
-		JButton btnUploadAssignment = new JButton("Upload Assignment");
-		btnUploadAssignment.setFont(new Font("Dialog", Font.PLAIN, 13));
-		btnUploadAssignment.setBounds(10, 65, 145, 23);
-		lowerRight.add(btnUploadAssignment);
+		dropbox = new JButton("Open Dropbox");
+		dropbox.setFont(new Font("Dialog", Font.PLAIN, 13));
+		dropbox.setBounds(10, 65, 145, 23);
+		lowerRight.add(dropbox);
 	}
 	
 	public Course getCourse()
@@ -102,5 +109,21 @@ public class StudentCourseGUI {
 	{
 		StudentCourseGUI s = new StudentCourseGUI(new Course(0, 0, null, false));
 		s.frmCourseOptions.setVisible(true);
+	}
+	
+	public void setList(Vector<Assignment> assignmentList)
+	{
+		model.removeAllElements();
+		for(int i = 0; i < assignmentList.size(); i++)
+		{
+			model.addElement(assignmentList.get(i));
+		}
+	}
+
+	public void setListeners(CourseListener courseListener) {
+		email.addActionListener(courseListener);
+		download.addActionListener(courseListener);
+		back.addActionListener(courseListener);
+		dropbox.addActionListener(courseListener);
 	}
 }
