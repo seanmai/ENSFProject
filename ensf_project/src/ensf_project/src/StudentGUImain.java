@@ -113,7 +113,13 @@ public class StudentGUImain {
 
 			else if(e.getSource() == courseGUI.getEmail())email();
 
-			else if(e.getSource() == courseGUI.getDownload())download();
+			else if(e.getSource() == courseGUI.getDownload())
+			{
+				String name = courseGUI.getAssignment().getTitle();
+				String path = courseGUI.getAssignment().getPath();
+				System.out.println(path);
+				client.getFile(path, name);
+			}
 
 			else if(e.getSource() == courseGUI.getBack())
 			{
@@ -221,23 +227,5 @@ public class StudentGUImain {
 		popUpWindow = emailGUI.getFrame();
 		popUpWindow.setVisible(true);
 		emailGUI.setListeners(new emailListener());
-	}
-	
-	public void download()
-	{
-		Assignment a = courseGUI.getAssignment();
-		byte[] content = client.receiveAssignment(a);
-		String path = "C:\\Users\\Wafa\\Downloads\\";
-		File newFile = new File(path + a.getTitle());
-		try{
-			if(! newFile.exists())
-				newFile.createNewFile();
-			FileOutputStream writer = new FileOutputStream(newFile);
-			BufferedOutputStream bos = new BufferedOutputStream(writer);
-			bos.write(content);
-			bos.close();
-		} catch(IOException e){
-			e.printStackTrace();
-		}
 	}
 }

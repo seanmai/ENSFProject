@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
+import ensf_project.src.StudentGUImain.emailListener;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.DefaultListModel;
@@ -45,7 +48,8 @@ public class ProfessorGUImain {
 	 * Course GUI reference
 	 */
 	private CourseGUI courseGUI;
-
+	
+	private EmailGUI emailGUI;
 
 	private DateAssignerGUI dateAssign;
 
@@ -302,6 +306,19 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		public class mailListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == emailGUI.getSend()) {
+					User prof = client.getEnrolledStudentList(courseGUI.getCourse().getName());
+					Vector<String> profEmail = new Vector<String>();
+					profEmail.add(prof.getEmail());
+					
+					client.sendEmail(profEmail, emailGUI.getSubject(), emailGUI.getMessage());
+					popUpWindow.setVisible(false);
+				}
+			}
+		}
+		
 		public class SubmissionListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -326,10 +343,10 @@ public class ProfessorGUImain {
 			}
 
 			public void email() {
-				EmailGUI email = new EmailGUI();
-				popUpWindow = email.getFrame();
+				emailGUI = new EmailGUI();
+				popUpWindow = emailGUI.getFrame();
 				popUpWindow.setVisible(true);
-				
+				emailGUI.setListeners(new mailListener());
 			}
 
 			private void setStudentScroll() {

@@ -168,24 +168,14 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.searchProfByIDFromCourse(courseID));
 						objectOut.flush();
 					}
-//					else if(input.startsWith("DOWNLOAD ASSIGN"))
-//					{
-//						Assignment a = (Assignment)objectIn.readObject();
-////						path = path.split(".")[0];
-//						//System.out.println(a.getPath(), a.getTitle());
-//						byte[] file = getFile(a.getPath(), a.getTitle());
-//						objectOut.writeObject(file);
-//						objectOut.flush();
-//					}
-//					else if(input.startsWith("DOWNLOAD SUBMISSION"))
-//					{
-//						Submission s = (Submission)objectIn.readObject();
-//						String path = s.getTitle() + s.getPath();
-//						path = path.split(".")[0];
-//						byte[] file = getFile(s.getPath(), s.getTitle());
-//						objectOut.writeObject(file);
-//						objectOut.flush();
-//					}
+					else if(input.startsWith("GET FILE"))
+					{
+						String path = socketIn.readLine();
+						String name = socketIn.readLine();
+						
+						File selectedFile = new File(path, name); 
+						sendFile(selectedFile);
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -196,7 +186,7 @@ public class Worker implements Runnable {
 	public void storeFile() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
-		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files";
+		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files\\";
 		
 		Assignment a = (Assignment)objectIn.readObject();
 		
@@ -228,22 +218,21 @@ public class Worker implements Runnable {
 		s.setPath(path);
 		db.addSubmission(s);
 	}
-//	
-//	public byte[] getFile(String path, String fileName)
-//	{
-//		File selectedFile = new File(path, fileName);
-//		long length = selectedFile.length();
-//		byte[] content = new byte[(int) length]; // Converting Long to Int
-//		try {
-//		FileInputStream fis = new FileInputStream(selectedFile);
-//		BufferedInputStream bos = new BufferedInputStream(fis);
-//		bos.read(content, 0, (int)length);
-//		return content;
-//		} catch (FileNotFoundException e) {
-//		e.printStackTrace();
-//		} catch(IOException e){
-//		e.printStackTrace();
-//		}
-//		return null;
-//	}
+
+	public void sendFile(File selectedFile)
+	{
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+		try {
+			FileInputStream fis = new FileInputStream(selectedFile);
+			BufferedInputStream bos = new BufferedInputStream(fis);
+			bos.read(content, 0, (int)length);
+			objectOut.writeObject(content);
+			objectOut.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 }

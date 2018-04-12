@@ -1,21 +1,18 @@
 package ensf_project.src;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -48,18 +45,6 @@ public class Client {
 		}
 	}
 	
-	
-//	public void sendFile(byte[] content)
-//	{
-//		try {
-//			toServer.writeObject(content);
-//			toServer.flush();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
 	
 	public void upload(Course course, String dueDate)
 	{
@@ -122,44 +107,31 @@ public class Client {
 			e.printStackTrace();
 		}	
 	}
-
 	
-//	public void sendFile(byte[] content)
-//	{
-//		try {
-//			toServer.writeObject(content);
-//			toServer.flush();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	
-	public byte[] receiveAssignment(Assignment a)
+	public void getFile(String path, String name)
 	{
-			try {
-				socketOut.println("DOWNLOAD ASSIGN");
-				toServer.writeObject(a);
-				byte[] content = (byte[]) fromServer.readObject();
-				return content;
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
-			return null;
-	}
-	
-	public byte[] receiveSubmission(Submission s)
-	{
-			try {
-				socketOut.println("DOWNLOAD SUBMISSION");
-				toServer.writeObject(s);
-				byte[] content = (byte[]) fromServer.readObject();
-				return content;
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
-			return null;
+		socketOut.println("GET FILE");
+		socketOut.println(path);
+		socketOut.println(name);
+		socketOut.flush();
+		try {
+			byte[] content = (byte[]) fromServer.readObject();
+			String absolutepath = "C:\\Users\\Wafa\\Downloads\\";
+			
+			
+			File newFile = new File(absolutepath + name);
+			if(! newFile.exists())
+				newFile.createNewFile();
+			FileOutputStream writer = new FileOutputStream(newFile);
+			BufferedOutputStream bos = new BufferedOutputStream(writer);
+			bos.write(content);
+			bos.close();
+			
+			
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public User getCourseProf(int courseID) {
@@ -249,6 +221,28 @@ public class Client {
 		}
 		
 		return items;
+	}
+	
+	public Vector<User> getEnrolledStudentList(String course)
+	{
+		socketOut.println("GET COURSE STUDENTS");
+		socketOut.flush();
+		Vector<User>items = null;
+			
+		try {
+			items = (Vector<User>)fromServer.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		Vector<User> users = new Vector<User>();
+		
+		for(int i = 0; i < items.size(); i++) {
+			if(isEnrolled(items.get(i), course))
+				users.add(items.get(i));
+		}
+		
+		return users;
 	}
 	
 	public Vector<Course> StudentCourseList(int id) {

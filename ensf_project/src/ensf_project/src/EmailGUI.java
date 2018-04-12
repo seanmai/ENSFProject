@@ -7,6 +7,7 @@ import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import ensf_project.src.ProfessorGUImain.mailListener;
 import ensf_project.src.StudentGUImain.emailListener;
 
 import java.awt.Font;
@@ -78,8 +79,12 @@ public class EmailGUI {
 		panel.add(lblSubject);
 	}
 	
-	public void setListeners(emailListener listener) {
-		Send.addActionListener(listener);
+	public void setListeners(emailListener emaillistener) {
+		Send.addActionListener(emaillistener);
+	}
+	
+	public void setListeners(mailListener mailListener) {
+		Send.addActionListener(mailListener);
 	}
 	
 	public String getSubject() {
@@ -99,4 +104,5 @@ public class EmailGUI {
 		EmailGUI e = new EmailGUI();
 		e.frmEmail.setVisible(true);
 	}
+
 }
