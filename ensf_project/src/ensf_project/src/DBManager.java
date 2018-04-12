@@ -674,29 +674,29 @@ public class DBManager {
 		}	
 	}
 	
-	public void addSubmission(Submission submission) {
-		String sql = "INSERT INTO " + submissionTable +
-				" VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		int id = dbSize(submissionTable)+1;
-		
-		try{
-			pStatement = jdbc_connection.prepareStatement(sql);
-			
-			pStatement.setInt(1, id);
-			pStatement.setInt(2, submission.getAssignID());
-			pStatement.setInt(3, submission.getStudentID());
-			pStatement.setString(4, submission.getPath());
-			pStatement.setString(5, submission.getTitle());
-			pStatement.setInt(6, submission.getSubmissionGrade());
-			pStatement.setString(7, submission.getComments());
-			pStatement.setString(8, submission.getTimestamp());
-			pStatement.executeUpdate();
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-		}
-	}
+//	public void addSubmission(Submission submission) {
+//		String sql = "INSERT INTO " + submissionTable +
+//				" VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+//		int id = dbSize(submissionTable)+1;
+//		
+//		try{
+//			pStatement = jdbc_connection.prepareStatement(sql);
+//			
+//			pStatement.setInt(1, id);
+//			pStatement.setInt(2, submission.getAssignID());
+//			pStatement.setInt(3, submission.getStudentID());
+//			pStatement.setString(4, submission.getPath());
+//			pStatement.setString(5, submission.getTitle());
+//			pStatement.setInt(6, submission.getSubmissionGrade());
+//			pStatement.setString(7, submission.getComments());
+//			pStatement.setString(8, submission.getTimestamp());
+//			pStatement.executeUpdate();
+//		}
+//		catch(SQLException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public Vector<Submission> getSubmissions(int assignID) {
 		String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGN_ID= ?";
