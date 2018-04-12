@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+
+import ensf_project.src.StudentGUImain.SubmissionListener;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -16,12 +19,12 @@ import java.util.Vector;
 public class SubmissionGUI extends JPanel {
 
 	private JFrame frmSubmissions;
-	private JTextField GradeValue;
-	private JButton Download;
-	private JButton AssignGrade;
-	private JList Submissions;
+	private JTextField gradeValue;
+	private JButton download;
+	private JButton assignGrade;
+	private JList submissions;
 	private DefaultListModel<Submission> model;
-	private JButton Back;
+	private JButton back;
 	
 	
 	public JFrame getFrame() {
@@ -41,29 +44,29 @@ public class SubmissionGUI extends JPanel {
 		
 		
 		//List, TextField and Button Components
-		Submissions = new JList();
-		Submissions.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
-		Submissions.setBackground(new Color(255, 245, 238));
-		Submissions.setBounds(29, 48, 271, 310);
-		frmSubmissions.getContentPane().add(Submissions);
+		submissions = new JList();
+		submissions.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		submissions.setBackground(new Color(255, 245, 238));
+		submissions.setBounds(29, 48, 271, 310);
+		frmSubmissions.getContentPane().add(submissions);
 		
-		Download = new JButton("Download");
-		Download.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Download.setBounds(26, 23, 106, 23);
+		download = new JButton("download");
+		download.setFont(new Font("Dialog", Font.PLAIN, 13));
+		download.setBounds(26, 23, 106, 23);
 		
-		AssignGrade = new JButton("Assign Grade");
-		AssignGrade.setFont(new Font("Dialog", Font.PLAIN, 13));
-		AssignGrade.setBounds(21, 69, 111, 23);
+		assignGrade = new JButton("Assign Grade");
+		assignGrade.setFont(new Font("Dialog", Font.PLAIN, 13));
+		assignGrade.setBounds(21, 69, 111, 23);
 		
-		GradeValue = new JTextField();
-		GradeValue.setFont(new Font("DialogInput", Font.PLAIN, 13));
-		GradeValue.setBounds(77, 23, 44, 23);
-		GradeValue.setColumns(10);
+		gradeValue = new JTextField();
+		gradeValue.setFont(new Font("DialogInput", Font.PLAIN, 13));
+		gradeValue.setBounds(77, 23, 44, 23);
+		gradeValue.setColumns(10);
 		
-		Back = new JButton("Back");
-		Back.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Back.setBounds(376, 322, 89, 23);
-		frmSubmissions.getContentPane().add(Back);
+		back = new JButton("back");
+		back.setFont(new Font("Dialog", Font.PLAIN, 13));
+		back.setBounds(376, 322, 89, 23);
+		frmSubmissions.getContentPane().add(back);
 		
 		
 		//Aesthetic Pieces
@@ -71,8 +74,8 @@ public class SubmissionGUI extends JPanel {
 		panel_1.setBackground(new Color(204, 255, 255));
 		panel_1.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panel_1.setBounds(342, 174, 155, 122);
-		panel_1.add(GradeValue);
-		panel_1.add(AssignGrade);
+		panel_1.add(gradeValue);
+		panel_1.add(assignGrade);
 		frmSubmissions.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -80,7 +83,7 @@ public class SubmissionGUI extends JPanel {
 		panel.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panel.setBackground(new Color(204, 255, 255));
 		panel.setBounds(342, 77, 155, 68);
-		panel.add(Download);
+		panel.add(download);
 		frmSubmissions.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -97,6 +100,12 @@ public class SubmissionGUI extends JPanel {
 		frmSubmissions.getContentPane().add(lblStudentSubmissions);
 	}
 	
+	public void setListeners(SubmissionListener courseListener) {
+		download.addActionListener(courseListener);
+		assignGrade.addActionListener(courseListener);
+		back.addActionListener(courseListener);
+	}
+	
 	public void setList(Vector<Submission> submissionList)
 	{
 		model.removeAllElements();
@@ -104,6 +113,21 @@ public class SubmissionGUI extends JPanel {
 		{
 			model.addElement(submissionList.get(i));
 		}
+	}
+	
+	public JButton getDownload()
+	{
+		return download;
+	}
+	
+	public JButton getAssignGrade()
+	{
+		return assignGrade;
+	}
+	
+	public JButton getBack()
+	{
+		return back;
 	}
 	
 	public static void main(String[] args)
