@@ -1,16 +1,9 @@
 package ensf_project.src;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import ensf_project.src.ProfessorGUImain.ButtonPress;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -18,7 +11,6 @@ import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -112,13 +104,13 @@ public class StudentGUImain {
 	
 	public class CourseListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == courseGUI.dropbox)dropboxGUIsetup();
+			if(e.getSource() == courseGUI.getDropbox())dropboxGUIsetup();
 
-			else if(e.getSource() == courseGUI.email)email();
+			else if(e.getSource() == courseGUI.getEmail())email();
 
-			else if(e.getSource() == courseGUI.download)download();
+			else if(e.getSource() == courseGUI.getDownload())download();
 
-			else if(e.getSource() == courseGUI.back)
+			else if(e.getSource() == courseGUI.getBack())
 			{
 				frameHolder.setVisible(false);
 				frameHolder = createFrame();
@@ -129,9 +121,12 @@ public class StudentGUImain {
 	
 	public class SubmissionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			Vector<Submission> submissionList = client.getSubmissions(submissionGUI.getAssignment(), stud);
-			if(e.getSource() == submissionGUI.upload)client.uploadSubmission(submissionGUI.getAssignment(), stud);
-			else if(e.getSource() == submissionGUI.back)
+			if(e.getSource() == submissionGUI.getUpload())
+			{
+				client.uploadSubmission(submissionGUI.getAssignment(), stud);
+				setSubmissionScroll();
+			}
+			else if(e.getSource() == submissionGUI.getBack())
 			{
 				studentCourseGUIsetup();
 			}
@@ -161,7 +156,6 @@ public class StudentGUImain {
 	{
 		if(list.getSelectedValue()!= null)
 		{
-			Course c = (Course)list.getSelectedValue();
 			submissionGUI = new StudentSubmissionGUI(courseGUI.getAssignment());
 			
 			
@@ -170,6 +164,7 @@ public class StudentGUImain {
 			frameHolder.setVisible(true);
 			
 			submissionGUI.setListeners(new SubmissionListener());
+			setSubmissionScroll();
 		}
 	}
 	
@@ -178,6 +173,13 @@ public class StudentGUImain {
 		Vector<Assignment> assignmentList = client.getActiveAssignmentList(courseGUI.getCourse().getName());
 		if(assignmentList == null)return;
 		courseGUI.setList(assignmentList);
+	}
+	
+	private void setSubmissionScroll()
+	{
+		Vector<Submission> submissionList = client.getSubmissions(submissionGUI.getAssignment(), stud);
+		submissionGUI.setList(submissionList);
+		submissionGUI.setList(submissionList);
 	}
 	
 	public void setList() 
