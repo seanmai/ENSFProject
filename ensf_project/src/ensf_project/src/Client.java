@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
+
 import javax.swing.JFileChooser;
 
 public class Client {
@@ -51,6 +52,35 @@ public class Client {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void sendEmail(Vector<String> recipientEmails, String subject, String body) {
+		Properties properties = new Properties();
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "587");
+		
+		Session session = Session.getInstance(properties, 
+				new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("ensf409Project@gmail.com",  "ensf409password");
+			}
+		});
+		
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("ensf409Project@gmail.com"));
+			
+			for(int i = 0; i < recipientEmails.size(); i++) {
+				message.addRecipient(Message.RecipientType.CC, new InternetAddress(recipientEmails.get(i)));
+			}
+			
+			message.setSubject(subject);
+			message.setText(body);
+		}catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public PrintWriter getSocketOut()
