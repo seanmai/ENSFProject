@@ -26,11 +26,6 @@ public class SubmissionGUI extends JPanel {
 	private DefaultListModel<Submission> model;
 	private JButton back;
 	
-	
-	public JFrame getFrame() {
-		return frmSubmissions;
-	}
-	
 	/**
 	 * Constructor, Create the Frame.
 	 */
@@ -133,6 +128,11 @@ public class SubmissionGUI extends JPanel {
 	public static void main(String[] args)
 	{
 		SubmissionGUI s = new SubmissionGUI();
-		s.getFrame().setVisible(true);
+		s.returnFrame().setVisible(true);
+	}
+
+	public JFrame returnFrame() {
+		// TODO Auto-generated method stub
+		return frmSubmissions;
 	}
 }

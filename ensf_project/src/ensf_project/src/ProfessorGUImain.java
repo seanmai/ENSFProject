@@ -52,6 +52,8 @@ public class ProfessorGUImain {
 	private EmailGUI emailGUI;
 
 	private DateAssignerGUI dateAssign;
+	
+	private SubmissionGUI submissionGUI;
 
 	private User prof;
 	private Client client;
@@ -213,9 +215,7 @@ public class ProfessorGUImain {
 					email();
 				}
 				if(e.getSource() == courseGUI.getGrade()) {
-					//TO DO
-					//
-					//
+					submissionGUIsetup();
 				}
 				if(e.getSource() == courseGUI.getActivateAssignment()) {
 					if(courseGUI.getSelectedValue() != null) {
@@ -309,7 +309,7 @@ public class ProfessorGUImain {
 		public class mailListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == emailGUI.getSend()) {
-					User prof = client.getEnrolledStudentList(courseGUI.getCourse().getName());
+					User prof = null;//client.getEnrolledStudentList(courseGUI.getCourse().getName());
 					Vector<String> profEmail = new Vector<String>();
 					profEmail.add(prof.getEmail());
 					
@@ -339,7 +339,19 @@ public class ProfessorGUImain {
 					setStudentScroll();
 					//courseGUI.list.setModel(courseGUI.model);
 				}
-
+			}
+			
+			private void submissionGUIsetup()
+			{
+				if(list.getSelectedValue()!= null)
+				{
+					submissionGUI = new SubmissionGUI();
+					
+					frameHolder.setVisible(false);
+					frameHolder = submissionGUI.returnFrame();
+					frameHolder.setVisible(true);
+					
+				}
 			}
 
 			public void email() {
