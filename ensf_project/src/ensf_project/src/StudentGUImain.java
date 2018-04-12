@@ -159,7 +159,7 @@ public class StudentGUImain {
 		Vector<Course> items = client.StudentCourseList(stud.getID());
 		//System.out.println("getting course list " + items.get(0));
 		model.removeAllElements();
-		if(items == null)return;
+		if(items.get(0) == null)return;
 		String s;
 		for(int i = 0; i < items.size(); i++)
 		{
