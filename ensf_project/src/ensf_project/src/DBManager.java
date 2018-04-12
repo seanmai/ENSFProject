@@ -297,7 +297,6 @@ public class DBManager {
 			{
 				results.add(new Assignment(assign.getInt("ID"),
 									 assign.getInt("COURSE_ID"),
-									 assign.getString("PATH"),
 									 assign.getString("TITLE"),
 									 assign.getString("DUE_DATE"),
 									 assign.getBoolean("ACTIVE")));	
@@ -320,8 +319,6 @@ public class DBManager {
 			{
 				if(assign.getBoolean("ACTIVE")) {
 					results.add(new Assignment(assign.getInt("ID"),
-										 assign.getInt("COURSE_ID"),
-							 			 assign.getString("PATH"),
 										 assign.getString("TITLE"),
 										 assign.getString("DUE_DATE"),
 										 assign.getBoolean("ACTIVE")));
