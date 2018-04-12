@@ -5,20 +5,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.util.Vector;
 
 public class SubmissionGUI extends JPanel {
 
 	private JFrame frmSubmissions;
-	JTextField GradeValue;
-	JButton Download;
-	JButton AssignGrade;
-	JList Submissions;
-	JButton Back;
+	private JTextField GradeValue;
+	private JButton Download;
+	private JButton AssignGrade;
+	private JList Submissions;
+	private DefaultListModel<Submission> model;
+	private JButton Back;
 	
 	
 	public JFrame getFrame() {
@@ -92,6 +95,15 @@ public class SubmissionGUI extends JPanel {
 		lblStudentSubmissions.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentSubmissions.setBounds(29, 11, 271, 34);
 		frmSubmissions.getContentPane().add(lblStudentSubmissions);
+	}
+	
+	public void setList(Vector<Submission> submissionList)
+	{
+		model.removeAllElements();
+		for(int i = 0; i < submissionList.size(); i++)
+		{
+			model.addElement(submissionList.get(i));
+		}
 	}
 	
 	public static void main(String[] args)
