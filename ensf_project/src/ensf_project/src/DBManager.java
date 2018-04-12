@@ -764,23 +764,20 @@ public class DBManager {
 	}
 	
 	private int dbSize(String tableName) {
-		int id = 0;
+		int count = 0;
 		String sql = "SELECT COUNT(*) FROM " + tableName;
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			ResultSet size = pStatement.executeQuery();
 			while(size.next())
 			{
-				if(size.getInt(1) != id) {
-					return id;
-				}
-				id++;
+				count = size.getInt(1);
 			}
 			size.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return id;
+		return count;
 	}
 	
 	
