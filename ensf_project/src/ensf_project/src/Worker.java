@@ -78,6 +78,9 @@ public class Worker implements Runnable {
 					else if(input.startsWith("STORE FILE")) {
 						storeFile();
 					}
+					else if(input.startsWith("STORE SUBMISSION")) {
+						storeSubmission();
+					}
 					else if(input.startsWith("GET COURSE STUDENTS")) {
 						objectOut.writeObject(db.getStudents());
 						objectOut.flush();
@@ -85,6 +88,12 @@ public class Worker implements Runnable {
 					else if(input.startsWith("GET ASSIGNMENTS")) {
 						String course = socketIn.readLine();
 						objectOut.writeObject(db.getAssignments(course));
+						objectOut.flush();
+					}
+					else if(input.startsWith("GET ACTIVE ASSIGNMENTS")) {
+						String course = socketIn.readLine();
+						int courseID = db.getCourseID(course);
+						objectOut.writeObject(db.getActiveAssignments(courseID));
 						objectOut.flush();
 					}
 					else if(input.startsWith("CHANGE COURSE STATUS")) {
@@ -144,6 +153,13 @@ public class Worker implements Runnable {
 						else socketOut.println("f");
 						socketOut.flush();
 					}
+					else if(input.startsWith("GET STUD SUBS"))
+					{
+						int studentID = Integer.parseInt(socketIn.readLine());
+						int assignID = Integer.parseInt(socketIn.readLine());
+						objectOut.writeObject(db.getSubmissionsByStudentID(assignID, studentID));
+						objectOut.flush();
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -166,5 +182,23 @@ public class Worker implements Runnable {
 		bos.close();
 		a.setPath(path);
 		db.addAssignment(a);
+	}
+	
+	public void storeSubmission() throws ClassNotFoundException, IOException
+	{
+		byte[] content = (byte[]) objectIn.readObject();
+		String path = "C:\\Users\\Wafa\\Downloads\\";
+		
+		Submission s = (Submission)objectIn.readObject();
+		
+		File newFile = new File(path + s.getTitle());
+		if(! newFile.exists())
+			newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
+		s.setPath(path);
+		db.addSubmission(s);
 	}
 }

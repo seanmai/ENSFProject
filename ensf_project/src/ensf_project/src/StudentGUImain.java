@@ -28,9 +28,8 @@ public class StudentGUImain {
 	private JFrame frameHolder;
 	private JFrame frmStudent;
 	private DefaultListModel<Course> model;
-	JList list;
-	JButton viewCourse;
-	JButton exit;
+	private JList list;
+	private JButton viewCourse;
 	
 	private StudentCourseGUI courseGUI;
 	private StudentSubmissionGUI submissionGUI;
@@ -80,10 +79,6 @@ public class StudentGUImain {
 		viewCourse.setBounds(268, 147, 116, 27);
 		frmStudent.getContentPane().add(viewCourse);
 		
-		exit = new JButton("Exit");
-		exit.setBounds(284, 252, 89, 23);
-		frmStudent.getContentPane().add(exit);
-		
 		
 		//Aesthetic Pieces
 		JPanel panel = new JPanel();
@@ -131,26 +126,13 @@ public class StudentGUImain {
 		}
 	}
 	
-	public class SubmissionListener implements ActionListener, ListSelectionListener{
+	public class SubmissionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == submissionGUI.submissions)submissionGUI.showGrade();
-
-			else if(e.getSource() == courseGUI.email)email();
-
-			else if(e.getSource() == courseGUI.download)download();
-
-			else if(e.getSource() == courseGUI.back)
+			Vector<Submission> submissionList = client.getSubmissions(submissionGUI.getAssignment(), stud);
+			if(e.getSource() == submissionGUI.upload)client.uploadSubmission(submissionGUI.getAssignment(), stud);
+			else if(e.getSource() == submissionGUI.back)
 			{
-				frameHolder.setVisible(false);
-				frameHolder = createFrame();
-				frameHolder.setVisible(true);
-			}
-		}
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			if(e.getSource() == submissionGUI.submissions)
-			{
-				if(submissionGUI.getSelectedAssign() != null)
+				studentCourseGUIsetup();
 			}
 		}
 	}
@@ -185,16 +167,14 @@ public class StudentGUImain {
 			frameHolder.setVisible(false);
 			frameHolder = submissionGUI.returnFrame();
 			frameHolder.setVisible(true);
-
-			//Initializing Scroll List with Students
-			setAssignmentScroll();
-			//courseGUI.list.setModel(courseGUI.model);
+			
+			submissionGUI.setListeners(new SubmissionListener());
 		}
 	}
 	
 	private void setAssignmentScroll()
 	{
-		Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
+		Vector<Assignment> assignmentList = client.getActiveAssignmentList(courseGUI.getCourse().getName());
 		if(assignmentList == null)return;
 		courseGUI.setList(assignmentList);
 	}

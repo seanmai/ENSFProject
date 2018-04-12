@@ -1,6 +1,8 @@
 package ensf_project.src;
 
-public class Submission {
+import java.io.Serializable;
+
+public class Submission implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int assignID;
@@ -16,6 +18,7 @@ public class Submission {
 		this.studentID = studentID;
 		this.title = title;
 		submissionGrade = 0;
+		comments = "";
 		this.timestamp = timestamp;
 	}
 	public Submission(int id, int assignID, int studentID, String path, String title, int submissionGrade, String comments, String timestamp){

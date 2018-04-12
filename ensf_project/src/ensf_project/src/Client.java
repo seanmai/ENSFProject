@@ -13,6 +13,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -39,7 +44,6 @@ public class Client {
 	public void sendFile(byte[] content)
 	{
 		try {
-			socketOut.println("STORE FILE");
 			toServer.writeObject(content);
 			toServer.flush();
 		} catch (IOException e) {
@@ -135,8 +139,41 @@ public class Client {
 			BufferedInputStream bos = new BufferedInputStream(fis);
 			bos.read(content, 0, (int)length);
 			
+			socketOut.println("STORE FILE");
 			sendFile(content);
 			toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
+
+			//client.getSocketOut().println(new Assignment());
+			socketOut.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		}	
+	}
+	
+	public void uploadSubmission(Assignment a, User s)
+	{
+		File selectedFile = null;
+		JFileChooser fileBrowser = new JFileChooser();
+		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+			selectedFile = fileBrowser.getSelectedFile();
+
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+
+		try {
+			FileInputStream fis = new FileInputStream(selectedFile);
+			BufferedInputStream bos = new BufferedInputStream(fis);
+			bos.read(content, 0, (int)length);
+			
+			socketOut.println("STORE SUBMISSION");
+			
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd HH:mm");
+			LocalDateTime now = LocalDateTime.now();
+			String timeStamp = dtf.format(now);
+			sendFile(content);
+			toServer.writeObject(new Submission(a.getID(), s.getID(), selectedFile.getName(), timeStamp));
 
 			//client.getSocketOut().println(new Assignment());
 			socketOut.flush();
@@ -195,6 +232,22 @@ public class Client {
 			return items;
 	}
 	
+	public Vector<Assignment> getActiveAssignmentList(String courseName)
+	{
+			socketOut.println("GET ACTIVE ASSIGNMENTS");
+			socketOut.println(courseName);
+			socketOut.flush();
+			Vector<Assignment>items = null;
+			
+			try {
+				items = (Vector<Assignment>)fromServer.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+
+			return items;
+	}
+	
 	public boolean isEnrolled(User student, String course)
 	{
 		try {
@@ -211,6 +264,25 @@ public class Client {
 
 		}
 		return false;
+	}
+	
+	public Vector<Submission> getSubmissions(Assignment a, User student)
+	{
+		try {
+			socketOut.println("GET STUD SUBS");
+			socketOut.println(student.getID());
+			socketOut.println(a.getID());
+			socketOut.flush();
+			return (Vector<Submission>)fromServer.readObject();
+		}
+		catch(IOException e)
+		{
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")

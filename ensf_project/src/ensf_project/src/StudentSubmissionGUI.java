@@ -3,7 +3,11 @@ package ensf_project.src;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,15 +16,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ensf_project.src.StudentGUImain.CourseListener;
+import ensf_project.src.StudentGUImain.SubmissionListener;
 
 public class StudentSubmissionGUI {
 
 	private JFrame frmSubmissions;
-	JList submissions;
+	private DefaultListModel<Submission> model;
+	private JList submissions;
 	JButton upload;
-	JTextField gradeValue;
+	private JTextField gradeValue;
 	JButton back;
 	
 	private Assignment assignment;
@@ -28,18 +36,18 @@ public class StudentSubmissionGUI {
 //	/**
 //	 * Launch the application.
 //	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					StudentSubmissionGUI window = new StudentSubmissionGUI();
-//					window.frmSubmissions.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StudentSubmissionGUI window = new StudentSubmissionGUI(new Assignment(0, 0, "a.txt", "a", false));
+					window.frmSubmissions.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
@@ -62,7 +70,19 @@ public class StudentSubmissionGUI {
 		
 		
 		//List, TextField and Button Components
-		submissions = new JList();
+		model = new DefaultListModel();
+		submissions = new JList(model);
+		submissions.addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(submissions.getSelectedValue() != null)
+				{
+					Submission s = (Submission)submissions.getSelectedValue();
+					gradeValue.setText(Integer.toString(s.getSubmissionGrade()));
+				}
+				
+			}
+		});
 		submissions.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		submissions.setBackground(new Color(255, 245, 238));
 		submissions.setBounds(29, 48, 271, 310);
@@ -107,7 +127,7 @@ public class StudentSubmissionGUI {
 		panel_1.add(lblGrade);
 		lblGrade.setHorizontalAlignment(SwingConstants.TRAILING);
 		
-		JLabel lblStudentsubmissions = new JLabel(assignment.getTitle().split(".")[0]);
+		JLabel lblStudentsubmissions = new JLabel(assignment.getTitle());
 		lblStudentsubmissions.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblStudentsubmissions.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudentsubmissions.setBounds(29, 11, 271, 34);
@@ -118,21 +138,23 @@ public class StudentSubmissionGUI {
 		// TODO Auto-generated method stub
 		return frmSubmissions;
 	}
-
-	public void showGrade() {
-		// TODO Auto-generated method stub
-		
+	
+	public Assignment getAssignment()
+	{
+		return assignment;
 	}
 	
 	public void setListeners(SubmissionListener courseListener) {
-		submissions.addListSelectionListener(courseListener);
 		upload.addActionListener(courseListener);
-		gradeValue.addActionListener(courseListener);
 		back.addActionListener(courseListener);
 	}
-
-	public Object getSelectedAssign() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void setList(Vector<Submission> submissionList)
+	{
+		model.removeAllElements();
+		for(int i = 0; i < submissionList.size(); i++)
+		{
+			model.addElement(submissionList.get(i));
+		}
 	}
 }
