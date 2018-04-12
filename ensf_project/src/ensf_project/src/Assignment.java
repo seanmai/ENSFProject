@@ -21,10 +21,17 @@ public class Assignment implements Serializable{
 		this.active = active;
 		this.dueDate = dueDate;
 	}
-	public Assignment(int id, int courseID, String title, String dueDate, boolean active){
+	public Assignment(int courseID, String title, String dueDate, boolean active){
+		this.courseID = courseID;
+		this.title = title;
+		this.active = active;
+		this.dueDate = dueDate;
+	}
+	public Assignment(int id, int courseID, String title, String path, String dueDate, boolean active){
 		this.id = id;
 		this.courseID = courseID;
 		this.title = title;
+		this.path = path;
 		this.active = active;
 		this.dueDate = dueDate;
 	}

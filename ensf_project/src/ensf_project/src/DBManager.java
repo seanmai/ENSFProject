@@ -297,6 +297,7 @@ public class DBManager {
 			{
 				results.add(new Assignment(assign.getInt("ID"),
 									 assign.getInt("COURSE_ID"),
+									 assign.getString("PATH"),
 									 assign.getString("TITLE"),
 									 assign.getString("DUE_DATE"),
 									 assign.getBoolean("ACTIVE")));	
@@ -319,6 +320,8 @@ public class DBManager {
 			{
 				if(assign.getBoolean("ACTIVE")) {
 					results.add(new Assignment(assign.getInt("ID"),
+										 assign.getInt("COURSE_ID"),
+							 			 assign.getString("PATH"),
 										 assign.getString("TITLE"),
 										 assign.getString("DUE_DATE"),
 										 assign.getBoolean("ACTIVE")));
@@ -761,20 +764,23 @@ public class DBManager {
 	}
 	
 	private int dbSize(String tableName) {
-		int count = 0;
+		int id = 0;
 		String sql = "SELECT COUNT(*) FROM " + tableName;
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
 			ResultSet size = pStatement.executeQuery();
 			while(size.next())
 			{
-				count = size.getInt(1);
+				if(size.getInt(1) != id) {
+					return id;
+				}
+				id++;
 			}
 			size.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return count;
+		return id;
 	}
 	
 	
