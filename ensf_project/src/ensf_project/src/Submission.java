@@ -18,6 +18,16 @@ public class Submission {
 		submissionGrade = 0;
 		this.timestamp = timestamp;
 	}
+	public Submission(int id, int assignID, int studentID, String path, String title, int submissionGrade, String comments, String timestamp){
+		this.id = id;
+		this.assignID = assignID;
+		this.studentID = studentID;
+		this.path = path;
+		this.title = title;
+		this.submissionGrade = submissionGrade;
+		this.comments = comments;
+		this.timestamp = timestamp;
+	}
 	
 	public void setGrade(int g) {
 		submissionGrade = g;

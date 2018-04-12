@@ -296,6 +296,7 @@ public class DBManager {
 			while(assign.next())
 			{
 				results.add(new Assignment(assign.getInt("ID"),
+									 assign.getInt("COURSE_ID"),
 									 assign.getString("TITLE"),
 									 assign.getString("DUE_DATE"),
 									 assign.getBoolean("ACTIVE")));	
@@ -374,6 +375,55 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	public void addGrade(int assignID, int studentID, int courseID, int grade) {
+		String sql = "INSERT INTO " + gradeTable +
+				" VALUES (?, ?, ?, ?, ?)";
+		int id = dbSize(gradeTable)+1;
+		
+		try{
+			pStatement = jdbc_connection.prepareStatement(sql);
+			
+			pStatement.setInt(1, id);
+			pStatement.setInt(2, assignID);
+			pStatement.setInt(3, studentID);
+			pStatement.setInt(4, courseID);
+			pStatement.setInt(5, grade);
+			pStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public int searchGrade(int assignID, int studentID) {
+		String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGN_ID= ?" + " and STUDENT_ID=?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, assignID);
+			pStatement.setInt(2, studentID);
+			ResultSet grade = pStatement.executeQuery();
+			if(grade.next())
+			{
+				return grade.getInt("ASSIGNMENT_GRADE");							  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return 0;
+	}
+	
+	public void updateGrade(int assignID, int studentID, int grade) {
+		String sql = "UPDATE " + gradeTable + " SET ASSIGNMENT_GRADE=?" + " WHERE ASSIGN_ID=?" + " and STUDENT_ID=?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, grade);
+			pStatement.setInt(2, assignID);
+			pStatement.setInt(3, studentID);
+			pStatement.executeUpdate();
+		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
 	public double getCourseGrade(int studentID, int courseID) {
@@ -522,8 +572,7 @@ public class DBManager {
 			e.printStackTrace();
 		}	
 	}
-	
-	
+		
 	public Vector <Course> getEnrolledCourses(int studentID) {
 		String sql = "SELECT * FROM " + studentEnrollmentTable + " WHERE STUDENT_ID= ?";
 		Vector <Course> results = new Vector <Course>();
@@ -647,6 +696,57 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public Vector<Submission> getSubmissions(int assignID) {
+		String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGN_ID= ?";
+		Vector <Submission> results = new Vector <Submission>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, assignID);
+			ResultSet submission = pStatement.executeQuery();
+			while(submission.next())
+			{
+				results.add(new Submission(submission.getInt("ID"),
+									 submission.getInt("ASSIGN_ID"),
+									 submission.getInt("STUDENT_ID"),
+									 submission.getString("PATH"),
+									 submission.getString("TITLE"),
+									 submission.getInt("SUBMISSION_GRADE"),
+									 submission.getString("COMMENTS"),
+									 submission.getString("TIMESTAMP")));	
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
+	public Vector<Submission> getSubmissionsByStudentID(int assignID, int studentID) {
+		String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGN_ID= ?" + " and STUDENT_ID=?";
+		Vector <Submission> results = new Vector <Submission>();
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, assignID);
+			pStatement.setInt(2, studentID);
+			ResultSet submission = pStatement.executeQuery();
+			while(submission.next())
+			{
+				results.add(new Submission(submission.getInt("ID"),
+									 submission.getInt("ASSIGN_ID"),
+									 submission.getInt("STUDENT_ID"),
+									 submission.getString("PATH"),
+									 submission.getString("TITLE"),
+									 submission.getInt("SUBMISSION_GRADE"),
+									 submission.getString("COMMENTS"),
+									 submission.getString("TIMESTAMP")));	
+			}
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
 	}
 	
 	public void updateSubmissionGrade(int submissionID, int grade) {
