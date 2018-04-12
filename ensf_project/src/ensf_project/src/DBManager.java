@@ -308,6 +308,26 @@ public class DBManager {
 		return null;
 	}
 	
+	public Assignment searchAssignmentByID(int assignID) {
+		String sql = "SELECT * FROM " + assignmentTable + " WHERE ID= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, assignID);
+			ResultSet assign = pStatement.executeQuery();
+			if(assign.next())
+			{
+				return new Assignment(assign.getInt("ID"),
+									  assign.getInt("COURSE_ID"),
+									  assign.getString("TITLE"),
+									  assign.getString("DUE_DATE"),
+									  assign.getBoolean("ACTIVE"));						  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
+	}
+	
 	public Vector<Assignment> getActiveAssignments(int courseID){
 		String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSE_ID= ?";
 		Vector <Assignment> results = new Vector <Assignment>();
@@ -697,6 +717,29 @@ public class DBManager {
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public Submission searchSubmissionByID(int submissionID) {
+		String sql = "SELECT * FROM " + assignmentTable + " WHERE ID= ?";
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, submissionID);
+			ResultSet submission = pStatement.executeQuery();
+			if(submission.next())
+			{
+				return new Submission(submission.getInt("ID"),
+						 			  submission.getInt("ASSIGN_ID"),
+						 			  submission.getInt("STUDENT_ID"),
+						 			  submission.getString("PATH"),
+						 			  submission.getString("TITLE"),
+						 			  submission.getInt("SUBMISSION_GRADE"),
+						 			  submission.getString("COMMENTS"),
+						 			  submission.getString("TIMESTAMP"));					  	 
+			}
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;
 	}
 	
 	public Vector<Submission> getSubmissions(int assignID) {
