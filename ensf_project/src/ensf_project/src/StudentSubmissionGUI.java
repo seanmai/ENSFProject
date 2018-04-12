@@ -26,10 +26,10 @@ public class StudentSubmissionGUI {
 
 	private JFrame frmSubmissions;
 	private DefaultListModel<Submission> model;
-	private JList submissions;
-	JButton upload;
+	private JList<Submission> submissions;
+	private JButton upload;
 	private JTextField gradeValue;
-	JButton back;
+	private JButton back;
 	
 	private Assignment assignment;
 
@@ -135,7 +135,6 @@ public class StudentSubmissionGUI {
 	}
 
 	public JFrame returnFrame() {
-		// TODO Auto-generated method stub
 		return frmSubmissions;
 	}
 	
@@ -156,5 +155,15 @@ public class StudentSubmissionGUI {
 		{
 			model.addElement(submissionList.get(i));
 		}
+	}
+	
+	public JButton getUpload()
+	{
+		return upload;
+	}
+	
+	public JButton getBack()
+	{
+		return back;
 	}
 }

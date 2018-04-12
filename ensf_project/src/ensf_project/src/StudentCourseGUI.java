@@ -19,14 +19,14 @@ import javax.swing.SwingConstants;
 
 public class StudentCourseGUI {
 
-	JFrame frmCourseOptions;
-	JScrollPane scrollPane;
-	JButton email;
-	JButton download;
-	JButton back;
-	JButton dropbox;
-	DefaultListModel model;
-	JList list;
+	private JFrame frmCourseOptions;
+	private JScrollPane scrollPane;
+	private JButton email;
+	private JButton download;
+	private JButton back;
+	private JButton dropbox;
+	private DefaultListModel model;
+	private JList list;
 	
 	Course course;
 	
@@ -131,5 +131,25 @@ public class StudentCourseGUI {
 		download.addActionListener(courseListener);
 		back.addActionListener(courseListener);
 		dropbox.addActionListener(courseListener);
+	}
+	
+	public JButton getDropbox()
+	{
+		return dropbox;
+	}
+	
+	public JButton getEmail()
+	{
+		return email;
+	}
+	
+	public JButton getDownload()
+	{
+		return download;
+	}
+	
+	public JButton getBack()
+	{
+		return back;
 	}
 }
