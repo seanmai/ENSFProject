@@ -182,61 +182,59 @@ public class ProfessorGUImain {
 
 		public class profCourseListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == courseGUI.rdbtnAssignments) {
+				if(e.getSource() == courseGUI.getrdbtnAssignments()) {
 					setAssignmentScroll();
 				}
-				if(e.getSource() == courseGUI.rdbtnStudents) {
+				if(e.getSource() == courseGUI.getrdbtnStudents()) {
 					setStudentScroll();
 				}
-				if(e.getSource() == courseGUI.enroll) {
-					String student = (String)courseGUI.list.getSelectedValue();
+				if(e.getSource() == courseGUI.getEnroll()) {
+					String student = (String)courseGUI.getSelectedValue();
 					client.studentEnrollment(student, courseGUI.course.getName(), "e");
 					setStudentScroll();
 				}
-				if(e.getSource() == courseGUI.unenroll) {
-					if(courseGUI.list.getSelectedValue() != null) {
-						String student = (String)courseGUI.list.getSelectedValue();
+				if(e.getSource() == courseGUI.getUnenroll()) {
+					if(courseGUI.getSelectedValue() != null) {
+						String student = (String)courseGUI.getSelectedValue();
 						client.studentEnrollment(student, courseGUI.course.getName(), "u");
 						setStudentScroll();
 					}
 				}
-				if(e.getSource() == courseGUI.uploadAssignment) {
+				if(e.getSource() == courseGUI.getUploadAssignment()) {
 					dateAssign = new DateAssignerGUI();
-					dateAssign.setListener(new ButtonPress());
+					dateAssign.setListener(new profDateListener());
 					//client.upload(courseGUI.getCourse());
 				}
-				if(e.getSource() == courseGUI.email) {
+				if(e.getSource() == courseGUI.getEmail()) {
 					//TO DO
 					//
 					//
 				}
-				if(e.getSource() == courseGUI.grade) {
+				if(e.getSource() == courseGUI.getGrade()) {
 					//TO DO
 					//
 					//
 				}
-				if(e.getSource() == courseGUI.activateAssignment) {
-					if(courseGUI.list.getSelectedValue() != null) {
-						Assignment assignment = (Assignment)courseGUI.list.getSelectedValue();
-						//assignment = assignment.replace("   (active)", "");
+				if(e.getSource() == courseGUI.getActivateAssignment()) {
+					if(courseGUI.getSelectedValue() != null) {
+						Assignment assignment = (Assignment)courseGUI.getSelectedValue();
 						client.assignmentStatus(assignment.getTitle(), "a");
 						setAssignmentScroll();
 					}
 				}
-				if(e.getSource() == courseGUI.deactivateAssignment) {
-					if(courseGUI.list.getSelectedValue() != null) {
-						Assignment assignment = (Assignment)courseGUI.list.getSelectedValue();
-						//assignment = assignment.replace("   (active)", "");
+				if(e.getSource() == courseGUI.getDeactivateAssignment()) {
+					if(courseGUI.getSelectedValue() != null) {
+						Assignment assignment = (Assignment)courseGUI.getSelectedValue();
 						client.assignmentStatus(assignment.getTitle(), "d");
 						setAssignmentScroll();
 					}
 				}
-				if(e.getSource() == courseGUI.back) {
+				if(e.getSource() == courseGUI.getBack()) {
 					frameHolder.setVisible(false);
 					frameHolder = createFrame();
 					frameHolder.setVisible(true);
 				}
-				if(e.getSource() == courseGUI.search) {
+				if(e.getSource() == courseGUI.getSearch()) {
 					search = new SearchGUI();
 					search.setListeners(new profSearchListener());
 					popUpSearch = new JFrame();
@@ -257,15 +255,13 @@ public class ProfessorGUImain {
 						searchResult = client.searchUser(search.searchText.getText(), 0);
 					}
 					if(searchResult != null) {
-						courseGUI.model.removeAllElements();
-						courseGUI.model.addElement(searchResult.getID() + " " + searchResult.getFirstName() + " " 
-								+ searchResult.getLastName() + ",  " + searchResult.getEmail());
-						courseGUI.list.setModel(courseGUI.model);
+						courseGUI.getModel().removeAllElements();
+						courseGUI.getModel().addElement(searchResult);
 					}
 					else {
-						courseGUI.model.removeAllElements();
-						courseGUI.model.addElement("No Matching Users Found!");
-						courseGUI.list.setModel(courseGUI.model);
+						courseGUI.getModel().removeAllElements();
+						courseGUI.getModel().addElement("No Matching Users Found!");
+						//courseGUI.list.setModel(courseGUI.model);
 					}
 					popUpSearch.setVisible(false);
 				}
@@ -322,14 +318,14 @@ public class ProfessorGUImain {
 
 					//Initializing Scroll List with Students
 					setStudentScroll();
-					courseGUI.list.setModel(courseGUI.model);
+					//courseGUI.list.setModel(courseGUI.model);
 				}
 
 			}
 
 			private void setStudentScroll() {
 				Vector<User> studentList = client.getStudentList();
-				courseGUI.model.removeAllElements();
+				courseGUI.getModel().removeAllElements();
 				if(studentList == null)return;
 				for(int i = 0; i < studentList.size(); i++)
 				{
@@ -337,19 +333,19 @@ public class ProfessorGUImain {
 							+ " " + studentList.get(i).getLastName() + "   ";;
 							if(client.isEnrolled(studentList.get(i), courseGUI.getCourse().getName()))
 								info += ("		(enrolled)");
-							courseGUI.model.addElement(info);
+							courseGUI.getModel().addElement(info);
 				}
-				courseGUI.list.setModel(courseGUI.model);
+				//courseGUI.list.setModel(courseGUI.model);
 			}
 
 			private void setAssignmentScroll() {
-				courseGUI.model.removeAllElements();
+				courseGUI.getModel().removeAllElements();
 				Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
 				if(assignmentList == null)return;
 				String s;
 				for(int i = 0; i < assignmentList.size(); i++)
 				{
-					courseGUI.model.addElement(assignmentList.get(i));
+					courseGUI.getModel().addElement(assignmentList.get(i));
 				}
 			}
 

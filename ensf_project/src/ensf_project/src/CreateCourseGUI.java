@@ -11,6 +11,8 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import ensf_project.src.ProfessorGUImain.profCreateListener;
+
 public class CreateCourseGUI {
 
 	private JFrame frmCreateCourse;

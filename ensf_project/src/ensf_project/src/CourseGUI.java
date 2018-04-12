@@ -229,6 +229,59 @@ public class CourseGUI {
 		CourseGUI g = new CourseGUI(new Course(0, 0, null, false));
 		g.frmCourseOptions.setVisible(true);
 	}
+	
+	public JRadioButton getrdbtnAssignments() {
+		return rdbtnAssignments;
+	}
+	
+	
+	public JButton getSearch() {
+		return search;
+	}
+	
+	public JButton getBack() {
+		return back;
+	}
+	
+	public JButton getDeactivateAssignment() {
+		return deactivateAssignment;
+	}
+	
+	public JButton getActivateAssignment() {
+		return activateAssignment;
+	}
+	
+	public JButton getGrade() {
+		return grade;
+	}
+	
+	public JButton getEmail() {
+		return email;
+	}
+	
+	public JButton getEnroll() {
+		return enroll;
+	}
+
+	public  JRadioButton getrdbtnStudents() {
+		return rdbtnStudents;
+	}
+
+	public Object getSelectedValue() {
+		if(list.getSelectedValue() != null)return list.getSelectedValue();
+		return null;
+	}
+
+	public JButton getUnenroll() {
+		return unenroll;
+	}
+
+	public JButton getUploadAssignment() {
+		return uploadAssignment;
+	}
+	
+	public DefaultListModel getModel()
+	{
+		return model;
+	}
 }
-
-

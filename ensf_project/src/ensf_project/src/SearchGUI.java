@@ -1,13 +1,11 @@
 package ensf_project.src;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import ensf_project.src.ProfessorGUImain.profSearchListener;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -103,7 +101,7 @@ public class SearchGUI extends JFrame {
 	}
 	
 	public void setListeners(profSearchListener listener) {
-		back.addActionListener(new ButtonPress());
-		search.addActionListener(new ButtonPress());
+		back.addActionListener(listener);
+		search.addActionListener(listener);
 	}
 }
