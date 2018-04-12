@@ -13,11 +13,11 @@ import javax.swing.border.LineBorder;
  */
 public class LoginGUI extends JFrame{
 	
-	JFrame frame;
-	JTextField userID;
-	JPasswordField password;
-	JButton login;
-	JButton exit;
+	private JFrame frame;
+	private JTextField userID;
+	private JPasswordField password;
+	private JButton login;
+	private JButton exit;
 
 	private Client client;
 	

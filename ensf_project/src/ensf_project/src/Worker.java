@@ -13,13 +13,13 @@ import java.net.Socket;
 import java.util.Vector;
 
 public class Worker implements Runnable {
-	Socket socket;
-	BufferedReader socketIn;
-	PrintWriter socketOut;
+	private Socket socket;
+	private BufferedReader socketIn;
+	private PrintWriter socketOut;
 	
 	private ObjectOutputStream objectOut;
 	private ObjectInputStream objectIn;
-	DBManager db;
+	private DBManager db;
 	
 	public Worker(Socket socket) {
 		try {

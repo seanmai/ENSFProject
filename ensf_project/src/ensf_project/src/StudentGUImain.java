@@ -13,6 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -207,7 +210,21 @@ public class StudentGUImain {
 	
 	public void download()
 	{
-		System.out.println("download");	
+		Assignment a = courseGUI.getAssignment();
+		String path = "C:\\Users\\Wafa\\Downloads\\";
+		
+		File newFile = new File(path + a.getTitle());
+		try{
+		if(! newFile.exists())
+		newFile.createNewFile();
+		FileOutputStream writer = new FileOutputStream(newFile);
+		BufferedOutputStream bos = new BufferedOutputStream(writer);
+		bos.write(content);
+		bos.close();
+		} catch(IOException e){
+		e.printStackTrace();
+		}
+
 	}
 
 }

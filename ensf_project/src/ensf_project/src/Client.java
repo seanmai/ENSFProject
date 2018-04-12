@@ -60,6 +60,15 @@ public class Client {
 		
 	}
 	
+	public byte[] receiveFile()
+	{
+			try {
+				byte[] content = (byte[]) fromServer.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	public void sendEmail(Vector<String> recipientEmails, String subject, String body) {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.starttls.enable", "true");

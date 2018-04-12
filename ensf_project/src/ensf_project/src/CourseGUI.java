@@ -4,47 +4,38 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
-
 import ensf_project.src.ProfessorGUImain.profCourseListener;
-
 import java.awt.Color;
-import java.awt.ComponentOrientation;
-
 import javax.swing.JRadioButton;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
-
 import javax.swing.JPanel;
 
 public class CourseGUI {
 
-	JFrame frmCourseOptions;
-	JScrollPane scrollPane;
-	JRadioButton rdbtnStudents;
-	JRadioButton rdbtnAssignments;
-	JButton enroll;
-	JButton unenroll;
-	JButton uploadAssignment;
-	JButton email;
-	JButton grade;
-	JButton activateAssignment;
-	JButton deactivateAssignment;
-	JButton back;
-	JButton search;
-	ButtonGroup buttonGroup;
-	DefaultListModel model;
-	JList list;
-	
-	JPanel lowerRight;
-	JPanel upperRight;
+	private JFrame frmCourseOptions;
+	private JScrollPane scrollPane;
+	private JRadioButton rdbtnStudents;
+	private JRadioButton rdbtnAssignments;
+	private JButton enroll;
+	private JButton unenroll;
+	private JButton uploadAssignment;
+	private JButton email;
+	private JButton grade;
+	private JButton activateAssignment;
+	private JButton deactivateAssignment;
+	private JButton back;
+	private JButton search;
+	private ButtonGroup buttonGroup;
+	private DefaultListModel model;
+	private JList list;
+	private JPanel lowerRight;
+	private JPanel upperRight;
 	
 	Course course;
 	/**
