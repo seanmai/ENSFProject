@@ -18,9 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import ensf_project.src.StudentGUImain.CourseListener;
-import ensf_project.src.StudentGUImain.SubmissionListener;
+import ensf_project.src.StudentGUImain.SubmissionListenerStudent;
 
 public class StudentSubmissionGUI {
 
@@ -36,18 +35,18 @@ public class StudentSubmissionGUI {
 //	/**
 //	 * Launch the application.
 //	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StudentSubmissionGUI window = new StudentSubmissionGUI(new Assignment(0, 0, "a.txt", "a", false));
-					window.frmSubmissions.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					StudentSubmissionGUI window = new StudentSubmissionGUI(new Assignment(0, 0, "a.txt", "a", false));
+//					window.frmSubmissions.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -143,7 +142,7 @@ public class StudentSubmissionGUI {
 		return assignment;
 	}
 	
-	public void setListeners(SubmissionListener courseListener) {
+	public void setListeners(SubmissionListenerStudent courseListener) {
 		upload.addActionListener(courseListener);
 		back.addActionListener(courseListener);
 	}

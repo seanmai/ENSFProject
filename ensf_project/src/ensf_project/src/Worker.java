@@ -166,15 +166,19 @@ public class Worker implements Runnable {
 					else if(input.startsWith("DOWNLOAD ASSIGN"))
 					{
 						Assignment a = (Assignment)objectIn.readObject();
-						String path = a.getPath() + a.getTitle();
-						objectOut.writeObject(getFile(path));
+//						path = path.split(".")[0];
+						//System.out.println(a.getPath(), a.getTitle());
+						byte[] file = getFile(a.getPath(), a.getTitle());
+						objectOut.writeObject(file);
 						objectOut.flush();
 					}
 					else if(input.startsWith("DOWNLOAD SUBMISSION"))
 					{
 						Submission s = (Submission)objectIn.readObject();
-						String path = s.getPath() + s.getTitle();
-						objectOut.writeObject(getFile(path));
+						String path = s.getTitle() + s.getPath();
+						path = path.split(".")[0];
+						byte[] file = getFile(s.getPath(), s.getTitle());
+						objectOut.writeObject(file);
 						objectOut.flush();
 					}
 				} catch (IOException | ClassNotFoundException e) {
@@ -186,7 +190,7 @@ public class Worker implements Runnable {
 	public void storeFile() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
-		String path = "C:\\Users\\Wafa\\Downloads\\";
+		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files";
 		
 		Assignment a = (Assignment)objectIn.readObject();
 		
@@ -204,7 +208,7 @@ public class Worker implements Runnable {
 	public void storeSubmission() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
-		String path = "C:\\Users\\Wafa\\Downloads\\";
+		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files";
 		
 		Submission s = (Submission)objectIn.readObject();
 		
@@ -219,9 +223,9 @@ public class Worker implements Runnable {
 		db.addSubmission(s);
 	}
 	
-	public byte[] getFile(String path)
+	public byte[] getFile(String path, String fileName)
 	{
-		File selectedFile = new File(path);
+		File selectedFile = new File(path, fileName);
 		long length = selectedFile.length();
 		byte[] content = new byte[(int) length]; // Converting Long to Int
 		try {

@@ -305,6 +305,11 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		public class SubmissionListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+			}
+		}
+		
 			private void courseGUIsetup() {
 				if(list.getSelectedValue()!= null)
 				{

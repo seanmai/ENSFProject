@@ -28,7 +28,7 @@ public class LoginGUI extends JFrame{
 	public LoginGUI() {
 		client = new Client("localhost", 9909);
 		displayLogin();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(400, 300);
 		setLocationRelativeTo(null);
 		setResizable(true);

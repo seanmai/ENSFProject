@@ -123,7 +123,7 @@ public class StudentGUImain {
 		}
 	}
 	
-	public class SubmissionListener implements ActionListener{
+	public class SubmissionListenerStudent implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == submissionGUI.getUpload())
 			{
@@ -167,7 +167,7 @@ public class StudentGUImain {
 			frameHolder = submissionGUI.returnFrame();
 			frameHolder.setVisible(true);
 			
-			submissionGUI.setListeners(new SubmissionListener());
+			submissionGUI.setListeners(new SubmissionListenerStudent());
 			setSubmissionScroll();
 		}
 	}
@@ -216,14 +216,14 @@ public class StudentGUImain {
 		String path = "C:\\Users\\Wafa\\Downloads\\";
 		File newFile = new File(path + a.getTitle());
 		try{
-		if(! newFile.exists())
-		newFile.createNewFile();
-		FileOutputStream writer = new FileOutputStream(newFile);
-		BufferedOutputStream bos = new BufferedOutputStream(writer);
-		bos.write(content);
-		bos.close();
+			if(! newFile.exists())
+				newFile.createNewFile();
+			FileOutputStream writer = new FileOutputStream(newFile);
+			BufferedOutputStream bos = new BufferedOutputStream(writer);
+			bos.write(content);
+			bos.close();
 		} catch(IOException e){
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 }

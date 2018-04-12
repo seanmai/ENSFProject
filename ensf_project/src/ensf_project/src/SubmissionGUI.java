@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
 
-import ensf_project.src.StudentGUImain.SubmissionListener;
+import ensf_project.src.ProfessorGUImain.SubmissionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
