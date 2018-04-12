@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 public class StudentGUImain {
 	private JFrame frameHolder;
 	private JFrame frmStudent;
+	private JFrame popUpWindow;
 	private DefaultListModel<Course> model;
 	private JList list;
 	private JButton viewCourse;
@@ -197,7 +198,9 @@ public class StudentGUImain {
 	
 	public void email()
 	{
-		System.out.println("email");
+		EmailGUI email = new EmailGUI();
+		popUpWindow = email.getFrame();
+		popUpWindow.setVisible(true);
 	}
 	
 	public void download()
