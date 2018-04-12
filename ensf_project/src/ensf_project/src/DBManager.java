@@ -582,8 +582,9 @@ public class DBManager {
 			ResultSet courses = pStatement.executeQuery();
 			while(courses.next())
 			{
-				if(courses.getBoolean("ACTIVE")) {
-					results.add(searchCourseByID(courses.getInt("COURSE_ID")));
+				Course c = searchCourseByID(courses.getInt("COURSE_ID"));
+				if(c.isActive()) {
+					results.add(c);
 				}
 			}
 			return results;
