@@ -1,5 +1,7 @@
 package ensf_project.src;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -118,7 +120,7 @@ public class Client {
 			socketOut.flush();
 	}
 
-	public void upload(Course course)
+	public void upload(Course course, String dueDate)
 	{
 		File selectedFile = null;
 		JFileChooser fileBrowser = new JFileChooser();
@@ -127,31 +129,22 @@ public class Client {
 
 		long length = selectedFile.length();
 		byte[] content = new byte[(int) length]; // Converting Long to Int
-		
+
 		try {
-		FileInputStream fis = new FileInputStream(selectedFile);
-		BufferedInputStream bos = new BufferedInputStream(fis);
-		bos.read(content, 0, (int)length);
-		String dueDate = getDueDate();
-		
-		sendFile(content);
-		toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
-		
-		//client.getSocketOut().println(new Assignment());
-		socketOut.flush();
-		System.out.println(selectedFile.getAbsolutePath());
-		System.out.println(selectedFile.getName());
+			FileInputStream fis = new FileInputStream(selectedFile);
+			BufferedInputStream bos = new BufferedInputStream(fis);
+			bos.read(content, 0, (int)length);
+			
+			sendFile(content);
+			toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
+
+			//client.getSocketOut().println(new Assignment());
+			socketOut.flush();
 		} catch (FileNotFoundException e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		} catch(IOException e){
-		e.printStackTrace();
+			e.printStackTrace();
 		}	
-	}
-	
-	public String getDueDate()
-	{
-		//TO DO
-		return null;
 	}
 
 	public void studentEnrollment(String student, String courseName, String s)

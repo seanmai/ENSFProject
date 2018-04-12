@@ -171,8 +171,20 @@ public class StudentGUImain {
 	
 	public void dropboxGUIsetup()
 	{
-		//TO DO
-		System.out.println("dropbox");
+		if(list.getSelectedValue()!= null)
+		{
+			Course c = (Course)list.getSelectedValue();
+			
+			
+			
+			frameHolder.setVisible(false);
+			frameHolder = courseGUI.returnFrame();
+			frameHolder.setVisible(true);
+
+			//Initializing Scroll List with Students
+			setAssignmentScroll();
+			//courseGUI.list.setModel(courseGUI.model);
+		}
 	}
 	
 	public void email()
