@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ensf_project.src.ProfessorGUImain.ButtonPress;
 
@@ -31,6 +33,7 @@ public class StudentGUImain {
 	JButton exit;
 	
 	private StudentCourseGUI courseGUI;
+	private StudentSubmissionGUI submissionGUI;
 	
 	private User stud;
 	private Client client;
@@ -128,6 +131,30 @@ public class StudentGUImain {
 		}
 	}
 	
+	public class SubmissionListener implements ActionListener, ListSelectionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == submissionGUI.submissions)submissionGUI.showGrade();
+
+			else if(e.getSource() == courseGUI.email)email();
+
+			else if(e.getSource() == courseGUI.download)download();
+
+			else if(e.getSource() == courseGUI.back)
+			{
+				frameHolder.setVisible(false);
+				frameHolder = createFrame();
+				frameHolder.setVisible(true);
+			}
+		}
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if(e.getSource() == submissionGUI.submissions)
+			{
+				if(submissionGUI.getSelectedAssign() != null)
+			}
+		}
+	}
+	
 	private void studentCourseGUIsetup() {
 		if(list.getSelectedValue()!= null)
 		{
@@ -139,6 +166,24 @@ public class StudentGUImain {
 			
 			frameHolder.setVisible(false);
 			frameHolder = courseGUI.returnFrame();
+			frameHolder.setVisible(true);
+
+			//Initializing Scroll List with Students
+			setAssignmentScroll();
+			//courseGUI.list.setModel(courseGUI.model);
+		}
+	}
+	
+	public void dropboxGUIsetup()
+	{
+		if(list.getSelectedValue()!= null)
+		{
+			Course c = (Course)list.getSelectedValue();
+			submissionGUI = new StudentSubmissionGUI(courseGUI.getAssignment());
+			
+			
+			frameHolder.setVisible(false);
+			frameHolder = submissionGUI.returnFrame();
 			frameHolder.setVisible(true);
 
 			//Initializing Scroll List with Students
@@ -159,7 +204,7 @@ public class StudentGUImain {
 		Vector<Course> items = client.StudentCourseList(stud.getID());
 		//System.out.println("getting course list " + items.get(0));
 		model.removeAllElements();
-		if(items.get(0) == null)return;
+		if(items == null || items.get(0) == null)return;
 		String s;
 		for(int i = 0; i < items.size(); i++)
 		{
@@ -169,23 +214,6 @@ public class StudentGUImain {
 		}
 	}
 	
-	public void dropboxGUIsetup()
-	{
-		if(list.getSelectedValue()!= null)
-		{
-			Course c = (Course)list.getSelectedValue();
-			
-			
-			
-			frameHolder.setVisible(false);
-			frameHolder = courseGUI.returnFrame();
-			frameHolder.setVisible(true);
-
-			//Initializing Scroll List with Students
-			setAssignmentScroll();
-			//courseGUI.list.setModel(courseGUI.model);
-		}
-	}
 	
 	public void email()
 	{

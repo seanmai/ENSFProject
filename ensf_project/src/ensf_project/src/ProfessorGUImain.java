@@ -39,7 +39,7 @@ public class ProfessorGUImain {
 	/**
 	 * Search GUI reference
 	 */
-	SearchGUI search;
+	private SearchGUI search;
 
 	/**
 	 * Course GUI reference

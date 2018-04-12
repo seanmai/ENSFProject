@@ -111,6 +111,12 @@ public class StudentCourseGUI {
 		s.frmCourseOptions.setVisible(true);
 	}
 	
+	public Assignment getAssignment()
+	{
+		if(list.getSelectedValue() != null)return (Assignment)list.getSelectedValue();
+		return null;
+	}
+	
 	public void setList(Vector<Assignment> assignmentList)
 	{
 		model.removeAllElements();
