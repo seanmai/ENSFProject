@@ -10,18 +10,31 @@ import java.util.Calendar;
 import javax.swing.SpinnerListModel;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.SpinnerNumberModel;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import ensf_project.src.ProfessorGUImain.ButtonPress;
+
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.ComponentOrientation;
 
 public class DateAssignerGUI {
 
 	private JFrame frmAssignDueDate;
+	
+	private JSpinner month, day, year, hour, minute, ampm;
+	private String date;
+	JButton accept;
 
 	/**
 	 * Launch the application.
@@ -44,6 +57,7 @@ public class DateAssignerGUI {
 	 */
 	public DateAssignerGUI() {
 		initialize();
+		frmAssignDueDate.setVisible(true);
 	}
 
 	/**
@@ -57,46 +71,46 @@ public class DateAssignerGUI {
 		frmAssignDueDate.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAssignDueDate.getContentPane().setLayout(null);
 		
-		JSpinner Month = new JSpinner();
-		Month.setAutoscrolls(true);
-		Month.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Month.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Month.setModel(new SpinnerListModel(new String[] {"  January", "  February", "  March", "  April", "  May", "  June ", "  July", "  August ", "September", "October", "November", "December"}));
-		Month.setBounds(120, 57, 90, 24);
-		frmAssignDueDate.getContentPane().add(Month);
+		month = new JSpinner();
+		month.setAutoscrolls(true);
+		month.setBorder(new LineBorder(new Color(0, 0, 0)));
+		month.setFont(new Font("Dialog", Font.PLAIN, 13));
+		month.setModel(new SpinnerListModel(new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}));
+		month.setBounds(120, 57, 90, 24);
+		frmAssignDueDate.getContentPane().add(month);
 		
-		JSpinner Day = new JSpinner();
-		Day.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Day.setAutoscrolls(true);
-		Day.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Day.setModel(new SpinnerNumberModel(1, 1, 31, 1));
-		Day.setBounds(213, 57, 39, 24);
-		frmAssignDueDate.getContentPane().add(Day);
+		day = new JSpinner();
+		day.setBorder(new LineBorder(new Color(0, 0, 0)));
+		day.setAutoscrolls(true);
+		day.setFont(new Font("Dialog", Font.PLAIN, 13));
+		day.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+		day.setBounds(213, 57, 39, 24);
+		frmAssignDueDate.getContentPane().add(day);
 		
-		JSpinner Year = new JSpinner();
-		Year.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Year.setAutoscrolls(true);
-		Year.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Year.setModel(new SpinnerNumberModel(new Integer(2000), new Integer(2000), null, new Integer(1)));
-		Year.setBounds(254, 57, 73, 24);
-		frmAssignDueDate.getContentPane().add(Year);
+		year = new JSpinner();
+		year.setBorder(new LineBorder(new Color(0, 0, 0)));
+		year.setAutoscrolls(true);
+		year.setFont(new Font("Dialog", Font.PLAIN, 13));
+		year.setModel(new SpinnerNumberModel(new Integer(2000), new Integer(2000), null, new Integer(1)));
+		year.setBounds(254, 57, 73, 24);
+		frmAssignDueDate.getContentPane().add(year);
 		
-		JSpinner Hour = new JSpinner();
-		Hour.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Hour.setAutoscrolls(true);
-		Hour.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Hour.setModel(new SpinnerNumberModel(1, 1, 12, 1));
-		Hour.setBounds(120, 119, 53, 24);
-		frmAssignDueDate.getContentPane().add(Hour);
+		hour = new JSpinner();
+		hour.setBorder(new LineBorder(new Color(0, 0, 0)));
+		hour.setAutoscrolls(true);
+		hour.setFont(new Font("Dialog", Font.PLAIN, 13));
+		hour.setModel(new SpinnerNumberModel(1, 1, 12, 1));
+		hour.setBounds(120, 119, 53, 24);
+		frmAssignDueDate.getContentPane().add(hour);
 		
-		JSpinner Minute = new JSpinner();
-		Minute.setBorder(new LineBorder(new Color(0, 0, 0)));
-		Minute.setAutoscrolls(true);
-		Minute.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Minute.setBounds(187, 119, 53, 24);
-		frmAssignDueDate.getContentPane().add(Minute);
+		minute = new JSpinner();
+		minute.setBorder(new LineBorder(new Color(0, 0, 0)));
+		minute.setAutoscrolls(true);
+		minute.setFont(new Font("Dialog", Font.PLAIN, 13));
+		minute.setBounds(187, 119, 53, 24);
+		frmAssignDueDate.getContentPane().add(minute);
 		
-		JSpinner ampm = new JSpinner();
+		ampm = new JSpinner();
 		ampm.setBorder(new LineBorder(new Color(0, 0, 0)));
 		ampm.setAutoscrolls(true);
 		ampm.setModel(new SpinnerListModel(new String[] {" AM", " PM"}));
@@ -129,9 +143,34 @@ public class DateAssignerGUI {
 		label.setBounds(97, 90, 46, 19);
 		panel.add(label);
 		
-		JButton Accept = new JButton("Accept");
-		Accept.setFont(new Font("Dialog", Font.PLAIN, 13));
-		Accept.setBounds(161, 179, 102, 23);
-		frmAssignDueDate.getContentPane().add(Accept);
+		accept = new JButton("accept");
+		accept.setFont(new Font("Dialog", Font.PLAIN, 13));
+		accept.setBounds(161, 179, 102, 23);
+		frmAssignDueDate.getContentPane().add(accept);
 	}
+	
+	public void setDate()
+	{
+		date = ((String)month.getValue() + " " + day.getValue() + ", " + hour.getValue() + ":");
+		String min = minute.getValue().toString();
+		if(Integer.parseInt(min) < 10)
+			min = "0" + min;
+		date += min + ampm.getValue();
+	}
+	
+	public void setInvisible()
+	{
+		frmAssignDueDate.setVisible(false);
+	}
+	
+	public void setListener(ButtonPress b)
+	{
+		accept.addActionListener(b);
+	}
+	
+	public String getDate()
+	{
+		return date;
+	}
+	
 }

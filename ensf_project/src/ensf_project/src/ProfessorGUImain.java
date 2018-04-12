@@ -47,6 +47,7 @@ public class ProfessorGUImain {
 	private CourseGUI courseGUI;
 
 
+	private DateAssignerGUI dateAssign;
 
 	private User prof;
 	private Client client;
@@ -188,8 +189,19 @@ public class ProfessorGUImain {
 					}
 				}
 				if(e.getSource() == courseGUI.uploadAssignment) {
-					client.upload(courseGUI.getCourse());
+					dateAssign = new DateAssignerGUI();
+					dateAssign.setListener(new ButtonPress());
+					//client.upload(courseGUI.getCourse());
+				}
+				if(dateAssign != null)
+				{
+				if(e.getSource() == dateAssign.accept)
+				{
+					dateAssign.setDate();
+					dateAssign.setInvisible();
+					client.upload(courseGUI.getCourse(), dateAssign.getDate());
 					setAssignmentScroll();
+				}
 				}
 				if(e.getSource() == courseGUI.email) {
 					//TO DO

@@ -23,7 +23,7 @@ public class DBManager {
 
 	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB?autoReconnect=true&useSSL=false",
 	  			  login          = "root",
-	  			  password       = "@31aB6)*cc!";
+	  			  password       = "Thirteen13!";
 	
 	public DBManager() {
 		try{

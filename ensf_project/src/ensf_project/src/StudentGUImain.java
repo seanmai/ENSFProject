@@ -174,10 +174,8 @@ public class StudentGUImain {
 		if(list.getSelectedValue()!= null)
 		{
 			Course c = (Course)list.getSelectedValue();
-
-			courseGUI = new StudentCourseGUI(c);
-
-			courseGUI.setListeners(new CourseListener());
+			
+			
 			
 			frameHolder.setVisible(false);
 			frameHolder = courseGUI.returnFrame();
