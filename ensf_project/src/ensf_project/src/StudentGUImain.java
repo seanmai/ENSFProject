@@ -111,6 +111,23 @@ public class StudentGUImain {
 		return frmStudent;
 	}
 	
+	public class CourseListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == courseGUI.dropbox)dropboxGUIsetup();
+
+			else if(e.getSource() == courseGUI.email)email();
+
+			else if(e.getSource() == courseGUI.download)download();
+
+			else if(e.getSource() == courseGUI.back)
+			{
+				frameHolder.setVisible(false);
+				frameHolder = createFrame();
+				frameHolder.setVisible(true);
+			}
+		}
+	}
+	
 	private void studentCourseGUIsetup() {
 		if(list.getSelectedValue()!= null)
 		{
@@ -118,26 +135,23 @@ public class StudentGUImain {
 
 			courseGUI = new StudentCourseGUI(c);
 
+			courseGUI.setListeners(new CourseListener());
+			
 			frameHolder.setVisible(false);
 			frameHolder = courseGUI.returnFrame();
 			frameHolder.setVisible(true);
 
 			//Initializing Scroll List with Students
 			setAssignmentScroll();
-			courseGUI.list.setModel(courseGUI.model);
+			//courseGUI.list.setModel(courseGUI.model);
 		}
 	}
 	
 	private void setAssignmentScroll()
 	{
-		courseGUI.model.removeAllElements();
 		Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
 		if(assignmentList == null)return;
-		String s;
-		for(int i = 0; i < assignmentList.size(); i++)
-		{
-			courseGUI.model.addElement(assignmentList.get(i));
-		}
+		courseGUI.setList(assignmentList);
 	}
 	
 	public void setList() 
@@ -153,6 +167,22 @@ public class StudentGUImain {
 			System.out.println(s);
 			model.addElement(items.get(i));
 		}
+	}
+	
+	public void dropboxGUIsetup()
+	{
+		//TO DO
+		System.out.println("dropbox");
+	}
+	
+	public void email()
+	{
+		System.out.println("email");
+	}
+	
+	public void download()
+	{
+		System.out.println("download");	
 	}
 
 }
