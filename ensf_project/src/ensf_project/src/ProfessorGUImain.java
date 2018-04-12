@@ -89,7 +89,7 @@ public class ProfessorGUImain {
 
 		course = new JButton("View Course");
 		course.setFont(new Font("Dialog", Font.PLAIN, 13));
-		course.addActionListener(new ButtonPress());
+		course.addActionListener(new professorMainListener());
 
 		course.setBounds(390, 207, 126, 22);
 		frmProfessorgui.getContentPane().add(course);
@@ -98,7 +98,7 @@ public class ProfessorGUImain {
 		create.setFont(new Font("Dialog", Font.PLAIN, 13));
 		create.setBounds(390, 250, 126, 22);
 		frmProfessorgui.getContentPane().add(create);
-		create.addActionListener(new ButtonPress());
+		create.addActionListener(new professorMainListener());
 
 		activate = new JButton("Activate");
 		activate.addActionListener(new ButtonPress()); 
@@ -107,7 +107,7 @@ public class ProfessorGUImain {
 		frmProfessorgui.getContentPane().add(activate);
 
 		deactivate = new JButton("Deactivate");
-		deactivate.addActionListener(new ButtonPress());
+		deactivate.addActionListener(new professorMainListener());
 
 		deactivate.setFont(new Font("Dialog", Font.PLAIN, 13));
 		deactivate.setBounds(390, 340, 126, 22);
@@ -145,29 +145,6 @@ public class ProfessorGUImain {
 	public class ButtonPress implements ActionListener{
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
-
-			//Activates Selected Course
-			if(e.getSource() == activate) {
-				if(list.getSelectedValue() != null) {
-					Course c = (Course)list.getSelectedValue();
-					client.courseStatus(c.getName(), "t");
-					setList();
-				}
-			}
-
-			//Deactivates Selected Course
-			if(e.getSource() == deactivate) {
-				if(list.getSelectedValue() != null) {
-					Course c = (Course)list.getSelectedValue();
-					client.courseStatus(c.getName(), "f");
-					setList();
-				}
-			}
-
-			//Opens Course View GUI
-			if(e.getSource() == course) {
-				courseGUIsetup();
-			}
 
 			if(courseGUI != null) {
 				if(e.getSource() == courseGUI.rdbtnAssignments) {
@@ -303,13 +280,48 @@ public class ProfessorGUImain {
 				}
 			}
 		}
+		
+		
+		public class profMainListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				
+				//Activates Selected Course
+				if(e.getSource() == activate) {
+					if(list.getSelectedValue() != null) {
+						Course c = (Course)list.getSelectedValue();
+						client.courseStatus(c.getName(), "t");
+						setList();
+					}
+				}
 
+				//Deactivates Selected Course
+				if(e.getSource() == deactivate) {
+					if(list.getSelectedValue() != null) {
+						Course c = (Course)list.getSelectedValue();
+						client.courseStatus(c.getName(), "f");
+						setList();
+					}
+				}
+
+				//Opens Course View GUI
+				if(e.getSource() == course) {
+					courseGUIsetup();
+				}
+			}
+		}
+		
+		public class profCourseListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
 		private void courseGUIsetup() {
 			if(list.getSelectedValue()!= null)
 			{
 				Course c = (Course)list.getSelectedValue();
 				courseGUI = new CourseGUI(c);
-
+				courseGUI.setListeners(new profCourseListener());
+				
 				frameHolder.setVisible(false);
 				frameHolder = courseGUI.returnFrame();
 				frameHolder.setVisible(true);
@@ -317,18 +329,6 @@ public class ProfessorGUImain {
 				//Initializing Scroll List with Students
 				setStudentScroll();
 				courseGUI.list.setModel(courseGUI.model);
-
-				courseGUI.rdbtnAssignments.addActionListener(new ButtonPress());
-				courseGUI.rdbtnStudents.addActionListener(new ButtonPress());
-				courseGUI.enroll.addActionListener(new ButtonPress());
-				courseGUI.unenroll.addActionListener(new ButtonPress());
-				courseGUI.uploadAssignment.addActionListener(new ButtonPress());
-				courseGUI.email.addActionListener(new ButtonPress());
-				courseGUI.grade.addActionListener(new ButtonPress());
-				courseGUI.activateAssignment.addActionListener(new ButtonPress());
-				courseGUI.deactivateAssignment.addActionListener(new ButtonPress());
-				courseGUI.back.addActionListener(new ButtonPress());
-				courseGUI.search.addActionListener(new ButtonPress());
 			}
 			
 		}

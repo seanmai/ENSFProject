@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
+
+import ProfessorGUImain.ButtonPress;
+
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 
@@ -209,6 +212,20 @@ public class CourseGUI {
 		
 		frmCourseOptions.revalidate();
 		frmCourseOptions.repaint();
+	}
+	
+	public void setListeners(profCourseListener listener) {
+		rdbtnAssignments.addActionListener(listener);
+		rdbtnStudents.addActionListener(listener);
+		enroll.addActionListener(listener);
+		unenroll.addActionListener(listener);
+		uploadAssignment.addActionListener(listener);
+		email.addActionListener(listener);
+		grade.addActionListener(listener);
+		activateAssignment.addActionListener(listener);
+		deactivateAssignment.addActionListener(listener);
+		back.addActionListener(listener);
+		search.addActionListener(listener);
 	}
 	
 	public Course getCourse()
