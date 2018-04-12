@@ -142,11 +142,48 @@ public class ProfessorGUImain {
 		return frmProfessorgui;
 	}
 
-	public class ButtonPress implements ActionListener{
-		@SuppressWarnings("unchecked")
-		public void actionPerformed(ActionEvent e) {
+		public class profMainListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
 
-			if(courseGUI != null) {
+				//Activates Selected Course
+				if(e.getSource() == activate) {
+					if(list.getSelectedValue() != null) {
+						Course c = (Course)list.getSelectedValue();
+						client.courseStatus(c.getName(), "t");
+						setList();
+					}
+				}
+
+				//Deactivates Selected Course
+				if(e.getSource() == deactivate) {
+					if(list.getSelectedValue() != null) {
+						Course c = (Course)list.getSelectedValue();
+						client.courseStatus(c.getName(), "f");
+						setList();
+					}
+				}
+				
+				//Opens Create Course GUI
+				if(e.getSource() == create) {
+					createCourse = new CreateCourseGUI();
+					createCourse.create.addActionListener(new ButtonPress());
+					createCourse.back.addActionListener(new ButtonPress());
+
+					frameHolder.setVisible(false);
+					frameHolder = createCourse.returnFrame();
+					frameHolder.setVisible(true);
+				}
+				
+				//Opens Course View GUI
+				if(e.getSource() == course) {
+					courseGUIsetup();
+				}
+			}
+		}
+
+
+		public class profCourseListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == courseGUI.rdbtnAssignments) {
 					setAssignmentScroll();
 				}
@@ -169,16 +206,6 @@ public class ProfessorGUImain {
 					dateAssign = new DateAssignerGUI();
 					dateAssign.setListener(new ButtonPress());
 					//client.upload(courseGUI.getCourse());
-				}
-				if(dateAssign != null)
-				{
-					if(e.getSource() == dateAssign.accept)
-					{
-						dateAssign.setDate();
-						dateAssign.setInvisible();
-						client.upload(courseGUI.getCourse(), dateAssign.getDate());
-						setAssignmentScroll();
-					}
 				}
 				if(e.getSource() == courseGUI.email) {
 					//TO DO
@@ -220,9 +247,10 @@ public class ProfessorGUImain {
 					popUpSearch.setVisible(true);
 				}
 			}
+		}
 
-			//Search GUI Logic
-			if(search != null) {
+		public class profSearchListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == search.search) {
 					User searchResult = null;
 					if(search.buttonGroup.getSelection().equals(search.LastName.getModel())) {
@@ -248,19 +276,10 @@ public class ProfessorGUImain {
 					popUpSearch.setVisible(false);
 				}
 			}
-
-			//Opens Create Course GUI
-			if(e.getSource() == create) {
-				createCourse = new CreateCourseGUI();
-				createCourse.create.addActionListener(new ButtonPress());
-				createCourse.back.addActionListener(new ButtonPress());
-
-				frameHolder.setVisible(false);
-				frameHolder = createCourse.returnFrame();
-				frameHolder.setVisible(true);
-			}
-
-			if(createCourse != null) {
+		}
+		
+		public class profCreateListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
 				//CreateCourseGUI Back Button
 				if(e.getSource() == createCourse.back) {
 					frameHolder.setVisible(false);
@@ -280,43 +299,19 @@ public class ProfessorGUImain {
 				}
 			}
 		}
-	}
-
-		public class profMainListener implements ActionListener{
+		
+		public class profDateListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-
-				//Activates Selected Course
-				if(e.getSource() == activate) {
-					if(list.getSelectedValue() != null) {
-						Course c = (Course)list.getSelectedValue();
-						client.courseStatus(c.getName(), "t");
-						setList();
-					}
-				}
-
-				//Deactivates Selected Course
-				if(e.getSource() == deactivate) {
-					if(list.getSelectedValue() != null) {
-						Course c = (Course)list.getSelectedValue();
-						client.courseStatus(c.getName(), "f");
-						setList();
-					}
-				}
-
-				//Opens Course View GUI
-				if(e.getSource() == course) {
-					courseGUIsetup();
+				if(e.getSource() == dateAssign.accept)
+				{
+					dateAssign.setDate();
+					dateAssign.setInvisible();
+					client.upload(courseGUI.getCourse(), dateAssign.getDate());
+					setAssignmentScroll();
 				}
 			}
 		}
-
-
-		public class profCourseListener implements ActionListener{
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		}
-
+		
 			private void courseGUIsetup() {
 				if(list.getSelectedValue()!= null)
 				{
