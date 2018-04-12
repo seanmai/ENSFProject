@@ -122,12 +122,12 @@ public class ProfessorGUImain {
 
 		JLabel lblWelcome = new JLabel("Welcome");
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcome.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblWelcome.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblWelcome.setBounds(357, 49, 191, 46);
 		frmProfessorgui.getContentPane().add(lblWelcome);
 
 		JLabel lblNewLabel = new JLabel(prof.getFirstName() + " " + prof.getLastName());
-		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 14));
+		lblNewLabel.setFont(new Font("Dialog", Font.ITALIC, 16));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(335, 82, 239, 40);
 		frmProfessorgui.getContentPane().add(lblNewLabel);

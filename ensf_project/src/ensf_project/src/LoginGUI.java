@@ -108,7 +108,7 @@ public class LoginGUI extends JFrame{
 			if(user.getType().equals("P"))
 			{
 				frame.dispose();
-				ProfessorGUImain gui = new ProfessorGUImain(user, client);
+				ProfessorGUImain professorGUI = new ProfessorGUImain(user, client);
 			}
 			else if(user.getType().equals("S"))
 			{

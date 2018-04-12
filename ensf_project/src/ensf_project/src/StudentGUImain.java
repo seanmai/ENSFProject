@@ -49,11 +49,12 @@ public class StudentGUImain {
 	 * Initialize the contents of the frame.
 	 */
 	private JFrame createFrame() {
-		frmStudent = new JFrame();
+		JFrame frmStudent = new JFrame();
 		frmStudent.setTitle("Student Menu");
 		frmStudent.getContentPane().setBackground(new Color(153, 204, 204));
 		frmStudent.getContentPane().setLayout(null);
-		frmStudent.setBounds(100, 100, 600, 475);
+		frmStudent.setBounds(100, 100, 450, 360);
+		frmStudent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		//List, and Button Components
@@ -145,7 +146,7 @@ public class StudentGUImain {
 		Vector<Course> items = client.StudentCourseList(stud.getID());
 		//System.out.println("getting course list " + items.get(0));
 		model.removeAllElements();
-		if(items.get(0) == null)return;
+		if(items == null)return;
 		String s;
 		for(int i = 0; i < items.size(); i++)
 		{
