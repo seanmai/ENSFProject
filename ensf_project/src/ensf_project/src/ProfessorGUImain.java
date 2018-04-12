@@ -22,7 +22,7 @@ public class ProfessorGUImain {
 	 * Professor GUI Components
 	 */
 	private JFrame frameHolder;
-	private JFrame popUpSearch;
+	private JFrame popUpWindow;
 	private JList list;
 	private DefaultListModel<Course> model;
 	private JButton course; 
@@ -71,7 +71,7 @@ public class ProfessorGUImain {
 		frmProfessorgui.getContentPane().setForeground(SystemColor.desktop);
 		frmProfessorgui.setTitle("ProfessorGUI");
 		frmProfessorgui.setBounds(100, 100, 600, 475);
-		frmProfessorgui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProfessorgui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmProfessorgui.getContentPane().setLayout(null);
 
 
@@ -206,9 +206,7 @@ public class ProfessorGUImain {
 					//client.upload(courseGUI.getCourse());
 				}
 				if(e.getSource() == courseGUI.getEmail()) {
-					//TO DO
-					//
-					//
+					email();
 				}
 				if(e.getSource() == courseGUI.getGrade()) {
 					//TO DO
@@ -237,9 +235,8 @@ public class ProfessorGUImain {
 				if(e.getSource() == courseGUI.getSearch()) {
 					search = new SearchGUI();
 					search.setListeners(new profSearchListener());
-					popUpSearch = new JFrame();
-					popUpSearch = search.returnFrame();
-					popUpSearch.setVisible(true);
+					popUpWindow = search.returnFrame();
+					popUpWindow.setVisible(true);
 				}
 			}
 		}
@@ -263,10 +260,10 @@ public class ProfessorGUImain {
 						courseGUI.getModel().addElement("No Matching Users Found!");
 						//courseGUI.list.setModel(courseGUI.model);
 					}
-					popUpSearch.setVisible(false);
+					popUpWindow.setVisible(false);
 				}
 				if(e.getSource() == search.back) {
-					popUpSearch.setVisible(false);
+					popUpWindow.setVisible(false);
 				}
 			}
 		}
@@ -326,6 +323,13 @@ public class ProfessorGUImain {
 					//courseGUI.list.setModel(courseGUI.model);
 				}
 
+			}
+
+			public void email() {
+				EmailGUI email = new EmailGUI();
+				popUpWindow = email.getFrame();
+				popUpWindow.setVisible(true);
+				
 			}
 
 			private void setStudentScroll() {

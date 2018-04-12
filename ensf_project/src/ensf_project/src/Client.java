@@ -49,18 +49,17 @@ public class Client {
 	}
 	
 	
-	public void sendFile(byte[] content)
-	{
-		try {
-			socketOut.println("STORE FILE");
-			toServer.writeObject(content);
-			toServer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+//	public void sendFile(byte[] content)
+//	{
+//		try {
+//			toServer.writeObject(content);
+//			toServer.flush();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
 	
 	public void upload(Course course, String dueDate)
 	{
@@ -77,7 +76,9 @@ public class Client {
 			BufferedInputStream bos = new BufferedInputStream(fis);
 			bos.read(content, 0, (int)length);
 			
-			sendFile(content);
+			socketOut.println("STORE FILE");
+			toServer.writeObject(content);
+			toServer.flush();
 			toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
 
 			//client.getSocketOut().println(new Assignment());
@@ -109,7 +110,8 @@ public class Client {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd HH:mm");
 			LocalDateTime now = LocalDateTime.now();
 			String timeStamp = dtf.format(now);
-			sendFile(content);
+			toServer.writeObject(content);
+			toServer.flush();
 			toServer.writeObject(new Submission(a.getID(), s.getID(), selectedFile.getName(), timeStamp));
 
 			//client.getSocketOut().println(new Assignment());
@@ -158,6 +160,21 @@ public class Client {
 				e.printStackTrace();
 			}
 			return null;
+	}
+	
+	public User getCourseProf(int courseID) {
+		socketOut.println("SEARCH COURSE PROF");
+		socketOut.println(courseID);
+		socketOut.flush();
+		User prof = null;
+		
+		try {
+			prof = (User) fromServer.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return prof;
 	}
 	
 	public void sendEmail(Vector<String> recipientEmails, String subject, String body) {

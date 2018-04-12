@@ -64,7 +64,7 @@ public class StudentSubmissionGUI {
 		frmSubmissions.setTitle("Student submissions");
 		frmSubmissions.getContentPane().setBackground(new Color(153, 204, 204));
 		frmSubmissions.setBounds(100, 100, 547, 425);
-		frmSubmissions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSubmissions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmSubmissions.getContentPane().setLayout(null);
 		
 		

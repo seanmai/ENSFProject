@@ -154,7 +154,6 @@ public class DBManager {
 			ResultSet users = pStatement.executeQuery();
 			if(users.next())
 			{
-				System.out.println("Made it to Result Sets!");
 				return new User(users.getInt("ID"),
 								users.getString("PASSWORD"),
 								users.getString("EMAIL"),
@@ -196,20 +195,15 @@ public class DBManager {
 		return null;
 	}
 	
-	public User searchUserByIDFromCourse(int userID) {
-		String sql = "SELECT * FROM " + userTable + ", " + courseTable + " WHERE ID= ?" + "and " + userTable + ".ID=" + courseTable + ".ID";
+	public User searchProfByIDFromCourse(int courseID) {
+		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
 		try {
 			pStatement = jdbc_connection.prepareStatement(sql);
-			pStatement.setInt(1, userID);
-			ResultSet users = pStatement.executeQuery();
-			while(users.next())
-			{
-				return new User(users.getInt("ID"),
-								users.getString("PASSWORD"),
-								users.getString("EMAIL"),
-								users.getString("FIRSTNAME"),
-								users.getString("LASTNAME"),
-								users.getString("TYPE"));							  	 
+			pStatement.setInt(1, courseID);
+			ResultSet course = pStatement.executeQuery();
+			if(course.next())
+			{	
+				return searchUserByID(course.getInt("PROF_ID"));			  	 
 			}
 
 		} catch (SQLException e) { e.printStackTrace(); }

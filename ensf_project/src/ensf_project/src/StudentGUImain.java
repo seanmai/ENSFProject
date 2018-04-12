@@ -30,6 +30,7 @@ public class StudentGUImain {
 	
 	private StudentCourseGUI courseGUI;
 	private StudentSubmissionGUI submissionGUI;
+	private EmailGUI emailGUI;
 	
 	private User stud;
 	private Client client;
@@ -137,6 +138,19 @@ public class StudentGUImain {
 		}
 	}
 	
+	public class emailListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == emailGUI.getSend()) {
+				User prof = client.getCourseProf(courseGUI.getCourse().getID());
+				Vector<String> profEmail = new Vector<String>();
+				profEmail.add(prof.getEmail());
+				
+				client.sendEmail(profEmail, emailGUI.getSubject(), emailGUI.getMessage());
+				popUpWindow.setVisible(false);
+			}
+		}
+	}
+	
 	private void studentCourseGUIsetup() {
 		if(list.getSelectedValue()!= null)
 		{
@@ -196,7 +210,6 @@ public class StudentGUImain {
 		for(int i = 0; i < items.size(); i++)
 		{
 			s = items.get(i).getName();
-			System.out.println(s);
 			model.addElement(items.get(i));
 		}
 	}
@@ -204,9 +217,10 @@ public class StudentGUImain {
 	
 	public void email()
 	{
-		EmailGUI email = new EmailGUI();
-		popUpWindow = email.getFrame();
+		emailGUI = new EmailGUI();
+		popUpWindow = emailGUI.getFrame();
 		popUpWindow.setVisible(true);
+		emailGUI.setListeners(new emailListener());
 	}
 	
 	public void download()

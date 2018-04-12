@@ -163,6 +163,11 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.getSubmissionsByStudentID(assignID, studentID));
 						objectOut.flush();
 					}
+					else if(input.startsWith("SEARCH COURSE PROF")) {
+						int courseID = Integer.parseInt(socketIn.readLine());
+						objectOut.writeObject(db.searchProfByIDFromCourse(courseID));
+						objectOut.flush();
+					}
 //					else if(input.startsWith("DOWNLOAD ASSIGN"))
 //					{
 //						Assignment a = (Assignment)objectIn.readObject();
