@@ -101,4 +101,9 @@ public class SearchGUI extends JFrame {
 		panel.add(studentID);
 		panel.add(searchText);
 	}
+	
+	public void setListeners(profSearchListener listener) {
+		back.addActionListener(new ButtonPress());
+		search.addActionListener(new ButtonPress());
+	}
 }

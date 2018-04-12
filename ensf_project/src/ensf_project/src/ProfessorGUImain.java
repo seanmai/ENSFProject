@@ -166,9 +166,7 @@ public class ProfessorGUImain {
 				//Opens Create Course GUI
 				if(e.getSource() == create) {
 					createCourse = new CreateCourseGUI();
-					createCourse.create.addActionListener(new ButtonPress());
-					createCourse.back.addActionListener(new ButtonPress());
-
+					createCourse.setListeners(new profCreateListener());
 					frameHolder.setVisible(false);
 					frameHolder = createCourse.returnFrame();
 					frameHolder.setVisible(true);
@@ -240,8 +238,7 @@ public class ProfessorGUImain {
 				}
 				if(e.getSource() == courseGUI.search) {
 					search = new SearchGUI();
-					search.back.addActionListener(new ButtonPress());
-					search.search.addActionListener(new ButtonPress());
+					search.setListeners(new profSearchListener());
 					popUpSearch = new JFrame();
 					popUpSearch = search.returnFrame();
 					popUpSearch.setVisible(true);

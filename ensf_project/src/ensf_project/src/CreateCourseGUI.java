@@ -93,6 +93,11 @@ public class CreateCourseGUI {
 		frmCreateCourse.getContentPane().add(panel);
 	}
 	
+	public void setListeners(profCreateListener listener) {
+		create.addActionListener(listener);
+		back.addActionListener(listener);
+	}
+	
 	/**
 	 * @return True if rdButton is set to active
 	 * 		   False if set to inactive
