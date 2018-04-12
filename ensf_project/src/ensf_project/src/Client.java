@@ -48,9 +48,11 @@ public class Client {
 		}
 	}
 	
+	
 	public void sendFile(byte[] content)
 	{
 		try {
+			socketOut.println("STORE FILE");
 			toServer.writeObject(content);
 			toServer.flush();
 		} catch (IOException e) {
@@ -59,6 +61,78 @@ public class Client {
 		}
 		
 	}
+	
+	public void upload(Course course, String dueDate)
+	{
+		File selectedFile = null;
+		JFileChooser fileBrowser = new JFileChooser();
+		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+			selectedFile = fileBrowser.getSelectedFile();
+
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+
+		try {
+			FileInputStream fis = new FileInputStream(selectedFile);
+			BufferedInputStream bos = new BufferedInputStream(fis);
+			bos.read(content, 0, (int)length);
+			
+			sendFile(content);
+			toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
+
+			//client.getSocketOut().println(new Assignment());
+			socketOut.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		}	
+	}
+	
+	public void uploadSubmission(Assignment a, User s)
+	{
+		File selectedFile = null;
+		JFileChooser fileBrowser = new JFileChooser();
+		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+			selectedFile = fileBrowser.getSelectedFile();
+
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+
+		try {
+			FileInputStream fis = new FileInputStream(selectedFile);
+			BufferedInputStream bos = new BufferedInputStream(fis);
+			bos.read(content, 0, (int)length);
+			
+			socketOut.println("STORE SUBMISSION");
+			
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd HH:mm");
+			LocalDateTime now = LocalDateTime.now();
+			String timeStamp = dtf.format(now);
+			sendFile(content);
+			toServer.writeObject(new Submission(a.getID(), s.getID(), selectedFile.getName(), timeStamp));
+
+			//client.getSocketOut().println(new Assignment());
+			socketOut.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		}	
+	}
+
+	
+//	public void sendFile(byte[] content)
+//	{
+//		try {
+//			toServer.writeObject(content);
+//			toServer.flush();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
 	
 	public byte[] receiveAssignment(Assignment a)
 	{
@@ -184,66 +258,6 @@ public class Client {
 			socketOut.println(course);
 			socketOut.println(s);
 			socketOut.flush();
-	}
-
-	public void upload(Course course, String dueDate)
-	{
-		File selectedFile = null;
-		JFileChooser fileBrowser = new JFileChooser();
-		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-			selectedFile = fileBrowser.getSelectedFile();
-
-		long length = selectedFile.length();
-		byte[] content = new byte[(int) length]; // Converting Long to Int
-
-		try {
-			FileInputStream fis = new FileInputStream(selectedFile);
-			BufferedInputStream bos = new BufferedInputStream(fis);
-			bos.read(content, 0, (int)length);
-			
-			socketOut.println("STORE FILE");
-			sendFile(content);
-			toServer.writeObject(new Assignment(course.getID(), selectedFile.getName(), dueDate, true));
-
-			//client.getSocketOut().println(new Assignment());
-			socketOut.flush();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e){
-			e.printStackTrace();
-		}	
-	}
-	
-	public void uploadSubmission(Assignment a, User s)
-	{
-		File selectedFile = null;
-		JFileChooser fileBrowser = new JFileChooser();
-		if(fileBrowser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-			selectedFile = fileBrowser.getSelectedFile();
-
-		long length = selectedFile.length();
-		byte[] content = new byte[(int) length]; // Converting Long to Int
-
-		try {
-			FileInputStream fis = new FileInputStream(selectedFile);
-			BufferedInputStream bos = new BufferedInputStream(fis);
-			bos.read(content, 0, (int)length);
-			
-			socketOut.println("STORE SUBMISSION");
-			
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd HH:mm");
-			LocalDateTime now = LocalDateTime.now();
-			String timeStamp = dtf.format(now);
-			sendFile(content);
-			toServer.writeObject(new Submission(a.getID(), s.getID(), selectedFile.getName(), timeStamp));
-
-			//client.getSocketOut().println(new Assignment());
-			socketOut.flush();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e){
-			e.printStackTrace();
-		}	
 	}
 
 	public void studentEnrollment(String student, String courseName, String s)
