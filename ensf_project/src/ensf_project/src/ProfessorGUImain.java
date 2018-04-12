@@ -89,7 +89,7 @@ public class ProfessorGUImain {
 
 		course = new JButton("View Course");
 		course.setFont(new Font("Dialog", Font.PLAIN, 13));
-		course.addActionListener(new professorMainListener());
+		course.addActionListener(new profMainListener());
 
 		course.setBounds(390, 207, 126, 22);
 		frmProfessorgui.getContentPane().add(course);
@@ -98,7 +98,7 @@ public class ProfessorGUImain {
 		create.setFont(new Font("Dialog", Font.PLAIN, 13));
 		create.setBounds(390, 250, 126, 22);
 		frmProfessorgui.getContentPane().add(create);
-		create.addActionListener(new professorMainListener());
+		create.addActionListener(new profMainListener());
 
 		activate = new JButton("Activate");
 		activate.addActionListener(new ButtonPress()); 
@@ -107,7 +107,7 @@ public class ProfessorGUImain {
 		frmProfessorgui.getContentPane().add(activate);
 
 		deactivate = new JButton("Deactivate");
-		deactivate.addActionListener(new professorMainListener());
+		deactivate.addActionListener(new profMainListener());
 
 		deactivate.setFont(new Font("Dialog", Font.PLAIN, 13));
 		deactivate.setBounds(390, 340, 126, 22);
@@ -172,13 +172,13 @@ public class ProfessorGUImain {
 				}
 				if(dateAssign != null)
 				{
-				if(e.getSource() == dateAssign.accept)
-				{
-					dateAssign.setDate();
-					dateAssign.setInvisible();
-					client.upload(courseGUI.getCourse(), dateAssign.getDate());
-					setAssignmentScroll();
-				}
+					if(e.getSource() == dateAssign.accept)
+					{
+						dateAssign.setDate();
+						dateAssign.setInvisible();
+						client.upload(courseGUI.getCourse(), dateAssign.getDate());
+						setAssignmentScroll();
+					}
 				}
 				if(e.getSource() == courseGUI.email) {
 					//TO DO
@@ -280,11 +280,11 @@ public class ProfessorGUImain {
 				}
 			}
 		}
-		
-		
+	}
+
 		public class profMainListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				
+
 				//Activates Selected Course
 				if(e.getSource() == activate) {
 					if(list.getSelectedValue() != null) {
@@ -309,68 +309,69 @@ public class ProfessorGUImain {
 				}
 			}
 		}
-		
+
+
 		public class profCourseListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-		private void courseGUIsetup() {
-			if(list.getSelectedValue()!= null)
-			{
-				Course c = (Course)list.getSelectedValue();
-				courseGUI = new CourseGUI(c);
-				courseGUI.setListeners(new profCourseListener());
-				
-				frameHolder.setVisible(false);
-				frameHolder = courseGUI.returnFrame();
-				frameHolder.setVisible(true);
 
-				//Initializing Scroll List with Students
-				setStudentScroll();
+			}
+		}
+
+			private void courseGUIsetup() {
+				if(list.getSelectedValue()!= null)
+				{
+					Course c = (Course)list.getSelectedValue();
+					courseGUI = new CourseGUI(c);
+					courseGUI.setListeners(new profCourseListener());
+
+					frameHolder.setVisible(false);
+					frameHolder = courseGUI.returnFrame();
+					frameHolder.setVisible(true);
+
+					//Initializing Scroll List with Students
+					setStudentScroll();
+					courseGUI.list.setModel(courseGUI.model);
+				}
+
+			}
+
+			private void setStudentScroll() {
+				Vector<User> studentList = client.getStudentList();
+				courseGUI.model.removeAllElements();
+				if(studentList == null)return;
+				for(int i = 0; i < studentList.size(); i++)
+				{
+					String info = studentList.get(i).getID() + " " + studentList.get(i).getFirstName() 
+							+ " " + studentList.get(i).getLastName() + "   ";;
+							if(client.isEnrolled(studentList.get(i), courseGUI.getCourse().getName()))
+								info += ("		(enrolled)");
+							courseGUI.model.addElement(info);
+				}
 				courseGUI.list.setModel(courseGUI.model);
 			}
-			
-		}
 
-		private void setStudentScroll() {
-			Vector<User> studentList = client.getStudentList();
-			courseGUI.model.removeAllElements();
-			if(studentList == null)return;
-			for(int i = 0; i < studentList.size(); i++)
-			{
-				String info = studentList.get(i).getID() + " " + studentList.get(i).getFirstName() 
-						+ " " + studentList.get(i).getLastName() + "   ";;
-				if(client.isEnrolled(studentList.get(i), courseGUI.getCourse().getName()))
-					info += ("		(enrolled)");
-				courseGUI.model.addElement(info);
+			private void setAssignmentScroll() {
+				courseGUI.model.removeAllElements();
+				Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
+				if(assignmentList == null)return;
+				String s;
+				for(int i = 0; i < assignmentList.size(); i++)
+				{
+					courseGUI.model.addElement(assignmentList.get(i));
+				}
 			}
-			courseGUI.list.setModel(courseGUI.model);
-		}
-		
-		private void setAssignmentScroll() {
-			courseGUI.model.removeAllElements();
-			Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
-			if(assignmentList == null)return;
-			String s;
-			for(int i = 0; i < assignmentList.size(); i++)
-			{
-				courseGUI.model.addElement(assignmentList.get(i));
-			}
-		}
-	}
-	
-	public void setList() 
-	{
-		Vector<Course> items = client.ProfessorCourseList(prof.getID());
-		model.removeAllElements();
-		if(items == null)return;
-		String s;
-		for(int i = 0; i < items.size(); i++)
+
+		public void setList() 
 		{
-			s = items.get(i).getName();
-			model.addElement(items.get(i));
+			Vector<Course> items = client.ProfessorCourseList(prof.getID());
+			model.removeAllElements();
+			if(items == null)return;
+			String s;
+			for(int i = 0; i < items.size(); i++)
+			{
+				s = items.get(i).getName();
+				model.addElement(items.get(i));
+			}
 		}
-	}
 
-}
+	}

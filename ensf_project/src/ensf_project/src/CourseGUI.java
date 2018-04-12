@@ -5,7 +5,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import ProfessorGUImain.ButtonPress;
+import ensf_project.src.ProfessorGUImain.profCourseListener;
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
