@@ -314,9 +314,11 @@ public class DBManager {
 			{
 				if(assign.getBoolean("ACTIVE")) {
 					results.add(new Assignment(assign.getInt("ID"),
-										 assign.getString("TITLE"),
-										 assign.getString("DUE_DATE"),
-										 assign.getBoolean("ACTIVE")));
+							 assign.getInt("COURSE_ID"),
+							 assign.getString("TITLE"),
+							 assign.getString("PATH"),
+							 assign.getString("DUE_DATE"),
+							 assign.getBoolean("ACTIVE")));	
 				}
 			}
 			return results;
