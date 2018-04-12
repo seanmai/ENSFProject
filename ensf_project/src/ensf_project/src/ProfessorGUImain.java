@@ -101,7 +101,7 @@ public class ProfessorGUImain {
 		create.addActionListener(new profMainListener());
 
 		activate = new JButton("Activate");
-		activate.addActionListener(new ButtonPress()); 
+		activate.addActionListener(new profMainListener()); 
 		activate.setFont(new Font("Dialog", Font.PLAIN, 13));
 		activate.setBounds(390, 296, 126, 22);
 		frmProfessorgui.getContentPane().add(activate);

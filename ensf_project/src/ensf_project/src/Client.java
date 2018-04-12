@@ -60,13 +60,30 @@ public class Client {
 		
 	}
 	
-	public byte[] receiveFile()
+	public byte[] receiveAssignment(Assignment a)
 	{
 			try {
+				socketOut.println("DOWNLOAD ASSIGN");
+				toServer.writeObject(a);
 				byte[] content = (byte[]) fromServer.readObject();
+				return content;
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
+			return null;
+	}
+	
+	public byte[] receiveSubmission(Submission s)
+	{
+			try {
+				socketOut.println("DOWNLOAD SUBMISSION");
+				toServer.writeObject(s);
+				byte[] content = (byte[]) fromServer.readObject();
+				return content;
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+			return null;
 	}
 	
 	public void sendEmail(Vector<String> recipientEmails, String subject, String body) {

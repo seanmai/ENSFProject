@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
@@ -211,8 +212,8 @@ public class StudentGUImain {
 	public void download()
 	{
 		Assignment a = courseGUI.getAssignment();
+		byte[] content = client.receiveAssignment(a);
 		String path = "C:\\Users\\Wafa\\Downloads\\";
-		
 		File newFile = new File(path + a.getTitle());
 		try{
 		if(! newFile.exists())
@@ -224,7 +225,5 @@ public class StudentGUImain {
 		} catch(IOException e){
 		e.printStackTrace();
 		}
-
 	}
-
 }

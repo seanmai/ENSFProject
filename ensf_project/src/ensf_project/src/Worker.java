@@ -1,8 +1,11 @@
 package ensf_project.src;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -160,6 +163,20 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.getSubmissionsByStudentID(assignID, studentID));
 						objectOut.flush();
 					}
+					else if(input.startsWith("DOWNLOAD ASSIGN"))
+					{
+						Assignment a = (Assignment)objectIn.readObject();
+						String path = a.getPath() + a.getTitle();
+						objectOut.writeObject(getFile(path));
+						objectOut.flush();
+					}
+					else if(input.startsWith("DOWNLOAD SUBMISSION"))
+					{
+						Submission s = (Submission)objectIn.readObject();
+						String path = s.getPath() + s.getTitle();
+						objectOut.writeObject(getFile(path));
+						objectOut.flush();
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -200,5 +217,23 @@ public class Worker implements Runnable {
 		bos.close();
 		s.setPath(path);
 		db.addSubmission(s);
+	}
+	
+	public byte[] getFile(String path)
+	{
+		File selectedFile = new File(path);
+		long length = selectedFile.length();
+		byte[] content = new byte[(int) length]; // Converting Long to Int
+		try {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		BufferedInputStream bos = new BufferedInputStream(fis);
+		bos.read(content, 0, (int)length);
+		return content;
+		} catch (FileNotFoundException e) {
+		e.printStackTrace();
+		} catch(IOException e){
+		e.printStackTrace();
+		}
+		return null;
 	}
 }
