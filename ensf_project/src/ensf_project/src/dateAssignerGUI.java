@@ -19,7 +19,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import java.awt.ComponentOrientation;
 
-public class dateAssignerGUI {
+public class DateAssignerGUI {
 
 	private JFrame frmAssignDueDate;
 
@@ -30,7 +30,7 @@ public class dateAssignerGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					dateAssignerGUI window = new dateAssignerGUI();
+					DateAssignerGUI window = new DateAssignerGUI();
 					window.frmAssignDueDate.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class dateAssignerGUI {
 	/**
 	 * Create the application.
 	 */
-	public dateAssignerGUI() {
+	public DateAssignerGUI() {
 		initialize();
 	}
 
