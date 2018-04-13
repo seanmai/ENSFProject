@@ -17,18 +17,45 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+/**
+ * Contains methods and fields to create a graphical user interface representing a course
+ * page for a student.
+ * 
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 5, 2018
+ */
 public class StudentCourseGUI {
 
+	/**
+	 * The frame
+	 */
 	private JFrame frmCourseOptions;
+	
+	/**
+	 * Scrollpane for a list
+	 */
 	private JScrollPane scrollPane;
-	private JButton email;
-	private JButton download;
-	private JButton back;
-	private JButton dropbox;
+	
+	/**
+	 * Buttons
+	 */
+	private JButton email, download, back, dropbox;
+	
+	/**
+	 * List model to display assignments
+	 */
 	private DefaultListModel model;
+	
+	/**
+	 * List of active assignments for course
+	 */
 	private JList list;
 	
-	Course course;
+	/**
+	 * Course the page is for
+	 */
+	private Course course;
 	
 	/**
 	 * @return Create Course GUI Frame
@@ -100,23 +127,40 @@ public class StudentCourseGUI {
 		lowerRight.add(dropbox);
 	}
 	
+	/**
+	 * Retrieves the course
+	 * @return course the page is for
+	 */
 	public Course getCourse()
 	{
 		return course;
 	}
 	
+	/**
+	 * Main function for testing
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		StudentCourseGUI s = new StudentCourseGUI(new Course(0, 0, null, false));
 		s.frmCourseOptions.setVisible(true);
 	}
 	
+	/**
+	 * Retrieves selected assignment
+	 * @return selected assignment
+	 * null if no selection made
+	 */
 	public Assignment getAssignment()
 	{
 		if(list.getSelectedValue() != null)return (Assignment)list.getSelectedValue();
 		return null;
 	}
 	
+	/**
+	 * Populates list of assignments with active assignments for course
+	 * @param assignmentList vector of all active assignments
+	 */
 	public void setList(Vector<Assignment> assignmentList)
 	{
 		model.removeAllElements();
@@ -126,6 +170,10 @@ public class StudentCourseGUI {
 		}
 	}
 
+	/**
+	 * Sets specified listener for all buttons
+	 * @param courseListener the listener
+	 */
 	public void setListeners(CourseListener courseListener) {
 		email.addActionListener(courseListener);
 		download.addActionListener(courseListener);
@@ -133,21 +181,37 @@ public class StudentCourseGUI {
 		dropbox.addActionListener(courseListener);
 	}
 	
+	/**
+	 * Retrieves dropbox button
+	 * @return dropbox button
+	 */
 	public JButton getDropbox()
 	{
 		return dropbox;
 	}
 	
+	/**
+	 * Retrieves email button
+	 * @return email button
+	 */
 	public JButton getEmail()
 	{
 		return email;
 	}
 	
+	/**
+	 * Retrieves download button
+	 * @return download button
+	 */
 	public JButton getDownload()
 	{
 		return download;
 	}
 	
+	/**
+	 * Retrieves back button
+	 * @return back button
+	 */
 	public JButton getBack()
 	{
 		return back;

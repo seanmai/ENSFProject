@@ -20,19 +20,70 @@ import java.io.IOException;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 
+/**
+ * Contains methods and fields to create a graphical user interface representing a learning
+ * platform homepage for a student.
+ * Other pages can be navigated to from this page.
+ * 
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 5, 2018
+ */
 public class StudentGUImain {
+	
+	/**
+	 * Frameholder permitting switching of frames
+	 */
 	private JFrame frameHolder;
+	
+	/**
+	 * The main GUI frame
+	 */
 	private JFrame frmStudent;
+	
+	/**
+	 * Popup window for emailing functionality
+	 */
 	private JFrame popUpWindow;
+	
+	/**
+	 * List model to display active courses
+	 */
 	private DefaultListModel<Course> model;
+	
+	/**
+	 * List to contain active courses
+	 */
 	private JList list;
+	
+	/**
+	 * Button to navigate to course page
+	 */
 	private JButton viewCourse;
 	
+	/**
+	 * Course GUI replacement page
+	 */
 	private StudentCourseGUI courseGUI;
+	
+	/**
+	 * Submission GUI replacement page
+	 */
 	private StudentSubmissionGUI submissionGUI;
+	
+	/**
+	 * EmailGUI replacement page
+	 */
 	private EmailGUI emailGUI;
 	
+	/**
+	 * Student using the GUI
+	 */
 	private User stud;
+	
+	/**
+	 * Client for communication with backend
+	 */
 	private Client client;
 
 	/**
@@ -107,6 +158,10 @@ public class StudentGUImain {
 		return frmStudent;
 	}
 	
+	/**
+	 * Class to handle events from a Course GUI
+	 *
+	 */
 	public class CourseListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == courseGUI.getDropbox())dropboxGUIsetup();
@@ -129,6 +184,10 @@ public class StudentGUImain {
 		}
 	}
 	
+	/**
+	 * Class to handle events from a submission GUI
+	 *
+	 */
 	public class SubmissionListenerStudent implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == submissionGUI.getUpload())
@@ -143,6 +202,10 @@ public class StudentGUImain {
 		}
 	}
 	
+	/**
+	 * Class to handle events from an email GUI
+	 *
+	 */
 	public class emailListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == emailGUI.getSend()) {
@@ -156,6 +219,9 @@ public class StudentGUImain {
 		}
 	}
 	
+	/**
+	 * Initializes course GUI and sets frameholder to this GUI
+	 */
 	private void studentCourseGUIsetup() {
 		if(list.getSelectedValue()!= null)
 		{
@@ -175,6 +241,9 @@ public class StudentGUImain {
 		}
 	}
 	
+	/**
+	 * Initializes dropbox GUI and sets frameholder to hold this GUI
+	 */
 	public void dropboxGUIsetup()
 	{
 		if(list.getSelectedValue()!= null)
@@ -191,6 +260,9 @@ public class StudentGUImain {
 		}
 	}
 	
+	/**
+	 * Sets assignment scroll list for a course GUI
+	 */
 	private void setAssignmentScroll()
 	{
 		Vector<Assignment> assignmentList = client.getActiveAssignmentList(courseGUI.getCourse().getName());
@@ -198,6 +270,9 @@ public class StudentGUImain {
 		courseGUI.setList(assignmentList);
 	}
 	
+	/**
+	 * Sets assignment scroll list for a submission GUI
+	 */
 	private void setSubmissionScroll()
 	{
 		Vector<Submission> submissionList = client.getSubmissions(submissionGUI.getAssignment(), stud);
@@ -205,6 +280,9 @@ public class StudentGUImain {
 		submissionGUI.setList(submissionList);
 	}
 	
+	/**
+	 * Sets scroll list for courses
+	 */
 	public void setList() 
 	{
 		Vector<Course> items = client.studentCourseList(stud.getID());
@@ -220,7 +298,9 @@ public class StudentGUImain {
 		}
 	}
 	
-	
+	/**
+	 * Sends an email to professor of course
+	 */
 	public void email()
 	{
 		emailGUI = new EmailGUI();

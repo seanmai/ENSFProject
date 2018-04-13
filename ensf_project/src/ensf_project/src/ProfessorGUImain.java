@@ -296,7 +296,7 @@ public class ProfessorGUImain {
 		
 		public class profDateListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == dateAssign.accept)
+				if(e.getSource() == dateAssign.getAccept())
 				{
 					dateAssign.setDate();
 					dateAssign.setInvisible();

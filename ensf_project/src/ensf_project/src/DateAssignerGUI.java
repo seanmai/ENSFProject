@@ -26,13 +26,34 @@ import javax.swing.JFileChooser;
 
 import java.awt.ComponentOrientation;
 
+/**
+ * Contains methods and fields to retrieve user input for a date and time
+ * 
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class DateAssignerGUI {
 
+	/**
+	 * The frame
+	 */
 	private JFrame frmAssignDueDate;
 	
+	/**
+	 * Spinners for date and time options 
+	 */
 	private JSpinner month, day, year, hour, minute, ampm;
+	
+	/**
+	 * Selected date
+	 */
 	private String date;
-	JButton accept;
+	
+	/**
+	 * Button to signal input completion
+	 */
+	private JButton accept;
 
 	/**
 	 * Launch the application.
@@ -147,6 +168,9 @@ public class DateAssignerGUI {
 		frmAssignDueDate.getContentPane().add(accept);
 	}
 	
+	/**
+	 * Sets the date field to the selected value
+	 */
 	public void setDate()
 	{
 		date = ((String)month.getValue() + " " + day.getValue() + ", " + hour.getValue() + ":");
@@ -156,16 +180,36 @@ public class DateAssignerGUI {
 		date += min + ampm.getValue();
 	}
 	
+	/**
+	 * Sets visibility of date selector frame as false
+	 */
 	public void setInvisible()
 	{
 		frmAssignDueDate.setVisible(false);
 	}
 	
+	/**
+	 * Assigns specified listener to accept button
+	 * @param b
+	 */
 	public void setListener(profDateListener b)
 	{
 		accept.addActionListener(b);
 	}
 	
+	/**
+	 * Retrieves accept button
+	 * @return accept
+	 */
+	public JButton getAccept()
+	{
+		return accept;
+	}
+	
+	/**
+	 * Retrieves the selected date field
+	 * @return the date last selected
+	 */
 	public String getDate()
 	{
 		return date;

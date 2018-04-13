@@ -21,15 +21,49 @@ import javax.swing.event.ListSelectionListener;
 import ensf_project.src.StudentGUImain.CourseListener;
 import ensf_project.src.StudentGUImain.SubmissionListenerStudent;
 
+/**
+ * Contains methods and fields to create a graphical user interface representing
+ * a dropbox for assignments for a student.
+ * 
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class StudentSubmissionGUI {
 
+	/**
+	 * The GUI frame
+	 */
 	private JFrame frmSubmissions;
+	
+	/**
+	 * List model to display submissions
+	 */
 	private DefaultListModel<Submission> model;
+	
+	/**
+	 * List to contain all submissions
+	 */
 	private JList<Submission> submissions;
+	
+	/**
+	 * Button to upload files
+	 */
 	private JButton upload;
+	
+	/**
+	 * Text field to display a submission grade
+	 */
 	private JTextField gradeValue;
+	
+	/**
+	 * Button to navigate to previous page
+	 */
 	private JButton back;
 	
+	/**
+	 * Assignment the submissions are for
+	 */
 	private Assignment assignment;
 
 //	/**
@@ -133,20 +167,36 @@ public class StudentSubmissionGUI {
 		frmSubmissions.getContentPane().add(lblStudentsubmissions);
 	}
 
+	/**
+	 * Retrieves the GUI frame
+	 * @return the frame
+	 */
 	public JFrame returnFrame() {
 		return frmSubmissions;
 	}
 	
+	/**
+	 * Retrieves the assignment the GUI was created for
+	 * @return the assignment
+	 */
 	public Assignment getAssignment()
 	{
 		return assignment;
 	}
 	
+	/**
+	 * Sets all button listeners to specified listener
+	 * @param courseListener the listener to set all button listeners to
+	 */
 	public void setListeners(SubmissionListenerStudent courseListener) {
 		upload.addActionListener(courseListener);
 		back.addActionListener(courseListener);
 	}
 	
+	/**
+	 * Displays submission list to specified value
+	 * @param submissionList vector containing submissions for list
+	 */
 	public void setList(Vector<Submission> submissionList)
 	{
 		model.removeAllElements();
@@ -156,11 +206,19 @@ public class StudentSubmissionGUI {
 		}
 	}
 	
+	/**
+	 * Retrieves upload button
+	 * @return upload button
+	 */
 	public JButton getUpload()
 	{
 		return upload;
 	}
 	
+	/**
+	 * Retrieves back button
+	 * @return back button 
+	 */
 	public JButton getBack()
 	{
 		return back;
