@@ -223,26 +223,26 @@ public class Client {
 		return items;
 	}
 	
-	public Vector<User> getEnrolledStudentList(String course)
+	public Vector<String> getEnrolledStudentList(int courseID)
 	{
-		socketOut.println("GET COURSE STUDENTS");
+		socketOut.println("GET ENROLLED COURSE STUDENTS");
+		socketOut.println(courseID);
 		socketOut.flush();
-		Vector<User>items = null;
+		Vector<User>users = new Vector<User>();
 			
 		try {
-			items = (Vector<User>)fromServer.readObject();
+			users = (Vector<User>)fromServer.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
 		
-		Vector<User> users = new Vector<User>();
+		Vector<String> userEmails = new Vector<String>();
 		
-		for(int i = 0; i < items.size(); i++) {
-			if(isEnrolled(items.get(i), course))
-				users.add(items.get(i));
+		for(int i = 0; i < users.size(); i++) {
+			userEmails.add(users.get(i).getEmail());
 		}
 		
-		return users;
+		return userEmails;
 	}
 	
 	public Vector<Course> studentCourseList(int id) {

@@ -309,11 +309,14 @@ public class ProfessorGUImain {
 		public class mailListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == emailGUI.getSend()) {
-					User prof = null;//client.getEnrolledStudentList(courseGUI.getCourse().getName());
-					Vector<String> profEmail = new Vector<String>();
-					profEmail.add(prof.getEmail());
+					System.out.println("Yo Whats Up");
+					Vector<String> classEmails = client.getEnrolledStudentList(courseGUI.getCourse().getID());
 					
-					client.sendEmail(profEmail, emailGUI.getSubject(), emailGUI.getMessage());
+					for(int i = 0; i < classEmails.size(); i++) {
+						System.out.println(classEmails.get(i));
+					}
+					
+					client.sendEmail(classEmails, emailGUI.getSubject(), emailGUI.getMessage());
 					popUpWindow.setVisible(false);
 				}
 			}

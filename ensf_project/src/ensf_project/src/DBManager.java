@@ -591,6 +591,27 @@ public class DBManager {
 		return null;		
 	}
 	
+	public Vector <User> getEnrolledStudents(int courseID) {
+		String sql = "SELECT * FROM " + studentEnrollmentTable + " WHERE COURSE_ID= ?";
+		Vector <User> results = new Vector <User>();
+		
+		try {
+			pStatement = jdbc_connection.prepareStatement(sql);
+			pStatement.setInt(1, courseID);
+			ResultSet courses = pStatement.executeQuery();
+			while(courses.next())
+			{
+				User u = searchUserByID(courses.getInt("STUDENT_ID"));
+				results.add(u);
+			}
+			
+			return results;
+
+		} catch (SQLException e) { e.printStackTrace(); }
+
+		return null;		
+	}
+	
 	public void addStudentEnrollment(int studentID, String courseName) {
 		int courseID = getCourseID(courseName);
 		String sql = "INSERT INTO " + studentEnrollmentTable +
