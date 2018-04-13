@@ -40,14 +40,6 @@ public class Worker implements Runnable {
 	public void run() {
 			System.out.println("Worker Up");
 			db = new DBManager();
-//			db.createDB();
-//			db.createUserTable();
-//			db.createAssignmentTable();
-//			db.createCourseTable();
-//			db.createGradeTable();
-//			db.createStudentEnrollmentTable();
-//			db.createSubmissionTable();
-//			db.fillUserTable();
 			
 			while(true) {
 				try {
@@ -161,6 +153,12 @@ public class Worker implements Runnable {
 						int studentID = Integer.parseInt(socketIn.readLine());
 						int assignID = Integer.parseInt(socketIn.readLine());
 						objectOut.writeObject(db.getSubmissionsByStudentID(assignID, studentID));
+						objectOut.flush();
+					}
+					else if(input.startsWith("GET SUBS"))
+					{
+						int assignID = Integer.parseInt(socketIn.readLine());
+						objectOut.writeObject(db.getSubmissions(assignID));
 						objectOut.flush();
 					}
 					else if(input.startsWith("SEARCH COURSE PROF")) {

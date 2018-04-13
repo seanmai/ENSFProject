@@ -245,7 +245,7 @@ public class Client {
 		return users;
 	}
 	
-	public Vector<Course> StudentCourseList(int id) {
+	public Vector<Course> studentCourseList(int id) {
 		socketOut.println("GET STUD COURSE LIST");
 		socketOut.println(id);
 		socketOut.flush();
@@ -358,6 +358,24 @@ public class Client {
 		try {
 			socketOut.println("GET STUD SUBS");
 			socketOut.println(student.getID());
+			socketOut.println(a.getID());
+			socketOut.flush();
+			return (Vector<Submission>)fromServer.readObject();
+		}
+		catch(IOException e)
+		{
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Vector<Submission> getSubmissions(Assignment a)
+	{
+		try {
+			socketOut.println("GET SUBS");
 			socketOut.println(a.getID());
 			socketOut.flush();
 			return (Vector<Submission>)fromServer.readObject();

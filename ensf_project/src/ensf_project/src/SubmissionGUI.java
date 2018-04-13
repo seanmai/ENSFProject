@@ -26,20 +26,24 @@ public class SubmissionGUI extends JPanel {
 	private DefaultListModel<Submission> model;
 	private JButton back;
 	
+	private Assignment assignment;
+	
 	/**
 	 * Constructor, Create the Frame.
 	 */
-	public SubmissionGUI() {
+	public SubmissionGUI(Assignment a) {
+		assignment = a;
 		frmSubmissions = new JFrame();
 		frmSubmissions.setTitle("Student Submissions");
 		frmSubmissions.getContentPane().setBackground(new Color(153, 204, 204));
 		frmSubmissions.setBounds(100, 100, 547, 425);
-		frmSubmissions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSubmissions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmSubmissions.getContentPane().setLayout(null);
 		
 		
 		//List, TextField and Button Components
-		submissions = new JList();
+		model = new DefaultListModel();
+		submissions = new JList(model);
 		submissions.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		submissions.setBackground(new Color(255, 245, 238));
 		submissions.setBounds(29, 48, 271, 310);
@@ -104,6 +108,7 @@ public class SubmissionGUI extends JPanel {
 	public void setList(Vector<Submission> submissionList)
 	{
 		model.removeAllElements();
+		if(submissionList == null)return;
 		for(int i = 0; i < submissionList.size(); i++)
 		{
 			model.addElement(submissionList.get(i));
@@ -125,10 +130,14 @@ public class SubmissionGUI extends JPanel {
 		return back;
 	}
 	
-	public static void main(String[] args)
+	public void seListeners(SubmissionListener listener)
 	{
-		SubmissionGUI s = new SubmissionGUI();
-		s.returnFrame().setVisible(true);
+		back.addActionListener(listener);
+	}
+	
+	public Assignment getAssignment()
+	{
+		return assignment;
 	}
 
 	public JFrame returnFrame() {

@@ -45,7 +45,7 @@ public class CreateCourseGUI {
 		frmCreateCourse.getContentPane().setBackground(new Color(153, 204, 204));
 		frmCreateCourse.setTitle("Create Course");
 		frmCreateCourse.setBounds(100, 100, 585, 264);
-		frmCreateCourse.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCreateCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCreateCourse.getContentPane().setLayout(null);
 		
 		

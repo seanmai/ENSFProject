@@ -321,6 +321,10 @@ public class ProfessorGUImain {
 		
 		public class SubmissionListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == submissionGUI.getBack())courseGUIsetup();
+				
+//				Vector<Submission> list = client.getSubmissions(submissionGUI.getAssignment());
+//				submissionGUI.setList(list);
 			}
 		}
 		
@@ -344,8 +348,11 @@ public class ProfessorGUImain {
 			private void submissionGUIsetup()
 			{
 				if(list.getSelectedValue()!= null)
-				{
-					submissionGUI = new SubmissionGUI();
+				{	
+					submissionGUI = new SubmissionGUI((Assignment)courseGUI.getSelectedValue());
+					Vector<Submission> list = client.getSubmissions(submissionGUI.getAssignment());
+					submissionGUI.setList(list);
+					submissionGUI.setListeners(new SubmissionListener());
 					
 					frameHolder.setVisible(false);
 					frameHolder = submissionGUI.returnFrame();

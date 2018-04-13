@@ -208,10 +208,11 @@ public class StudentGUImain {
 	
 	public void setList() 
 	{
-		Vector<Course> items = client.StudentCourseList(stud.getID());
+		Vector<Course> items = client.studentCourseList(stud.getID());
 		//System.out.println("getting course list " + items.get(0));
 		model.removeAllElements();
-		if(items == null || items.get(0) == null)return;
+		if(items == null)return;
+		if(items.size() == 0)return;
 		String s;
 		for(int i = 0; i < items.size(); i++)
 		{

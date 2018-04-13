@@ -66,7 +66,7 @@ public class DateAssignerGUI {
 		frmAssignDueDate.setTitle("Assign Due Date");
 		frmAssignDueDate.getContentPane().setBackground(new Color(153, 204, 204));
 		frmAssignDueDate.setBounds(100, 100, 427, 262);
-		frmAssignDueDate.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAssignDueDate.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAssignDueDate.getContentPane().setLayout(null);
 		
 		month = new JSpinner();

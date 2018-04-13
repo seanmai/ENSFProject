@@ -38,7 +38,7 @@ public class LoginGUI extends JFrame{
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(153, 204, 204));
 		frame.setBounds(100, 100, 620, 390);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		

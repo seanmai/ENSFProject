@@ -783,6 +783,15 @@ public class DBManager {
 		//m.createUserTable();
 		//m.createAssignmentTable();
 //		m.addAssignment(assign);
+		
+//		db.createDB();
+//		db.createUserTable();
+//		db.createAssignmentTable();
+//		db.createCourseTable();
+//		db.createGradeTable();
+//		db.createStudentEnrollmentTable();
+//		db.createSubmissionTable();
+//		db.fillUserTable();
 
 	}
 

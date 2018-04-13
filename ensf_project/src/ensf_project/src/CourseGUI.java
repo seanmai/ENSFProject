@@ -61,7 +61,7 @@ public class CourseGUI {
 		frmCourseOptions.setTitle("Course Options");
 		frmCourseOptions.getContentPane().setBackground(new Color(153, 204, 204));
 		frmCourseOptions.setBounds(100, 100, 581, 483);
-		frmCourseOptions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCourseOptions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCourseOptions.getContentPane().setLayout(null);
 		
 		
