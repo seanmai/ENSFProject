@@ -130,7 +130,6 @@ public class Worker implements Runnable {
 					}
 					else if(input.startsWith("SEARCH STUDENT ID")) {
 						int ID = Integer.parseInt(socketIn.readLine());
-						System.out.println("Caught search string");
 						objectOut.writeObject(db.searchStudentByID(ID));
 						objectOut.flush();
 					}
@@ -174,6 +173,12 @@ public class Worker implements Runnable {
 						File selectedFile = new File(path, name); 
 						sendFile(selectedFile);
 					}
+					else if(input.startsWith("SET GRADE"))
+					{
+						int grade = Integer.parseInt(socketIn.readLine());
+						Submission s = (Submission)objectIn.readObject();
+						db.updateSubmissionGrade(s.getAssignID(), grade);
+					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -202,7 +207,7 @@ public class Worker implements Runnable {
 	public void storeSubmission() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
-		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files";
+		String path = "C:\\Users\\Wafa\\Documents\\ENSF_files\\";
 		
 		Submission s = (Submission)objectIn.readObject();
 		

@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ensf_project.src.ProfessorGUImain.SubmissionListener;
 
@@ -44,6 +46,17 @@ public class SubmissionGUI extends JPanel {
 		//List, TextField and Button Components
 		model = new DefaultListModel();
 		submissions = new JList(model);
+		submissions.addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(submissions.getSelectedValue() != null)
+				{
+					Submission s = (Submission)submissions.getSelectedValue();
+					gradeValue.setText(Integer.toString(s.getSubmissionGrade()));
+				}
+				
+			}
+		});
 		submissions.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		submissions.setBackground(new Color(255, 245, 238));
 		submissions.setBounds(29, 48, 271, 310);
@@ -138,6 +151,17 @@ public class SubmissionGUI extends JPanel {
 	public Assignment getAssignment()
 	{
 		return assignment;
+	}
+	
+	public Submission getSelectedValue()
+	{
+		if(submissions.getSelectedValue() != null)return (Submission)submissions.getSelectedValue();
+		return null;
+	}
+	
+	public String getGrade()
+	{
+		return gradeValue.getText();
 	}
 
 	public JFrame returnFrame() {

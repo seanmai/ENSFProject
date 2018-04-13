@@ -390,6 +390,21 @@ public class Client {
 		return null;
 	}
 	
+	public void setGrade(Submission submission, String grade)
+	{
+		try {
+			socketOut.println("SET GRADE");
+			socketOut.println(grade);
+			toServer.writeObject(submission);
+			socketOut.flush();
+			toServer.flush();
+		}
+		catch(IOException e)
+		{
+
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	public User searchUser(String search, int type) {
 		if(type == 0) {

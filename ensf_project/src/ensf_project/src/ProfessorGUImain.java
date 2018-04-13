@@ -323,8 +323,23 @@ public class ProfessorGUImain {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == submissionGUI.getBack())courseGUIsetup();
 				
-//				Vector<Submission> list = client.getSubmissions(submissionGUI.getAssignment());
-//				submissionGUI.setList(list);
+				else if(e.getSource() == submissionGUI.getDownload())
+				{
+					Submission submission = submissionGUI.getSelectedValue();
+					client.getFile(submission.getPath(), submission.getTitle());
+				}
+				
+				else if(e.getSource() == submissionGUI.getAssignGrade())
+				{
+					String grade = submissionGUI.getGrade();
+					Submission sub = submissionGUI.getSelectedValue();
+					if(grade != null && sub != null)
+					{
+						client.setGrade(sub, grade);
+						Vector<Submission> list = client.getSubmissions(submissionGUI.getAssignment());
+						submissionGUI.setList(list);
+					}
+				}
 			}
 		}
 		

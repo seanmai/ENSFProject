@@ -117,7 +117,6 @@ public class StudentGUImain {
 			{
 				String name = courseGUI.getAssignment().getTitle();
 				String path = courseGUI.getAssignment().getPath();
-				System.out.println(path);
 				client.getFile(path, name);
 			}
 
