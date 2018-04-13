@@ -1,5 +1,6 @@
 package ensf_project.src;
 
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -17,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.Vector;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -26,13 +26,47 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JFileChooser;
 
+/**
+ * Contains all the Methods and fields to send 
+ * the proper Strings through the sockets to 
+ * communicate with the Server
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class Client {
+	
+	/**
+	 * Socket Used for Communication
+	 */
 	private Socket theSocket;
+	
+	/**
+	 * Socket Object Output Stream
+	 */
 	private ObjectOutputStream toServer;
+	
+	/**
+	 * Socket Object Input Stream
+	 */
 	private ObjectInputStream fromServer;
+	
+	/**
+	 * Socket Input String Stream
+	 */
 	private BufferedReader socketIn;
+	
+	/**
+	 * Socket Output String Stream
+	 */
 	private PrintWriter socketOut;
 	
+	/**
+	 * Client Constructor
+	 * @param hostname
+	 * @param port
+	 */
 	public Client(String hostname, int port) {
 		try {
 		theSocket = new Socket(hostname, port);
@@ -45,7 +79,11 @@ public class Client {
 		}
 	}
 	
-	
+	/**
+	 * Uploads an Assignment file to the Server/Database
+	 * @param course
+	 * @param dueDate
+	 */
 	public void upload(Course course, String dueDate)
 	{
 		File selectedFile = null;
@@ -75,6 +113,12 @@ public class Client {
 		}	
 	}
 	
+	/**
+	 * Uploads A student Submission to the Server/
+	 * Database
+	 * @param a
+	 * @param s
+	 */
 	public void uploadSubmission(Assignment a, User s)
 	{
 		File selectedFile = null;
@@ -108,6 +152,11 @@ public class Client {
 		}	
 	}
 	
+	/**
+	 * Retrieves the File from the Server/Database
+	 * @param path
+	 * @param name
+	 */
 	public void getFile(String path, String name)
 	{
 		socketOut.println("GET FILE");
@@ -134,6 +183,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Gets the Professor from the specified Course
+	 * @param courseID
+	 * @return User Prof
+	 */
 	public User getCourseProf(int courseID) {
 		socketOut.println("SEARCH COURSE PROF");
 		socketOut.println(courseID);
@@ -149,6 +203,12 @@ public class Client {
 		return prof;
 	}
 	
+	/**
+	 * Sends an email to a string of recipients
+	 * @param recipientEmails
+	 * @param subject
+	 * @param body
+	 */
 	public void sendEmail(Vector<String> recipientEmails, String subject, String body) {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.starttls.enable", "true");
@@ -178,21 +238,37 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Gets the Socket Output Stream
+	 * @return
+	 */
 	public PrintWriter getSocketOut()
 	{
 		return socketOut;
 	}
 	
+	/**
+	 * Gets the Socket Object Input Stream
+	 * @return
+	 */
 	public ObjectInputStream getFromServer()
 	{
 		return fromServer;
 	}
 	
+	/**
+	 * Gets the Socket Object Output Stream
+	 * @return
+	 */
 	public ObjectOutputStream getToServer()
 	{
 		return toServer;
 	}
 	
+	/**
+	 * Creates A new Course in the DataBase
+	 * @param c
+	 */
 	public void createCourse(Course c)
 	{
 		try {
@@ -205,6 +281,12 @@ public class Client {
 		}
 	}
 
+	/**
+	 * Gets the List of courses taught by the 
+	 * specified Professor
+	 * @param id
+	 * @return Prof Course List
+	 */
 	public Vector<Course> ProfessorCourseList(int id) {
 		socketOut.println("GET PROF COURSE LIST");
 		socketOut.println(id);
@@ -223,6 +305,12 @@ public class Client {
 		return items;
 	}
 	
+	/**
+	 * Gets The list of Students enrolled in a
+	 * specified Course
+	 * @param courseID
+	 * @return List of Students enrolled in course
+	 */
 	public Vector<String> getEnrolledStudentList(int courseID)
 	{
 		socketOut.println("GET ENROLLED COURSE STUDENTS");
@@ -245,6 +333,11 @@ public class Client {
 		return userEmails;
 	}
 	
+	/**
+	 * Gets the Course List for A specified Student
+	 * @param id
+	 * @return list of Courses student is enrolled in
+	 */
 	public Vector<Course> studentCourseList(int id) {
 		socketOut.println("GET STUD COURSE LIST");
 		socketOut.println(id);
@@ -263,6 +356,11 @@ public class Client {
 		return items;
 	}
 	
+	/**
+	 * Gets the status of the course (Active/Inactive)
+	 * @param course
+	 * @param s
+	 */
 	public void courseStatus(String course, String s)
 	{
 			socketOut.println("CHANGE COURSE STATUS");
@@ -270,7 +368,13 @@ public class Client {
 			socketOut.println(s);
 			socketOut.flush();
 	}
-
+	
+	/**
+	 * Updates the Students enrollment in a specified Course
+	 * @param student
+	 * @param courseName
+	 * @param s
+	 */
 	public void studentEnrollment(String student, String courseName, String s)
 	{
 		socketOut.println("STUDENT ENROLLMENT");
@@ -280,6 +384,11 @@ public class Client {
 		socketOut.flush();
 	}
 		
+	/**
+	 * Updates the Status of a specified assignment
+	 * @param assignment
+	 * @param s
+	 */
 	public void assignmentStatus(String assignment, String s)
 	{
 		socketOut.println("CHANGE ASSIGNMENT STATUS");
@@ -288,6 +397,10 @@ public class Client {
 		socketOut.flush();
 	}
 	
+	/**
+	 * Gets the Entire Student Body List
+	 * @return
+	 */
 	public Vector<User> getStudentList()
 	{
 		socketOut.println("GET COURSE STUDENTS");
@@ -303,6 +416,12 @@ public class Client {
 		return items;
 	}
 	
+	/**
+	 * Gets the List of Assignments for a specified
+	 * Course
+	 * @param courseName
+	 * @return List of Assignments for a given course
+	 */
 	public Vector<Assignment> getAssignmentList(String courseName)
 	{
 			socketOut.println("GET ASSIGNMENTS");
@@ -319,6 +438,12 @@ public class Client {
 			return items;
 	}
 	
+	/**
+	 * Gets A list of Active assignments in a specified
+	 * Course
+	 * @param courseName
+	 * @return lsit of Active Assignments in course
+	 */
 	public Vector<Assignment> getActiveAssignmentList(String courseName)
 	{
 			socketOut.println("GET ACTIVE ASSIGNMENTS");
@@ -335,6 +460,13 @@ public class Client {
 			return items;
 	}
 	
+	/**
+	 * Checks if the Student is enrolled in specified
+	 * Course
+	 * @param student
+	 * @param course
+	 * @return True/False
+	 */
 	public boolean isEnrolled(User student, String course)
 	{
 		try {
@@ -353,6 +485,13 @@ public class Client {
 		return false;
 	}
 	
+	/**
+	 * Gets A list of a students submissions for a given
+	 * assignment
+	 * @param a
+	 * @param student
+	 * @return list of student submissions
+	 */
 	public Vector<Submission> getSubmissions(Assignment a, User student)
 	{
 		try {
@@ -372,6 +511,11 @@ public class Client {
 		return null;
 	}
 	
+	/**
+	 * Gets List of Submissions for a given Assignment
+	 * @param a
+	 * @return List of Submissions
+	 */
 	public Vector<Submission> getSubmissions(Assignment a)
 	{
 		try {
@@ -390,6 +534,11 @@ public class Client {
 		return null;
 	}
 	
+	/**
+	 * Sets the Grade for a specified Submission
+	 * @param submission
+	 * @param grade
+	 */
 	public void setGrade(Submission submission, String grade)
 	{
 		try {
@@ -405,6 +554,14 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Searches User By input String and 
+	 * uses type to determine whether searching
+	 * by ID or LastName
+	 * @param search
+	 * @param type
+	 * @return User matching Student
+	 */
 	@SuppressWarnings("unchecked")
 	public User searchUser(String search, int type) {
 		if(type == 0) {

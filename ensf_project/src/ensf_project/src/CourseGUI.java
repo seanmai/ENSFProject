@@ -16,25 +16,93 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
+/**
+ * Contains methods and fields to retrieve user input for Selecting Course,
+ * Creating Assignments, and Enrolling Students
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class CourseGUI {
-
+	
+	/**
+	 * The Frame
+	 */
 	private JFrame frmCourseOptions;
+	
+	/**
+	 * ScrollPane for List
+	 */
 	private JScrollPane scrollPane;
+	
+	/**
+	 * RadioButtons to switch between Student
+	 * and Assignment Views
+	 */
 	private JRadioButton rdbtnStudents;
 	private JRadioButton rdbtnAssignments;
+	
+	/**
+	 * JButtons to enroll/unenroll a selected
+	 * student
+	 */
 	private JButton enroll;
 	private JButton unenroll;
+	
+	/**
+	 * JButton to initialize the upload of an 
+	 * Assignment
+	 */
 	private JButton uploadAssignment;
+	
+	/**
+	 * JButton to open Email Window
+	 */
 	private JButton email;
+	
+	/**
+	 * JButton to switch to grade view
+	 */
 	private JButton grade;
+	
+	/**
+	 * JButton to Activate/Deactive a selected
+	 * assignment
+	 */
 	private JButton activateAssignment;
 	private JButton deactivateAssignment;
+	
+	/**
+	 * Returns to previous frame
+	 */
 	private JButton back;
+	
+	/**
+	 * JButton to open search window
+	 */
 	private JButton search;
+	
+	/**
+	 * Holds the Assignment/Student
+	 * Radio Buttons
+	 */
 	private ButtonGroup buttonGroup;
+	
+	/**
+	 * Model containing the list
+	 */
 	private DefaultListModel model;
+	
+	/**
+	 * List holding either Students or
+	 * Assignments
+	 */
 	private JList list;
-	private JPanel lowerRight;
+	
+	/**
+	 * Panel containing buttons
+	 */
 	private JPanel upperRight;
 	
 	Course course;
@@ -60,7 +128,7 @@ public class CourseGUI {
 		frmCourseOptions = new JFrame();
 		frmCourseOptions.setTitle("Course Options");
 		frmCourseOptions.getContentPane().setBackground(new Color(153, 204, 204));
-		frmCourseOptions.setBounds(100, 100, 581, 483);
+		frmCourseOptions.setBounds(100, 100, 590, 483);
 		frmCourseOptions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCourseOptions.getContentPane().setLayout(null);
 		
@@ -121,6 +189,9 @@ public class CourseGUI {
 		setStudentButtons();
 	}
 	
+	/**
+	 * Reformats the Buttons
+	 */
 	public void formatButtons()
 	{
 		grade = new JButton("Grade");
@@ -156,6 +227,10 @@ public class CourseGUI {
 		search.setBounds(58, 84, 86, 27);
 	}
 	
+	/**
+	 * Resets the buttons when RadioButtons
+	 * are Switched from Assignments/Students
+	 */
 	public void setAssignButtons()
 	{
 //		lowerRight = new JPanel();
@@ -182,6 +257,10 @@ public class CourseGUI {
 		frmCourseOptions.repaint();
 	}
 	
+	/**
+	 * Resets the buttons when RadioButtons
+	 * are Switched from Assignments/Students
+	 */
 	public void setStudentButtons()
 	{	
 		upperRight.removeAll();
@@ -205,6 +284,10 @@ public class CourseGUI {
 		frmCourseOptions.repaint();
 	}
 	
+	/**
+	 * Sets the Listeners for the Buttons in the frame
+	 * @param listener
+	 */
 	public void setListeners(profCourseListener listener) {
 		rdbtnAssignments.addActionListener(listener);
 		rdbtnStudents.addActionListener(listener);
@@ -219,67 +302,126 @@ public class CourseGUI {
 		search.addActionListener(listener);
 	}
 	
+	/**
+	 * Gets the Course
+	 * @return course
+	 */
 	public Course getCourse()
 	{
 		return course;
 	}
 	
+	/**
+	 * Starts the GUI (for testing)
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		CourseGUI g = new CourseGUI(new Course(0, 0, null, false));
 		g.frmCourseOptions.setVisible(true);
 	}
 	
+	/**
+	 * Gets the AssignmentRadio Button
+	 * @return rdbtnAssignments
+	 */
 	public JRadioButton getrdbtnAssignments() {
 		return rdbtnAssignments;
 	}
 	
-	
+	/**
+	 * Gets the search Button
+	 * @return search
+	 */
 	public JButton getSearch() {
 		return search;
 	}
 	
+	/**
+	 * Gets the Back button
+	 * @return back
+	 */
 	public JButton getBack() {
 		return back;
 	}
 	
+	/**
+	 * Gets the DeactivateAssignment Button
+	 * @return deactivateAssignment
+	 */
 	public JButton getDeactivateAssignment() {
 		return deactivateAssignment;
 	}
 	
+	/**
+	 * Gets the ActivateAssignment Button
+	 * @return activateAssignment
+	 */
 	public JButton getActivateAssignment() {
 		return activateAssignment;
 	}
 	
+	/**
+	 * Gets the Grade Button
+	 * @return grade
+	 */
 	public JButton getGrade() {
 		return grade;
 	}
 	
+	/**
+	 * Gets the Email Button
+	 * @return email
+	 */
 	public JButton getEmail() {
 		return email;
 	}
 	
+	/**
+	 * Gets the Enroll Button
+	 * @return enroll
+	 */
 	public JButton getEnroll() {
 		return enroll;
 	}
 
+	/**
+	 * Gets the Student RadioButton
+	 * @return rdbtnStudents
+	 */
 	public  JRadioButton getrdbtnStudents() {
 		return rdbtnStudents;
 	}
-
+	
+	/**
+	 * Gets selected value from the list
+	 * @return list.getSelectedValue()
+	 */
 	public Object getSelectedValue() {
 		if(list.getSelectedValue() != null)return list.getSelectedValue();
 		return null;
 	}
-
+	
+	/**
+	 * Gets the Unenroll Button
+	 * @return unenroll
+	 */
 	public JButton getUnenroll() {
 		return unenroll;
 	}
 
+	/**
+	 * Gets the Upload Assignment Button
+	 * @return uploadAssignment
+	 */
 	public JButton getUploadAssignment() {
 		return uploadAssignment;
 	}
 	
+	/**
+	 * Gets the list Model
+	 * @return model
+	 */
 	public DefaultListModel getModel()
 	{
 		return model;

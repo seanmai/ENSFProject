@@ -14,16 +14,52 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 
+/**
+ * Contains methods and fields to retrieve user input for Searching
+ * for a student by ID or Last Name
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class SearchGUI extends JFrame {
-
+	
+	/**
+	 * The Frame
+	 */
 	private JPanel contentPane;
+	
+	/**
+	 * JTextField for Search Text
+	 */
 	JTextField searchText;
+	
+	/**
+	 * JButton to initiate search
+	 */
 	JButton search;
+	
+	/**
+	 * JButton to return to previous frame
+	 */
 	JButton back;
+	
+	/**
+	 * JRadioButtons to toggle between
+	 * Search Types
+	 */
 	JRadioButton studentID;
 	JRadioButton LastName;
+	
+	/**
+	 * ButtonGroup Holding JRadioButtons
+	 */
 	ButtonGroup buttonGroup;
 	
+	/**
+	 * Gets the frame
+	 * @return frame
+	 */
 	public JFrame returnFrame() {
 		JFrame frame = new JFrame();
 		frame.add(contentPane);
@@ -100,6 +136,10 @@ public class SearchGUI extends JFrame {
 		panel.add(searchText);
 	}
 	
+	/**
+	 * Sets the listeners for the GUI
+	 * @param listener
+	 */
 	public void setListeners(profSearchListener listener) {
 		back.addActionListener(listener);
 		search.addActionListener(listener);

@@ -7,24 +7,52 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 /**
+ * Contains methods and fields to create a graphical user interface
+ * for user login.
  * 
- * @author Wafa Anam, Sean Mai, Matt Kadatz
- *
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
  */
 public class LoginGUI extends JFrame{
 	
+	/**
+	 * The GUI frame
+	 */
 	private JFrame frame;
+	
+	/**
+	 * Text field to input user ID
+	 */
 	private JTextField userID;
+	
+	/**
+	 * Password field to input user password
+	 */
 	private JPasswordField password;
+	
+	/**
+	 * Button to call method to handle login logic
+	 */
 	private JButton login;
+	
+	/**
+	 * Button to exit the GUI
+	 */
 	private JButton exit;
 
+	/**
+	 * Client for communication with backend
+	 */
 	private Client client;
 	
-	public static void main(String[] args) {
-		LoginGUI login = new LoginGUI();
-	}
+//	public static void main(String[] args) {
+//		LoginGUI login = new LoginGUI();
+//	}
 	
+	/**
+	 * Initializes login GUI
+	 */
 	public LoginGUI() {
 		client = new Client("localhost", 9909);
 		displayLogin();
@@ -34,6 +62,9 @@ public class LoginGUI extends JFrame{
 		setResizable(true);
 	}
 	
+	/**
+	 * Displays and populates GUI frames
+	 */
 	private void displayLogin() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(153, 204, 204));
@@ -96,6 +127,9 @@ public class LoginGUI extends JFrame{
 		frame.getContentPane().add(panel);
 	}
 	
+	/**
+	 * Handles login logic
+	 */
 	public void login()
 	{
 		int id = Integer.parseInt(userID.getText());
@@ -124,6 +158,11 @@ public class LoginGUI extends JFrame{
 		}
 	}
 	
+	/**
+	 * Checks if the user exists in the database
+	 * @param id User ID input into login
+	 * @return The returned user matching the sql query of the id
+	 */
 	public User checkIfUser(int id)
 	{
 		String query = "SEARCH USER ID";

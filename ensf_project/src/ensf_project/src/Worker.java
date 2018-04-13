@@ -15,15 +15,50 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Vector;
 
+/**
+ * Contains methods and fields to Listen and react to 
+ * Socket Inputs and write back to the Socket
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class Worker implements Runnable {
+	/**
+	 * Socket being used
+	 */
 	private Socket socket;
+	
+	/**
+	 * Socket Strings Input
+	 */
 	private BufferedReader socketIn;
+	
+	/**
+	 * Socket String Output
+	 */
 	private PrintWriter socketOut;
 	
+	/**
+	 * Socket Output Stream
+	 */
 	private ObjectOutputStream objectOut;
+	
+	/**
+	 * Socket Object Input Stream
+	 */
 	private ObjectInputStream objectIn;
+	
+	/**
+	 * DataBase being used to perform
+	 * Database operations
+	 */
 	private DBManager db;
 	
+	/**
+	 * Constructor for Worker
+	 * @param socket
+	 */
 	public Worker(Socket socket) {
 		try {
 			this.socket = socket;
@@ -36,6 +71,10 @@ public class Worker implements Runnable {
 		}
 	}
 	
+	/**
+	 * Thread method to listen for Socket input and
+	 * react based on input Strings from socket
+	 */
 	@Override
 	public void run() {
 			System.out.println("Worker Up");
@@ -165,6 +204,11 @@ public class Worker implements Runnable {
 						objectOut.writeObject(db.searchProfByIDFromCourse(courseID));
 						objectOut.flush();
 					}
+					else if(input.startsWith("GET ENROLLED COURSE STUDENTS")) {
+						int courseID = Integer.parseInt(socketIn.readLine());
+						objectOut.writeObject(db.getEnrolledStudents(courseID));
+						objectOut.flush();
+					}
 					else if(input.startsWith("GET FILE"))
 					{
 						String path = socketIn.readLine();
@@ -185,7 +229,12 @@ public class Worker implements Runnable {
 			}	
 	}
 	
-	
+	/**
+	 * Stores files and Calls the DataBase Manager to store
+	 * File PathName
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	public void storeFile() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
@@ -204,6 +253,12 @@ public class Worker implements Runnable {
 		db.addAssignment(a);
 	}
 	
+	/**
+	 * Stores User Submissions on the Server side and calls Database
+	 * Manager to store the file PathName
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	public void storeSubmission() throws ClassNotFoundException, IOException
 	{
 		byte[] content = (byte[]) objectIn.readObject();
@@ -221,7 +276,11 @@ public class Worker implements Runnable {
 		s.setPath(path);
 		db.addSubmission(s);
 	}
-
+	
+	/**
+	 * Sends a file from specified path provided by DataBase Manager
+	 * @param selectedFile
+	 */
 	public void sendFile(File selectedFile)
 	{
 		long length = selectedFile.length();

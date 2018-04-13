@@ -7,9 +7,7 @@ import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import ensf_project.src.ProfessorGUImain.SubmissionListener;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -18,16 +16,54 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.util.Vector;
 
+/**
+ * Contains methods and fields to retrieve prof Grading and
+ * display submissions by Students
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class SubmissionGUI extends JPanel {
 
+	/**
+	 * The Frame
+	 */
 	private JFrame frmSubmissions;
+	
+	/**
+	 * JTextField used for inputting Grade Value
+	 */
 	private JTextField gradeValue;
+	
+	/**
+	 * JButton to initiate download
+	 */
 	private JButton download;
+	
+	/**
+	 * JButton for assigning inputted Grade
+	 */
 	private JButton assignGrade;
+	
+	/**
+	 * JList used to display submissions
+	 */
 	private JList submissions;
+	
+	/**
+	 * Model used to Hold JList
+	 */
 	private DefaultListModel<Submission> model;
+	
+	/**
+	 * JButton to return to previous frame
+	 */
 	private JButton back;
 	
+	/**
+	 * Assignment dropbox being used
+	 */
 	private Assignment assignment;
 	
 	/**
@@ -112,12 +148,20 @@ public class SubmissionGUI extends JPanel {
 		frmSubmissions.getContentPane().add(lblStudentSubmissions);
 	}
 	
+	/**
+	 * Sets the Listeners for the JButtons
+	 * @param courseListener
+	 */
 	public void setListeners(SubmissionListener courseListener) {
 		download.addActionListener(courseListener);
 		assignGrade.addActionListener(courseListener);
 		back.addActionListener(courseListener);
 	}
 	
+	/**
+	 * Sets the List to display Student Submissions
+	 * @param submissionList
+	 */
 	public void setList(Vector<Submission> submissionList)
 	{
 		model.removeAllElements();
@@ -128,44 +172,75 @@ public class SubmissionGUI extends JPanel {
 		}
 	}
 	
+	/**
+	 * Gets the Download Button
+	 * @return download
+	 */
 	public JButton getDownload()
 	{
 		return download;
 	}
 	
+	/**
+	 * Gets the Assign Grade Button
+	 * @return assignGrade
+	 */
 	public JButton getAssignGrade()
 	{
 		return assignGrade;
 	}
 	
+	/**
+	 * Gets the Back button
+	 * @return
+	 */
 	public JButton getBack()
 	{
 		return back;
 	}
 	
+	/**
+	 * Sets the Submission Listener
+	 * @param listener
+	 */
 	public void seListeners(SubmissionListener listener)
 	{
 		back.addActionListener(listener);
 	}
 	
+	/**
+	 * Gets the Assignment Considered
+	 * @return assignment
+	 */
 	public Assignment getAssignment()
 	{
 		return assignment;
 	}
 	
+	/**
+	 * Gets selected Submission
+	 * @return submissions.getSelectedValue()
+	 */
 	public Submission getSelectedValue()
 	{
 		if(submissions.getSelectedValue() != null)return (Submission)submissions.getSelectedValue();
 		return null;
 	}
 	
+	/**
+	 * Gets Input Grade
+	 * @return gradeValue.getText()
+	 */
 	public String getGrade()
 	{
 		return gradeValue.getText();
 	}
-
+	
+	/**
+	 * Gets the JFrame
+	 * @return frmSubmissions
+	 */
 	public JFrame returnFrame() {
-		// TODO Auto-generated method stub
 		return frmSubmissions;
 	}
 }

@@ -13,14 +13,45 @@ import javax.swing.border.LineBorder;
 
 import ensf_project.src.ProfessorGUImain.profCreateListener;
 
+/**
+ * Contains methods and fields to retrieve user input for a Course Name 
+ * and Active Boolean
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class CreateCourseGUI {
-
+	
+	/**
+	 * The frame
+	 */
 	private JFrame frmCreateCourse;
+	
+	/**
+	 * TextField for Course Name
+	 */
 	JTextField courseName;
+	
+	/**
+	 * RadioButtons to determine if Active or Inactive
+	 */
 	JRadioButton rdbtnActive;
 	JRadioButton rdbtnInactive;
+	
+	/**
+	 * Button to initialize Creation of Course
+	 */
 	JButton create;
+	
+	/**
+	 * Returns to previous frame
+	 */
 	JButton back;
+	
+	/**
+	 * Group holding radioButtons
+	 */
 	ButtonGroup buttonGroup;
 	
 	/**
@@ -95,6 +126,10 @@ public class CreateCourseGUI {
 		frmCreateCourse.getContentPane().add(panel);
 	}
 	
+	/**
+	 * Sets the Listeners for the JButtons
+	 * @param listener
+	 */
 	public void setListeners(profCreateListener listener) {
 		create.addActionListener(listener);
 		back.addActionListener(listener);

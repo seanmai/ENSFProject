@@ -15,13 +15,39 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Rectangle;
 
+/**
+ * Contains methods and fields to retrieve user input for an email
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class EmailGUI {
-
-	JFrame frmEmail;
-	JTextArea SubjectMessage;
-	JTextArea EmailMessage;
-	JButton Send;
-
+	
+	/**
+	 * The Frame
+	 */
+	private JFrame frmEmail;
+	
+	/**
+	 * JTextArea with the Email Subject
+	 */
+	private JTextArea SubjectMessage;
+	
+	/**
+	 * JTextArea with the Email Body
+	 */
+	private JTextArea EmailMessage;
+	
+	/**
+	 * JButton that sends the email
+	 */
+	private JButton Send;
+	
+	/**
+	 * Gets the frame
+	 * @return frmEmail
+	 */
 	public JFrame getFrame() {
 		return frmEmail;
 	}
@@ -79,26 +105,50 @@ public class EmailGUI {
 		panel.add(lblSubject);
 	}
 	
+	/**
+	 * Sets the Button Listener (from StudentGUI)
+	 * @param emaillistener
+	 */
 	public void setListeners(emailListener emaillistener) {
 		Send.addActionListener(emaillistener);
 	}
 	
+	/**
+	 * Sets the Button Listener (from ProfGUI)
+	 * @param mailListener
+	 */
 	public void setListeners(mailListener mailListener) {
 		Send.addActionListener(mailListener);
 	}
 	
+	/**
+	 * Gets the Subject of the Email
+	 * @return SubjectMessage.getText()
+	 */
 	public String getSubject() {
 		return SubjectMessage.getText();
 	}
 	
+	/**
+	 * Gets the Message of the Email
+	 * @return EmailMessage.getText()
+	 */
 	public String getMessage() {
 		return EmailMessage.getText();
 	}
 	
+	/**
+	 * Gets the Send JButton
+	 * @return Send
+	 */
 	public JButton getSend() {
 		return Send;
 	}
 	
+	/**
+	 * Starts the GUI (for testing)
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		EmailGUI e = new EmailGUI();

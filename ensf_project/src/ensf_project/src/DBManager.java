@@ -9,22 +9,54 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * Contains methods to create and query MySQL database
+ * 
+ * @author Wafa Anam, Sea Main, Matt Kadatz
+ * @version 1.0
+ * @since April 5, 2018
+ */
 public class DBManager {
+	/**
+	 * jdbc connection to connect to mySQL
+	 */
 	public Connection jdbc_connection;
+	
+	/**
+	 * Prepared statement
+	 */
 	public PreparedStatement pStatement;
-	public String databaseName = "LearningPlatformDB"; 
+	
+	/**
+	 * name of created database
+	 */
+	public String databaseName = "LearningPlatformDB";
+	
+	/**
+	 * name of tables created in database
+	 */
 	public String userTable = "userTable",
 				  assignmentTable = "assignmentTable",
 				  gradeTable = "gradeTable",
 				  courseTable = "courseTable",
 				  studentEnrollmentTable = "studentEnrollmentTable",
 				  submissionTable = "submissionTable";
+	
+	/**
+	 * name of input file for users
+	 */
 	public String userDataFile = "users.txt";
 
+	/**
+	 * Connection credentials for mySQL
+	 */
 	public String connectionInfo = "jdbc:mysql://localhost:3306/LearningPlatformDB?autoReconnect=true&useSSL=false",
 	  			  login          = "root",
 	  			  password       = "Thirteen13!";
 	
+	/**
+	 * Connection handler for database 
+	 */
 	public DBManager() {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -36,6 +68,9 @@ public class DBManager {
 		catch(Exception e) { e.printStackTrace(); }
 	}
 	
+	/**
+	 * Creates a database
+	 */
 	public void createDB() {
 		try {
 			String sql = "CREATE DATABASE " + databaseName;
@@ -52,6 +87,9 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Creates a user table in the database
+	 */
 	public void createUserTable()
 	{
 		String sql = "CREATE TABLE " + userTable + "(" +
@@ -73,6 +111,9 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Populates user table in the database from input file
+	 */
 	public void fillUserTable()
 	{
 		try{
@@ -99,6 +140,9 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Adds user rows into the user table
+	 */
 	public void addUser(User user) {
 		String sql = "INSERT INTO " + userTable +
 				" VALUES (?, ?, ?, ?, ?, ?)";
@@ -118,6 +162,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Queries users from user table
+	 * @param userID id of user
+	 * @return The user found in the user table matching the query
+	 */
 	public User searchUserByID(int userID) {
 		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?";
 		try {
@@ -141,9 +190,9 @@ public class DBManager {
 	
 	
 	/**
-	 * Retrieves all users with the specified id from the database
+	 * Queries student users with the specified id from the database
 	 * @param userID the id to search
-	 * @return a vector of all users matching the id
+	 * @return The user found in the user table matching the query
 	 */
 	public User searchStudentByID(int userID) {
 		String sql = "SELECT * FROM " + userTable + " WHERE ID= ?" + " and TYPE=?";
@@ -168,9 +217,9 @@ public class DBManager {
 	}
 	
 	/**
-	 * Retrieves all users with the specified id from the database
+	 * Retrieves all student users with the specified id from the database
 	 * @param userID the id to search
-	 * @return a vector of all users matching the id
+	 * @return a vector of all student users
 	 */
 	public Vector<User> getStudents() {
 		String sql = "SELECT * FROM " + userTable + " WHERE TYPE= ?";
@@ -195,6 +244,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries professor users from user table joined to course table
+	 * @param courseID the id of the course
+	 * @return The user found in the user table and course table matching the query
+	 */
 	public User searchProfByIDFromCourse(int courseID) {
 		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
 		try {
@@ -211,6 +265,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries users from user table with the specified last name
+	 * @param lastName the last name of the user
+	 * @return The user found in the user table matching the query
+	 */
 	public User searchStudentByName(String lastName) {
 		String sql = "SELECT * FROM " + userTable + " WHERE LASTNAME= ?" + " and TYPE=?";
 		User result = null;
@@ -235,6 +294,9 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Creates assignment table in the database
+	 */
 	public void createAssignmentTable() {
 		String sql = "CREATE TABLE " + assignmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -255,6 +317,10 @@ public class DBManager {
 		}	
 	}
 	
+	/**
+	 * Adds assignment row to the assignment table
+	 * @param assignment the assignment being added to the table
+	 */
 	public void addAssignment(Assignment assignment) {
 		String sql = "INSERT INTO " + assignmentTable +
 				" VALUES (?, ?, ?, ?, ?, ?)";
@@ -277,6 +343,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Queries all assignments under a given course name
+	 * @param courseName the course associated with the assignments
+	 * @return A vector of all assignments matching the query
+	 */
 	public Vector<Assignment> getAssignments(String courseName)
 	{	
 		int courseID = getCourseID(courseName);
@@ -303,6 +374,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries all assignments that are active
+	 * @param courseID the course ID associated with the assignments
+	 * @return A vector of all assignments matching the query
+	 */
 	public Vector<Assignment> getActiveAssignments(int courseID){
 		String sql = "SELECT * FROM " + assignmentTable + " WHERE COURSE_ID= ?";
 		Vector <Assignment> results = new Vector <Assignment>();
@@ -328,6 +404,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries courses matching the given name
+	 * @param courseName the name of the course
+	 * @return the ID of the course matching the query
+	 */
 	public int getCourseID(String courseName)
 	{
 		String sql = "SELECT * FROM " + courseTable + " WHERE NAME= ?";
@@ -345,6 +426,11 @@ public class DBManager {
 		return -1;
 	}
 	
+	/**
+	 * Queries and updates assignment to a new status given an assignment name
+	 * @param assignmentName the name of the assignment to be queried
+	 * @param status the active status to be set
+	 */
 	public void updateAssignmentStatus(String assignmentName, boolean status) {
 		String sql = "UPDATE " + assignmentTable + " SET ACTIVE=?" + " WHERE TITLE=?";
 		try {
@@ -355,6 +441,9 @@ public class DBManager {
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
+	/**
+	 * Creates a grade table in the database
+	 */
 	public void createGradeTable() {
 		String sql = "CREATE TABLE " + gradeTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -374,6 +463,13 @@ public class DBManager {
 		}	
 	}
 	
+	/**
+	 * Adds a grade row to the grade table
+	 * @param assignID the assignment id associated with the grade
+	 * @param studentID the student id associated with the grade
+	 * @param courseID the course id associated with the grade
+	 * @param grade the grade of the assignment
+	 */
 	public void addGrade(int assignID, int studentID, int courseID, int grade) {
 		String sql = "INSERT INTO " + gradeTable +
 				" VALUES (?, ?, ?, ?, ?)";
@@ -395,6 +491,12 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Queries for grade of an assignment of a student user
+	 * @param assignID the assignment id associated with the grade
+	 * @param studentID the student user associated with the grade
+	 * @return The grade of the assignment
+	 */
 	public int searchGrade(int assignID, int studentID) {
 		String sql = "SELECT * FROM " + gradeTable + " WHERE ASSIGN_ID= ?" + " and STUDENT_ID=?";
 		try {
@@ -423,6 +525,12 @@ public class DBManager {
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
+	/**
+	 * Queries for a grade and updates it
+	 * @param studentID student id associated with the grade
+	 * @param courseID course id associated with the grade
+	 * @return
+	 */
 	public double getCourseGrade(int studentID, int courseID) {
 		String sql = "SELECT * FROM " + gradeTable + " WHERE STUDENT_ID= ?" + " and COURSE_ID=?";
 		double total = 0;
@@ -444,6 +552,9 @@ public class DBManager {
 		return total;
 	}
 	
+	/**
+	 * Creates a course table in the database
+	 */
 	public void createCourseTable() {
 		String sql = "CREATE TABLE " + courseTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -462,6 +573,10 @@ public class DBManager {
 		}	
 	}
 	
+	/**
+	 * adds a course row to the course table
+	 * @param course the course being added to the row
+	 */
 	public void addCourse(Course course) {
 		String sql = "INSERT INTO " + courseTable +
 				" VALUES (?, ?, ?, ?)";
@@ -482,6 +597,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Queries for a course and updates the status
+	 * @param courseName the name of the course
+	 * @param status the status to be updated to
+	 */
 	public void updateCourseStatus(String courseName, boolean status) {
 		String sql = "UPDATE " + courseTable + " SET ACTIVE=?" + " WHERE NAME=?";
 		try {
@@ -492,6 +612,11 @@ public class DBManager {
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
+	/**
+	 * Queries for courses associated with a professor user
+	 * @param profID the id of the associated professor
+	 * @return A vector of courses matching the query
+	 */
 	public Vector <Course> searchCourses(int profID) {
 		String sql = "SELECT * FROM " + courseTable + " WHERE PROF_ID= ?";
 		Vector <Course> results = new Vector <Course>();
@@ -513,6 +638,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries courses from a given course name
+	 * @param name the name of the course
+	 * @return A course matching the given query
+	 */
 	public Course searchCourseByName(String name) {
 		String sql = "SELECT * FROM " + courseTable + " WHERE NAME= ?";
 		try {
@@ -533,6 +663,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries courses from a given course ID
+	 * @param courseID the id of the course
+	 * @return The course matching the given query
+	 */
 	public Course searchCourseByID(int courseID) {
 		String sql = "SELECT * FROM " + courseTable + " WHERE ID= ?";
 		try {
@@ -553,6 +688,9 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Creates a student enrollment table in the database
+	 */
 	public void createStudentEnrollmentTable() {
 		String sql = "CREATE TABLE " + studentEnrollmentTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -570,6 +708,11 @@ public class DBManager {
 		}	
 	}
 		
+	/**
+	 * Queries for all active courses associated with the a student
+	 * @param studentID the id of the associated student
+	 * @return A vector of courses that match the query
+	 */
 	public Vector <Course> getEnrolledCourses(int studentID) {
 		String sql = "SELECT * FROM " + studentEnrollmentTable + " WHERE STUDENT_ID= ?";
 		Vector <Course> results = new Vector <Course>();
@@ -591,6 +734,11 @@ public class DBManager {
 		return null;		
 	}
 	
+	/**
+	 * Queries for all students enrolled in a course
+	 * @param courseID the id of the associated course
+	 * @return A vector of student users matching the query
+	 */
 	public Vector <User> getEnrolledStudents(int courseID) {
 		String sql = "SELECT * FROM " + studentEnrollmentTable + " WHERE COURSE_ID= ?";
 		Vector <User> results = new Vector <User>();
@@ -612,6 +760,11 @@ public class DBManager {
 		return null;		
 	}
 	
+	/**
+	 * Adds a student enrollment row to the student enrollment table
+	 * @param studentID the id of the student being added
+	 * @param courseName the name of the course the student is being enrolled into
+	 */
 	public void addStudentEnrollment(int studentID, String courseName) {
 		int courseID = getCourseID(courseName);
 		String sql = "INSERT INTO " + studentEnrollmentTable +
@@ -632,6 +785,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Removes a student from the student enrollment table
+	 * @param studentID id of student being removed
+	 * @param courseName name of the course the student is being removed from
+	 */
 	public void removeStudentEnrollment(int studentID, String courseName) {
 		int courseID = getCourseID(courseName);
 		String sql = "DELETE FROM " + studentEnrollmentTable +
@@ -650,6 +808,12 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Checks if the student is enrolled in a course
+	 * @param studentID the id of the student
+	 * @param courseName the name of the associated course
+	 * @return if the student is enrolled in the course
+	 */
 	public boolean checkStudentEnrollment(int studentID, String courseName)
 	{
 		int courseID = getCourseID(courseName);
@@ -671,6 +835,9 @@ public class DBManager {
 		return true;
 	}
 	
+	/**
+	 * Creates a submission table in the database
+	 */
 	public void createSubmissionTable() {
 		String sql = "CREATE TABLE " + submissionTable + "(" +
 			     "ID INT(8) NOT NULL, " +
@@ -693,6 +860,10 @@ public class DBManager {
 		}	
 	}
 	
+	/**
+	 * Adds a submission row to the submission table
+	 * @param submission submission to be added
+	 */
 	public void addSubmission(Submission submission) {
 		String sql = "INSERT INTO " + submissionTable +
 				" VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -717,6 +888,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Queries for all submissions of an assignment
+	 * @param assignID id of the associated assignment
+	 * @return A vector of all submissions matching the query
+	 */
 	public Vector<Submission> getSubmissions(int assignID) {
 		String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGN_ID= ?";
 		Vector <Submission> results = new Vector <Submission>();
@@ -742,6 +918,12 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries for all submissions of a student
+	 * @param assignID id of associated assignment
+	 * @param studentID id of the associated student
+	 * @return A vector of all submissions matching the query
+	 */
 	public Vector<Submission> getSubmissionsByStudentID(int assignID, int studentID) {
 		String sql = "SELECT * FROM " + submissionTable + " WHERE ASSIGN_ID= ?" + " and STUDENT_ID=?";
 		Vector <Submission> results = new Vector <Submission>();
@@ -768,6 +950,11 @@ public class DBManager {
 		return null;
 	}
 	
+	/**
+	 * Queries and updates a submission with a new submission grade
+	 * @param submissionID id of the submission
+	 * @param grade grade to be reassigned to the submission
+	 */
 	public void updateSubmissionGrade(int submissionID, int grade) {
 		String sql = "UPDATE " + submissionTable + " SET SUBMISSION_GRADE=?" + " WHERE ID=?";
 		try {
@@ -778,6 +965,11 @@ public class DBManager {
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 	
+	/**
+	 * Method to get the number of rows in a table
+	 * @param tableName name of the table
+	 * @return the number of rows in the table
+	 */
 	private int dbSize(String tableName) {
 		int count = 0;
 		String sql = "SELECT COUNT(*) FROM " + tableName;

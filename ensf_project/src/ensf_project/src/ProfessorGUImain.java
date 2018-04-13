@@ -19,18 +19,54 @@ import java.awt.SystemColor;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+/**
+ * Contains methods and fields to retrieve user input for Selecting Course,
+ * and Creating Assignments
+ * 
+ * @author Wafa Anam, Sean Mai, Matt Kadatz
+ * @version 1.0
+ * @since April 9, 2018
+ */
 public class ProfessorGUImain {
 
 	/**
-	 * Professor GUI Components
+	 * The Frame
 	 */
 	private JFrame frameHolder;
+	
+	/**
+	 * The PopUpFrame
+	 */
 	private JFrame popUpWindow;
+	
+	/**
+	 * List for Prof Course List
+	 */
 	private JList list;
+	
+	/**
+	 * Model Holding the Course List
+	 */
 	private DefaultListModel<Course> model;
+	
+	/**
+	 * Button to view selected course GUI
+	 */
 	private JButton course; 
+	
+	/**
+	 * Button to view create Course GUI
+	 */
 	private JButton create;
+	
+	/**
+	 * Button to Activate selected Course
+	 */
 	private JButton activate;
+	
+	/**
+	 * Button to Deactivate selected Course
+	 */
 	private JButton deactivate;
 
 
@@ -49,13 +85,30 @@ public class ProfessorGUImain {
 	 */
 	private CourseGUI courseGUI;
 	
+	/**
+	 * Email GUI reference
+	 */
 	private EmailGUI emailGUI;
-
+	
+	/**
+	 * DateAssignerGUI reference
+	 */
 	private DateAssignerGUI dateAssign;
 	
+	/**
+	 * SubmissionGUI reference
+	 */
 	private SubmissionGUI submissionGUI;
 
+	/**
+	 * Instance of User accessing GUI
+	 */
 	private User prof;
+	
+	/**
+	 * Client being used for Socket
+	 * Communication
+	 */
 	private Client client;
 
 	/**
@@ -147,7 +200,10 @@ public class ProfessorGUImain {
 
 		return frmProfessorgui;
 	}
-
+		/**
+		 * Class representing the Listener for the main
+		 * Prof GUI
+		 */
 		public class profMainListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 
@@ -185,7 +241,9 @@ public class ProfessorGUImain {
 			}
 		}
 
-
+		/**
+		 * Class representing the Listener for the ProfCourseGUI
+		 */
 		public class profCourseListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == courseGUI.getrdbtnAssignments()) {
@@ -244,7 +302,10 @@ public class ProfessorGUImain {
 				}
 			}
 		}
-
+		
+		/**
+		 * Class representing the listener for the ProfSearchGUI
+		 */
 		public class profSearchListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == search.search) {
@@ -272,6 +333,9 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		/**
+		 * Class representing the listener for the CreateCourseGUI
+		 */
 		public class profCreateListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				//CreateCourseGUI Back Button
@@ -294,6 +358,9 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		/**
+		 * Class representing the listener for the DateAssignerGUI
+		 */
 		public class profDateListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == dateAssign.getAccept())
@@ -306,15 +373,17 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		/**
+		 * Class representing the listener for the emailGUI
+		 */
 		public class mailListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == emailGUI.getSend()) {
-					System.out.println("Yo Whats Up");
 					Vector<String> classEmails = client.getEnrolledStudentList(courseGUI.getCourse().getID());
 					
-					for(int i = 0; i < classEmails.size(); i++) {
-						System.out.println(classEmails.get(i));
-					}
+//					for(int i = 0; i < classEmails.size(); i++) {
+//						System.out.println(classEmails.get(i));
+//					}
 					
 					client.sendEmail(classEmails, emailGUI.getSubject(), emailGUI.getMessage());
 					popUpWindow.setVisible(false);
@@ -322,6 +391,9 @@ public class ProfessorGUImain {
 			}
 		}
 		
+		/**
+		 * Class representing the listener for the SubmissionsGUI
+		 */
 		public class SubmissionListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == submissionGUI.getBack())courseGUIsetup();
@@ -345,7 +417,10 @@ public class ProfessorGUImain {
 				}
 			}
 		}
-		
+			
+			/**
+			 * Sets up the courseGUI
+			 */
 			private void courseGUIsetup() {
 				if(list.getSelectedValue()!= null)
 				{
@@ -363,6 +438,9 @@ public class ProfessorGUImain {
 				}
 			}
 			
+			/**
+			 * Sets up the Submission GUI
+			 */
 			private void submissionGUIsetup()
 			{
 				if(list.getSelectedValue()!= null)
@@ -378,14 +456,20 @@ public class ProfessorGUImain {
 					
 				}
 			}
-
+			
+			/**
+			 * Sets up the emailGUI
+			 */
 			public void email() {
 				emailGUI = new EmailGUI();
 				popUpWindow = emailGUI.getFrame();
 				popUpWindow.setVisible(true);
 				emailGUI.setListeners(new mailListener());
 			}
-
+			
+			/**
+			 * Sets the list to Student List
+			 */
 			private void setStudentScroll() {
 				Vector<User> studentList = client.getStudentList();
 				courseGUI.getModel().removeAllElements();
@@ -400,7 +484,10 @@ public class ProfessorGUImain {
 				}
 				//courseGUI.list.setModel(courseGUI.model);
 			}
-
+			
+			/**
+			 * Sets the list to Assignment List
+			 */
 			private void setAssignmentScroll() {
 				courseGUI.getModel().removeAllElements();
 				Vector<Assignment> assignmentList = client.getAssignmentList(courseGUI.getCourse().getName());
@@ -411,7 +498,10 @@ public class ProfessorGUImain {
 					courseGUI.getModel().addElement(assignmentList.get(i));
 				}
 			}
-
+			
+			/**
+			 * Sets the Prof Course List 
+			 */
 		public void setList() 
 		{
 			Vector<Course> items = client.ProfessorCourseList(prof.getID());
